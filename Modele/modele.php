@@ -11,7 +11,7 @@ function getConnexion(){
 function ajouterEmploye($nom,$prenom,$login,$mdp,$dateEmbauche,$type){
     $connexion=getConnexion();
     $requete = "INSERT INTO employe (NOM, PRENOM, LOGIN, MDP, DATEEMBAUCHE, TYPE)
-    VALUES ('0', '$nom', '$prenom', '$login', '$mdp', '$dateEmbauche', '$type')";
+    VALUES ('$nom', '$prenom', '$login', '$mdp', '$dateEmbauche', '$type')";
     $resultat=$connexion->query($requete);
     $resultat->closeCursor();
 }
