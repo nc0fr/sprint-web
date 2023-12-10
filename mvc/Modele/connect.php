@@ -1,5 +1,5 @@
 <?php
-define("SERVEUR","localhost");
-define("USER","root");
-define("PASSWORD","");
-define("BDD","sprintbanque");
+define("SERVEUR", "localhost");
+define("USER", "root");
+define("PASSWORD", "");
+define("BDD", "Banque");

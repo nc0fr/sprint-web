@@ -7,6 +7,10 @@ try {
         $mdp=$_POST['mdp'];
         ctrlVerifierId($usr,$mdp);
         
+    }elseif (isset($_POST['gestionJustificative'])){
+
+        ctrlGestionJustificative();
+
     }else{
         ctrlPageLogin();
     }
