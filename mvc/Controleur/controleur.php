@@ -21,7 +21,9 @@ function ctrlVerifierId($usr,$mdp){
     }
 }
 
-
+function ctrlGestionJustificative(){
+    vueGestionJustificative();
+}
 
 
 function ctrlErreur($erreur){
