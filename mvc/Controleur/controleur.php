@@ -12,19 +12,22 @@ function ctrlVerifierId($usr,$mdp){
     $ligne = verifierLogin($usr,$mdp);
     if($ligne==false){
         erreurId();
-    }else if($ligne->type =='Directeur'){
+    }else if($ligne->type =='DIRECTEUR'){
         pageDirecteur();
-    }else if($ligne->type =='Agent'){
+    }else if($ligne->type =='AGENT'){
         pageAgent();
-    }else if($ligne->type =='Conseille'){
+    }else if($ligne->type =='CONSEILLER'){
         pageConseille();
     }
 }
 
-function ctrlGestionJustificative(){
-    vueGestionJustificative();
+function ctrlGestionMotif(){
+    vueGestionMotif();
 }
 
+function ctrlGetAllPieces(){
+    $requeteResult = mdlGetAllPieces();
+}
 
 function ctrlErreur($erreur){
     afficherErreur($erreur) ;

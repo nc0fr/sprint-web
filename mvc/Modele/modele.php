@@ -26,3 +26,11 @@ function verifierLogin($usr,$mdp){
     $resultat->closeCursor();
     return $ligne;
 }
+
+function mdlGetAllPieces(){
+
+    $connexion = getConnexion();
+
+    $requete="";
+
+}
