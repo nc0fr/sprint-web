@@ -1,5 +1,5 @@
 <?php
-require_once('connect.php');
+require_once('Modele/connect.php');
 
 function getConnexion(){
     $connexion=new PDO('mysql:host='.SERVEUR.';dbname='.BDD,USER,PASSWORD);
