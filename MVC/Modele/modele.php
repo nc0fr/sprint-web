@@ -19,10 +19,12 @@ function ajouterEmploye($nom,$prenom,$login,$mdp,$dateEmbauche,$type){
 
 function verifierLogin($usr,$mdp){
     $connexion=getConnexion();
-    $requete="select login,mdp,type from employe where login='$usr' and mdp='$mdp'";
+    $requete="select login,mdp,nom,prenom,type from employe where login='$usr' and mdp='$mdp'";
     $resultat=$connexion->query($requete);
     $resultat->setFetchMode(PDO::FETCH_OBJ);
     $ligne=$resultat->fetch();
     $resultat->closeCursor();
     return $ligne;
 }
+
+

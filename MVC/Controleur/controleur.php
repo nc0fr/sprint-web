@@ -12,14 +12,16 @@ function ctrlVerifierId($usr,$mdp){
     $ligne = verifierLogin($usr,$mdp);
     if($ligne==false){
         erreurId();
-    }else if($ligne->type =='Directeur'){
-        pageDirecteur();
-    }else if($ligne->type =='Agent'){
-        pageAgent();
-    }else if($ligne->type =='Conseille'){
-        pageConseille();
+    }else if($ligne->type =='DIRECTEUR'){
+        pageDirecteur($ligne->nom,$ligne->prenom,$ligne->type);
+    }else if($ligne->type =='AGENT'){
+        pageAgent($ligne->nom,$ligne->prenom,$ligne->type);
+    }else if($ligne->type =='CONSEILLER'){
+        pageConseille($ligne->nom,$ligne->prenom,$ligne->type);
     }
 }
+
+
 
 
 

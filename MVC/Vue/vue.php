@@ -6,15 +6,18 @@ function pageLogin(){
     require_once('Vue/gabaritLogin.php');
 }
 
-function pageDirecteur(){
+function pageDirecteur($nom,$prenom,$type){
+    $contenu=$nom.' '.$prenom.'<br>'.$type;
     require_once('Vue/gabaritDirecteur.php');
 }
 
-function pageAgent(){
+function pageAgent($nom,$prenom,$type){
+    $contenu=$nom.' '.$prenom.'<br>'.$type;
     require_once('Vue/gabaritAgent.php');
 }
 
-function pageConseille(){
+function pageConseille($nom,$prenom,$type){
+    $contenu=$nom.' '.$prenom.'<br>'.$type;
     require_once('Vue/gabaritConseille.php');
 }
 
