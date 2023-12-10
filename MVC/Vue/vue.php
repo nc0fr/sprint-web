@@ -27,7 +27,18 @@ function erreurId(){
     
 function vueGestionJustificative(){
 
-    $contenu = '<p>Oskur</p>';
+    $contenu = '<ul>
+                    <li>
+                        <form method="post" action="sprintBank.php">
+                            <p>
+                                <input type="submit" name="afficherToutesPieces" value="Afficher toutes les pièces justificative">
+                            </p>
+                        </form>
+                    </li>
+                    <li>
+                        <p>A remplir</p>
+                    </li>
+                </ul>';
     require_once('Vue/gabaritDirecteur.php');
 
 }
