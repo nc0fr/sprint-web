@@ -7,6 +7,7 @@ function pageLogin(){
 }
 
 function pageDirecteur(){
+    $contenu = "";
     require_once('Vue/gabaritDirecteur.php');
 }
 
@@ -24,6 +25,12 @@ function erreurId(){
         require_once('Vue/gabaritLogin.php');
     }
     
+function vueGestionJustificative(){
+
+    $contenu = '<p>Oskur</p>';
+    require_once('Vue/gabaritDirecteur.php');
+
+}
 
 function afficherErreur($erreur){
     $contenu='<p>'. $erreur.'</p>';
