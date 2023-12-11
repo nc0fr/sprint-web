@@ -4,4 +4,6 @@
 # license that can be found in the LICENSE file.
 
 .DS_Store
-.idea
+
+# PHP dependencies
+/vendor/
