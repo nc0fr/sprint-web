@@ -13,7 +13,7 @@
 			  		<li>
               <form method='post' action="sprintBank.php">
                 <p>
-                  <input type="submit" name="gestionJustificative" value="Gestion des justificative">
+                  <input type="submit" name="gestionMotif" value="Gestion des motifs">
                 </p>
               </form>
             </li>

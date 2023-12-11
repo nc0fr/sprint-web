@@ -12,19 +12,32 @@ function ctrlVerifierId($usr,$mdp){
     $ligne = verifierLogin($usr,$mdp);
     if($ligne==false){
         erreurId();
-    }else if($ligne->type =='Directeur'){
+    }else if($ligne->type =='DIRECTEUR'){
         pageDirecteur();
-    }else if($ligne->type =='Agent'){
+    }else if($ligne->type =='AGENT'){
         pageAgent();
-    }else if($ligne->type =='Conseille'){
+    }else if($ligne->type =='CONSEILLER'){
         pageConseille();
     }
 }
 
-function ctrlGestionJustificative(){
-    vueGestionJustificative();
+function ctrlGestionMotif(){
+    vueGestionMotif();
 }
 
+function ctrlGetAllMotif(){
+    $motif = mdlGetAllMotif();
+    vueGetAllMotif($motif);
+}
+
+function ctrlModifierPiece($motif){
+    $id = $motif["modifier"];
+    $value = $motif["valeurModifier"];
+
+    mdlModifierPiece($id, $value);
+
+    vueMsgDirecteur("Le motif a bien été modifié");
+}
 
 function ctrlErreur($erreur){
     afficherErreur($erreur) ;

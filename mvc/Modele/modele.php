@@ -26,3 +26,26 @@ function verifierLogin($usr,$mdp){
     $resultat->closeCursor();
     return $ligne;
 }
+
+function mdlGetAllMotif(){
+
+    $connexion = getConnexion();
+
+    $requete="SELECT * FROM `motif`;";
+    $resultat = $connexion->query($requete);
+    $resultat->setFetchMode(PDO::FETCH_OBJ);
+    $motif = $resultat->fetchAll();
+    $resultat->closeCursor();
+    
+    return $motif;
+}
+
+function mdlModifierPiece($id, $value){
+
+    $connexion = getConnexion();
+
+    $requete = 'UPDATE motif SET justificatifs = "'.$value.'" WHERE id = '.intval($id);
+    $resultat = $connexion->query($requete);
+    $resultat->setFetchMode(PDO::FETCH_OBJ);
+    $resultat->fetchAll();
+}

@@ -7,9 +7,17 @@ try {
         $mdp=$_POST['mdp'];
         ctrlVerifierId($usr,$mdp);
         
-    }elseif (isset($_POST['gestionJustificative'])){
+    }elseif (isset($_POST['gestionMotif'])){
 
-        ctrlGestionJustificative();
+        ctrlGestionMotif();
+
+    }elseif (isset($_POST['showAllMotif'])){
+
+        ctrlGetAllMotif();
+
+    }elseif (isset($_POST['modifierPiece'])){
+
+        ctrlModifierPiece($_POST);
 
     }else{
         ctrlPageLogin();
