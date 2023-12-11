@@ -28,6 +28,9 @@
     "scripts": {
         "lint": [
             "pint"
+        ],
+        "build": [
+            "echo 'Success!'"
         ]
     }
 }
