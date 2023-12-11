@@ -11,9 +11,13 @@ try {
 
         ctrlGestionMotif();
 
-    }elseif (isset($_POST['showAllPieces'])){
+    }elseif (isset($_POST['showAllMotif'])){
 
-        ctrlGetAllPieces();
+        ctrlGetAllMotif();
+
+    }elseif (isset($_POST['modifierPiece'])){
+
+        ctrlModifierPiece($_POST);
 
     }else{
         ctrlPageLogin();

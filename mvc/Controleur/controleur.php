@@ -25,8 +25,18 @@ function ctrlGestionMotif(){
     vueGestionMotif();
 }
 
-function ctrlGetAllPieces(){
-    $requeteResult = mdlGetAllPieces();
+function ctrlGetAllMotif(){
+    $motif = mdlGetAllMotif();
+    vueGetAllMotif($motif);
+}
+
+function ctrlModifierPiece($motif){
+    $id = $motif["modifier"];
+    $value = $motif["valeurModifier"];
+
+    mdlModifierPiece($id, $value);
+
+    vueMsgDirecteur("Le motif a bien été modifié");
 }
 
 function ctrlErreur($erreur){
