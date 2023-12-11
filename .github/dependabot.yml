@@ -1,0 +1,25 @@
+# Copyright 2023 Lucas Paulo, Younes Ouaammou, Nicolas Paul.
+# All rights reserved.
+# Use of this source code is governed by a BSD-style
+# license that can be found in the LICENSE file.
+
+enable-beta-ecosystems: true
+version: 2
+updates:
+  - directory: /
+    package-ecosystem: composer
+    rebase-strategy: auto
+    assignees:
+      - nc0fr
+    reviewers:
+      - nc0fr
+      - Chinkies
+      - YouNes241
+    schedule:
+      interval: weekly
+      timezone: Europe/Paris
+    target-branch: master
+    groups:
+      composer:
+        patterns:
+          - "*"
