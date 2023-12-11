@@ -1,0 +1,33 @@
+{
+    "name": "nc0/sprint-web",
+    "description": "Projet Sprint Web pour le semestre trois de la licence informatique",
+    "type": "project",
+    "require-dev": {
+        "laravel/pint": "^1.13"
+    },
+    "license": "BSD-3-Clause",
+    "autoload": {
+        "psr-4": {
+            "Nc0\\SprintWeb\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Nicolas Paul",
+            "email": "n@nc0.fr"
+        },
+        {
+            "name": "Younes Ouaammou",
+            "email": "ouaammouyounes@gmail.com"
+        },
+        {
+            "name": "Lucas Paulo",
+            "email": "lpadressepro@gmail.com"
+        }
+    ],
+    "scripts": {
+        "lint": [
+            "pint"
+        ]
+    }
+}
