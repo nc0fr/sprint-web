@@ -17,7 +17,13 @@
                 </p>
               </form>
             </li>
-			  		<li>Pièces justificatives</li>
+			  		<li>
+              <form method="post" action="sprintBank.php">
+                <p>
+                  <input type="submit" name="gestionTypeCompteContrat" value="Gestion des Comptes/Contrats"/>
+                </p>
+              </form>
+            </li>
 		  			<li>Statistiques</li>
 		  		</ul>
 			</nav>

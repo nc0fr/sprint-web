@@ -19,6 +19,18 @@ try {
 
         ctrlModifierPiece($_POST);
 
+    }elseif (isset($_POST['gestionTypeCompteContrat'])){
+
+        ctrlGetAllTypeAccountContract();
+
+    }elseif (isset($_POST['supprimerType'])){
+
+        ctrlSupprimerTypeAccount($_POST);
+
+    }elseif (isset($_POST['ajouterType'])){
+
+        ctrlAjouterType($_POST);
+
     }else{
         ctrlPageLogin();
     }
