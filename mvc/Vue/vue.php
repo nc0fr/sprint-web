@@ -1,31 +1,53 @@
 <?php
 
 
+//Login et choix des pages
+
 function pageLogin(){
     $contenu='';    
     require_once('Vue/gabaritLogin.php');
 }
 
-function pageDirecteur(){
-    $contenu = "";
+function erreurId(){
+    $contenu ='<p>Identifiants faux</p>';
+    require_once('Vue/gabaritLogin.php');
+}
+
+
+function pageDirecteur($nom,$prenom,$type){
+    $contenu='';
+    $contenu1=$nom.' '.$prenom.'<br>'.$type;
     require_once('Vue/gabaritDirecteur.php');
 }
 
-function pageAgent(){
+function pageAgent($nom,$prenom,$type){
+    $contenu=$nom.' '.$prenom.'<br>'.$type;
     require_once('Vue/gabaritAgent.php');
 }
 
-function pageConseille(){
+function pageConseille($nom,$prenom,$type){
+    $contenu=$nom.' '.$prenom.'<br>'.$type;
     require_once('Vue/gabaritConseille.php');
 }
 
 
-function erreurId(){
-        $contenu ='<p>Identifiants faux</p>';
-        require_once('Vue/gabaritLogin.php');
-    }
-    
-function vueGestionMotif(){
+function pageGestion(){
+    require_once('Vue/gabaritGestionEmployes.php');
+}
+
+
+//Directeur -> Gestion des employés
+
+function msgGestionEmployes($message){
+    $contenu="<script>alert('".$message."');</script>";
+    require_once('Vue/gabaritGestionEmployes.php');
+}
+
+
+//Directeur -> Gestion des justificatifs
+
+//Inutile 
+/*function vueGestionMotif(){
 
     $contenu = '<ul>
                     <li>
@@ -41,9 +63,10 @@ function vueGestionMotif(){
                 </ul>';
     require_once('Vue/gabaritDirecteur.php');
 
-}
+}*/
 
 function vueGetAllMotif($motif){
+    $contenu1='';
     $contenu = '<fieldset><legend>Liste des motifs</legend><form method="post" action="sprintBank.php">';
     if(sizeof($motif) > 0){
         $contenu = $contenu.'<ul>';
@@ -55,6 +78,7 @@ function vueGetAllMotif($motif){
     }
     require_once('vue/gabaritDirecteur.php');
 }
+
 
 function vueModifierPiece($etat){
     $contenu = "";
@@ -69,8 +93,12 @@ function vueMsgDirecteur($msg){
     require_once('vue/gabaritDirecteur.php');
 }
 
+
+
+//Directeur -> Gestion des comptes et contrats
+
 function vueGetAllTypeAccountContract($account, $contract){
-    $contenu = '<fieldset><legend>Liste des types de Compte</legend><form method="post" action="sprintBank.php">';
+    $contenu= '<fieldset><legend>Liste des types de Compte</legend><form method="post" action="sprintBank.php">';
     if(sizeof($account) > 0){
         $contenu = $contenu.'<ul>';
         foreach($account as $value){
@@ -122,6 +150,37 @@ function vueGetAllTypeAccountContract($account, $contract){
     require_once('vue/gabaritDirecteur.php');
 }
 
+
+
+//Agent -> Modification clients
+
+function msgGestionClients($msg){
+    $contenu=$msg;
+    require_once('Vue/gabaritGestionClients.php');
+}
+
+
+function pageGestionClients(){
+    $contenu='
+    <p>Quel client souhaitez vous modifier ?</p>
+    <p><input type="text" name="nom" placeholder="Nom" >
+    <input type="text" name="prenom" placeholder="Prénom" ></p>
+    <p>Renseignez uniquement les informations à changer :</p>
+    <p><input type="text" name="adresse" placeholder="Nouvelle adresse" ></p>
+    <p><input type="text" name="numtel" placeholder="Nouveau numéro de téléphone" ></p>
+    <p><input type="text" name="email" placeholder="Nouvelle adresse mail" ></p>
+    <p><input type="text" name="profession" placeholder="Nouvelle profession" ></p>
+    <p><input type="text" name="situation" placeholder="Nouvelle situation familliale" ></p>
+    <p><input type="submit" name="choixmodif" value="Modifier"></p>
+    
+    ';
+    require_once('Vue/gabaritGestionClients.php');
+}
+
+
+
+
+//Erreurs PHP
 function afficherErreur($erreur){
     $contenu='<p>'. $erreur.'</p>';
     require_once('Vue/gabaritLogin.php');
