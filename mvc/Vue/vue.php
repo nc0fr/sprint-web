@@ -19,30 +19,6 @@ function pageConseille(){
     require_once('Vue/gabaritConseille.php');
 }
 
-
-function erreurId(){
-        $contenu ='<p>Identifiants faux</p>';
-        require_once('Vue/gabaritLogin.php');
-    }
-    
-function vueGestionMotif(){
-
-    $contenu = '<ul>
-                    <li>
-                        <form method="post" action="sprintBank.php">
-                            <p>
-                                <input type="submit" name="showAllMotif" value="Afficher tous motifs">
-                            </p>
-                        </form>
-                    </li>
-                    <li>
-                        <p>A remplir</p>
-                    </li>
-                </ul>';
-    require_once('Vue/gabaritDirecteur.php');
-
-}
-
 function vueGetAllMotif($motif){
     $contenu = '<fieldset><legend>Liste des motifs</legend><form method="post" action="sprintBank.php">';
     if(sizeof($motif) > 0){
@@ -124,5 +100,10 @@ function vueGetAllTypeAccountContract($account, $contract){
 
 function afficherErreur($erreur){
     $contenu='<p>'. $erreur.'</p>';
+    require_once('Vue/gabaritLogin.php');
+}
+
+function erreurId(){
+    $contenu ='<p>Identifiants faux</p>';
     require_once('Vue/gabaritLogin.php');
 }

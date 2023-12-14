@@ -13,7 +13,7 @@
 			  		<li>
               <form method='post' action="sprintBank.php">
                 <p>
-                  <input type="submit" name="gestionMotif" value="Gestion des motifs">
+                  <input type="submit" name="showAllMotif" value="Gestion des motifs">
                 </p>
               </form>
             </li>
@@ -27,7 +27,8 @@
 		  			<li>Statistiques</li>
 		  		</ul>
 			</nav>
-      <?php echo $contenu; ?>
+      <?php if(isset($contenu)){
+        echo $contenu;} ?>
     </body>
 </html>
 

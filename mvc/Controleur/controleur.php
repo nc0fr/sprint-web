@@ -21,22 +21,30 @@ function ctrlVerifierId($usr,$mdp){
     }
 }
 
-function ctrlGestionMotif(){
-    vueGestionMotif();
-}
-
 function ctrlGetAllMotif(){
     $motif = mdlGetAllMotif();
     vueGetAllMotif($motif);
 }
 
 function ctrlModifierPiece($motif){
-    $id = $motif["modifier"];
-    $value = $motif["valeurModifier"];
+    if(isset($motif["modifier"]) && isset($motif["valeurModifier"])){
 
-    mdlModifierPiece($id, $value);
+        if(strlen($motif["valeurModifier"]) > 0){
 
-    vueMsgDirecteur("Le motif a bien été modifié");
+            $id = $motif["modifier"];
+            $value = $motif["valeurModifier"];
+        
+            mdlModifierPiece($id, $value);
+        
+            vueMsgDirecteur("Le motif a bien été modifié");
+
+        } else {
+            vueMsgDirecteur("Veuillez remplir le nouveau motif");
+        }
+
+    } else {
+        vueMsgDirecteur("Veuillez selectionner un motif");
+    }
 }
 
 function ctrlErreur($erreur){
@@ -58,7 +66,7 @@ function ctrlSupprimerTypeAccount($type){
 
             if($result == false){
 
-                $name = mdlGetType($type["account"], "account")->nom;
+                $name = mdlGetTypeById($type["account"], "account")->nom;
                 mdlSupprimerMotif($name);
                 mdlSupprimerType($type["account"], "account");
                 vueMsgDirecteur('Le type de compte "'.$name.'" a bien été supprimé');
@@ -79,7 +87,7 @@ function ctrlSupprimerTypeAccount($type){
 
             if($result == false){
 
-                $name = mdlGetType($type["contract"], "contract")->nom;
+                $name = mdlGetTypeById($type["contract"], "contract")->nom;
                 mdlSupprimerMotif($name);
                 mdlSupprimerType($type["contract"], "contract");
                 vueMsgDirecteur('Le type de contrat "'.$name.'" a bien été supprimé');
@@ -96,14 +104,25 @@ function ctrlSupprimerTypeAccount($type){
 }
 
 function ctrlAjouterType($newType){
-    //TODO empecher création compte avec même nom
-    $nature = $newType["nature"];
-    $nom = $newType["nom"];
-    $pieceCreation = $newType["pieceCreation"];
-    $pieceModification = $newType["pieceModification"];
-    $pieceSuppression = $newType["pieceSuppression"];
 
-    mdlAjouterType($nature, $nom, $pieceCreation, $pieceModification, $pieceSuppression);
-
-    vueMsgDirecteur("Youpi nouveau type créé");
+    if(strlen($newType["nom"]) > 0 && strlen($newType["nature"]) > 0 && strlen($newType["pieceCreation"]) > 0 &&
+        strlen($newType["pieceModification"]) > 0 && strlen($newType["pieceSuppression"]) > 0){
+            
+        $nom = $newType["nom"];
+        $nature = $newType["nature"];
+        $pieceCreation = $newType["pieceCreation"];
+        $pieceModification = $newType["pieceModification"];
+        $pieceSuppression = $newType["pieceSuppression"];
+        
+        if(mdlGetTypeByName($nom, "account") == false && mdlGetTypeByName($nom, "contract") == false){
+            
+            mdlAjouterType($nature, $nom, $pieceCreation, $pieceModification, $pieceSuppression);
+            
+            vueMsgDirecteur('Le '.$nature.'"'.$nom.'" a bien été créer');
+        } else {
+            vueMsgDirecteur('Le nom "'.$nom.'" est déjà utilisé pour un type de compte ou contrat');
+        }
+    } else {
+        vueMsgDirecteur("Tous les champs de texte n'ont pas été remplis");
+    }
 }
