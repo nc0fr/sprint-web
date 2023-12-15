@@ -4,23 +4,70 @@ require_once('Modele/modele.php');
 require_once('Vue/vue.php');
 
 
+//Page login
 function ctrlPageLogin(){
     pageLogin();
 }
 
-function ctrlVerifierId($usr,$mdp){
+function ctrlVerifierId(){
+    $usr=$_POST['login'];
+    $mdp=$_POST['mdp'];
     $ligne = verifierLogin($usr,$mdp);
     if($ligne==false){
         erreurId();
     }else if($ligne->type =='DIRECTEUR'){
-        pageDirecteur();
+        pageDirecteur($ligne->nom,$ligne->prenom,$ligne->type);
     }else if($ligne->type =='AGENT'){
-        pageAgent();
+        pageAgent($ligne->nom,$ligne->prenom,$ligne->type);
     }else if($ligne->type =='CONSEILLER'){
-        pageConseille();
+        pageConseille($ligne->nom,$ligne->prenom,$ligne->type);
     }
 }
 
+
+//Gestion des employés
+function ctrlGestion(){
+    pageGestion();
+}
+
+function ctrlAjouterEmploye(){
+    $nom=$_POST['nom'];
+    $prenom=$_POST['prenom'];
+    $login=$_POST['login'];
+    $mdp=$_POST['mdp'];
+    $dateEmbauche=$_POST['dateembauche'];
+    $type=$_POST['poste'];
+    $ensemble=verifierAvantAjout($nom,$prenom,$login);
+    if($ensemble['personne']!=false){
+        msgGestionEmployes("Personne déjà existante !");
+    }elseif($ensemble['login']!=false){
+        msgGestionEmployes("Login déjà utilisé !");
+    }else{
+        ajouterEmploye($nom,$prenom,$login,$mdp,$dateEmbauche,$type);
+        msgGestionEmployes("Nouvel employé ajouté !");
+    }
+
+}
+
+function  ctrlModifierEmploye(){
+    $login=$_POST['login'];
+    $mdp=$_POST['mdp'];
+    $nom=$_POST['nom'];
+    $prenom=$_POST['prenom'];
+    $ensemble=verifierAvantAjout($nom,$prenom,$login);
+    if($ensemble['personne']==false){
+        msgGestionEmployes("Aucun employé ne correspond à votre saisis.");
+    }
+    elseif($ensemble['login']!=false){
+        msgGestionEmployes("Login déjà utilisé !");
+    }
+    else{
+        modifierEmploye($login,$mdp,$nom,$prenom);
+        msgGestionEmployes("Identifiants changés !");
+    }
+}
+
+//Gestion des motifs
 function ctrlGestionMotif(){
     vueGestionMotif();
 }
@@ -39,10 +86,8 @@ function ctrlModifierPiece($motif){
     vueMsgDirecteur("Le motif a bien été modifié");
 }
 
-function ctrlErreur($erreur){
-    afficherErreur($erreur) ;
-}
 
+//Comptes et contrats
 function ctrlGetAllTypeAccountContract(){
     $account = mdlGetAllTypeAccount();
     $contract = mdlGetAllTypeContract(); 
@@ -106,4 +151,55 @@ function ctrlAjouterType($newType){
     mdlAjouterType($nature, $nom, $pieceCreation, $pieceModification, $pieceSuppression);
 
     vueMsgDirecteur("Youpi nouveau type créé");
+}
+
+
+
+    //Agent -> Modification clients
+
+
+    function ctrlGestionClients(){
+        pageGestionClients();
+    }
+    
+    
+    
+    function ctrlModifierClient(){
+            $nom=$_POST['nom'];
+            $prenom=$_POST['prenom'];
+            $ligne=rechercheClient($nom,$prenom);
+            if($ligne!=false){
+                $changements='Changements effectués pour '.$nom.' '.$prenom.' : ';
+                if(!empty($_POST['adresse'])){
+                    modifierClient('adresse',$_POST['adresse'],$nom,$prenom);
+                    $changements.='| Adresse |';
+                }if(!empty($_POST['numtel'])){
+                    modifierClient('numTel',$_POST['numtel'],$nom,$prenom);
+                    $changements.='| Numéro de téléphone |';
+                }if(!empty($_POST['email'])){
+                    modifierClient('mail',$_POST['email'],$nom,$prenom);
+                    $changements.='| Adresse mail |';
+                }if(!empty($_POST['profession'])){
+                    modifierClient('profession',$_POST['profession'],$nom,$prenom);
+                    $changements.='| Profession |';
+                }if(!empty($_POST['situation'])){
+                    modifierClient('situation',$_POST['situation'],$nom,$prenom);
+                    $changements.='| Situation |';
+                }
+                
+                msgGestionClients('<p>
+                    '. $changements .'</p>
+                    <p><input type="submit" name="retour" value="Retour"></p>');
+            }else{
+                msgGestionClients('<p>
+                Aucun client trouvé, vérifiez votre saisie.</p>
+                <p><input type="submit" name="reessayer" value="Réessayer"></p>');
+            }     
+    }
+    
+
+
+//Erreurs
+function ctrlErreur($erreur){
+    afficherErreur($erreur) ;
 }
