@@ -9,7 +9,7 @@ body {
   justify-content: center;
   height: 100vh;
   }
-  
+
   .ensemble {
   background-color: #46A758 ;
   padding: 20px;
@@ -18,12 +18,12 @@ body {
   width: 350px;
   text-align: center;
   }
-  
+
   .ensemble h2 {
   margin-bottom: 20px;
   color: #FCFDFC;
   }
-  
+
   .formulaire input {
   width: 100%;
   padding: 10px;
@@ -32,7 +32,7 @@ body {
   border: 1px solid #ccc;
   border-radius: 4px;
   }
-  
+
   .formulaire .boutton {
   width: 100%;
   padding: 10px;
@@ -42,9 +42,8 @@ body {
   border-radius: 4px;
   cursor: pointer;
   }
-  
+
   .formulaire .boutton:hover {
   background-color: #f8f8f8;
   transform: scale(1.05);
   }
-  

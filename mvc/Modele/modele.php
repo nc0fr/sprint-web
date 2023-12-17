@@ -1,74 +1,78 @@
 <?php
-require_once('Modele/connect.php');
 
-function getConnexion(){
-    $connexion=new PDO('mysql:host='.SERVEUR.';dbname='.BDD,USER,PASSWORD);
+require_once 'Modele/connect.php';
+
+function getConnexion()
+{
+    $connexion = new PDO('mysql:host='.SERVEUR.';dbname='.BDD, USER, PASSWORD);
     $connexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     $connexion->query('SET NAMES UTF8');
+
     return $connexion;
 }
 
-
-
-function verifierLogin($usr,$mdp){
-    $connexion=getConnexion();
-    $requete="select login,mdp,nom,prenom,type from employe where login='$usr' and mdp='$mdp'";
-    $resultat=$connexion->query($requete);
+function verifierLogin($usr, $mdp)
+{
+    $connexion = getConnexion();
+    $requete = "select login,mdp,nom,prenom,type from employe where login='$usr' and mdp='$mdp'";
+    $resultat = $connexion->query($requete);
     $resultat->setFetchMode(PDO::FETCH_OBJ);
-    $ligne=$resultat->fetch();
+    $ligne = $resultat->fetch();
     $resultat->closeCursor();
+
     return $ligne;
 }
 
-
-
-function verifierAvantAjout($nom,$prenom,$login){
-    $connexion=getConnexion();
-    $requete="select nom,prenom from employe where nom='$nom' and prenom='$prenom'";
-    $resultat=$connexion->query($requete);
+function verifierAvantAjout($nom, $prenom, $login)
+{
+    $connexion = getConnexion();
+    $requete = "select nom,prenom from employe where nom='$nom' and prenom='$prenom'";
+    $resultat = $connexion->query($requete);
     $resultat->setFetchMode(PDO::FETCH_OBJ);
-    $verifPersonne=$resultat->fetch();
+    $verifPersonne = $resultat->fetch();
     $resultat->closeCursor();
-    $requete="select login from employe where login='$login'";
-    $resultat=$connexion->query($requete);
-    $verifLogin=$resultat->fetch();
+    $requete = "select login from employe where login='$login'";
+    $resultat = $connexion->query($requete);
+    $verifLogin = $resultat->fetch();
     $resultat->closeCursor();
-    $ensemble=array('personne'=>$verifPersonne,'login'=>$verifLogin);
+    $ensemble = ['personne' => $verifPersonne, 'login' => $verifLogin];
+
     return $ensemble;
 }
 
-function ajouterEmploye($nom,$prenom,$login,$mdp,$dateEmbauche,$type){
-    $connexion=getConnexion();
+function ajouterEmploye($nom, $prenom, $login, $mdp, $dateEmbauche, $type)
+{
+    $connexion = getConnexion();
     $requete = "INSERT INTO employe (NOM, PRENOM, LOGIN, MDP, DATEEMBAUCHE, TYPE)
     VALUES ('$nom', '$prenom', '$login', '$mdp', '$dateEmbauche', '$type')";
-    $resultat=$connexion->query($requete);
+    $resultat = $connexion->query($requete);
     $resultat->closeCursor();
 }
 
-
-function modifierEmploye($login,$mdp,$nom,$prenom){
-    $connexion=getConnexion();
+function modifierEmploye($login, $mdp, $nom, $prenom)
+{
+    $connexion = getConnexion();
     $requete = "UPDATE employe SET  login = '$login', mdp = '$mdp' WHERE nom='$nom' and prenom='$prenom'";
-    $resultat=$connexion->query($requete);
+    $resultat = $connexion->query($requete);
     $resultat->closeCursor();
 }
 
-
-
-function mdlGetAllMotif(){
+function mdlGetAllMotif()
+{
 
     $connexion = getConnexion();
 
-    $requete="SELECT * FROM `motif`;";
+    $requete = 'SELECT * FROM `motif`;';
     $resultat = $connexion->query($requete);
     $resultat->setFetchMode(PDO::FETCH_OBJ);
     $motif = $resultat->fetchAll();
     $resultat->closeCursor();
-    
+
     return $motif;
 }
 
-function mdlModifierPiece($id, $value){
+function mdlModifierPiece($id, $value)
+{
 
     $connexion = getConnexion();
 
@@ -78,13 +82,12 @@ function mdlModifierPiece($id, $value){
     $resultat->fetchAll();
 }
 
-
-
-function mdlGetAllTypeAccount(){
+function mdlGetAllTypeAccount()
+{
 
     $connexion = getConnexion();
 
-    $requete = "SELECT * FROM typecompte;";
+    $requete = 'SELECT * FROM typecompte;';
     $resultat = $connexion->query($requete);
     $resultat->setFetchMode(PDO::FETCH_OBJ);
     $typeAccount = $resultat->fetchAll();
@@ -93,11 +96,12 @@ function mdlGetAllTypeAccount(){
     return $typeAccount;
 }
 
-function mdlGetAllTypeContract(){
+function mdlGetAllTypeContract()
+{
 
     $connexion = getConnexion();
 
-    $requete = "SELECT * FROM typecontrat;";
+    $requete = 'SELECT * FROM typecontrat;';
     $resultat = $connexion->query($requete);
     $resultat->setFetchMode(PDO::FETCH_OBJ);
     $typeContract = $resultat->fetchAll();
@@ -106,17 +110,18 @@ function mdlGetAllTypeContract(){
     return $typeContract;
 }
 
-function mdlGetTypeByName($name, $type){
+function mdlGetTypeByName($name, $type)
+{
 
     $connexion = getConnexion();
 
     $requete = '';
-    if($type == 'account'){
+    if ($type == 'account') {
         $requete = 'SELECT * FROM typecompte WHERE nom = "'.$name.'";';
-    }elseif($type == 'contract'){
+    } elseif ($type == 'contract') {
         $requete = 'SELECT * FROM typecontrat WHERE nom = "'.$name.'";';
-    }else{
-        throw new Exception("Type non définie pour la requête GetTypeByName");
+    } else {
+        throw new Exception('Type non définie pour la requête GetTypeByName');
     }
 
     $resultat = $connexion->query($requete);
@@ -127,7 +132,8 @@ function mdlGetTypeByName($name, $type){
     return $queryResult;
 }
 
-function mdlAjouterType($nature, $nom, $pieceCreation, $pieceModification, $pieceSuppression){
+function mdlAjouterType($nature, $nom, $pieceCreation, $pieceModification, $pieceSuppression)
+{
     $connexion = getConnexion();
 
     $requete = 'INSERT INTO type'.$nature.'(nom) VALUES("'.$nom.'");
@@ -135,24 +141,25 @@ function mdlAjouterType($nature, $nom, $pieceCreation, $pieceModification, $piec
                 ("Création '."d'un ".$nom.'","'.$pieceCreation.'"),
                 ("Modification '."d'un ".$nom.'","'.$pieceModification.'"),
                 ("Suppression '."d'un ".$nom.'","'.$pieceSuppression.'");';
-    
+
     $resultat = $connexion->query($requete);
     $resultat->setFetchMode(PDO::FETCH_OBJ);
     $resultat->fetch();
     $resultat->closeCursor();
 }
 
-function  mdlTypeIsAssign($id, $type){
+function mdlTypeIsAssign($id, $type)
+{
 
     $connexion = getConnexion();
 
     $requete = '';
-    if($type == 'account'){
+    if ($type == 'account') {
         $requete = 'SELECT * FROM estdetypecompte WHERE typeCompte = '.$id.';';
-    }elseif($type == 'contract'){
+    } elseif ($type == 'contract') {
         $requete = 'SELECT * FROM estdetypecontrat WHERE typeContrat = '.$id.';';
-    }else{
-        throw new Exception("Type non définie pour la requête TypeIsAssign");
+    } else {
+        throw new Exception('Type non définie pour la requête TypeIsAssign');
     }
     $resultat = $connexion->query($requete);
     $resultat->setFetchMode(PDO::FETCH_OBJ);
@@ -162,17 +169,18 @@ function  mdlTypeIsAssign($id, $type){
     return $verifIsAssign;
 }
 
-function mdlSupprimerType($id, $type){
+function mdlSupprimerType($id, $type)
+{
 
     $connexion = getConnexion();
-    
+
     $requete = '';
-    if($type == 'account'){
+    if ($type == 'account') {
         $requete = 'DELETE FROM typecompte WHERE id = '.$id.';';
-    }elseif($type == 'contract'){
+    } elseif ($type == 'contract') {
         $requete = 'DELETE FROM typecontrat WHERE id = '.$id.';';
-    }else{
-        throw new Exception("Type non définie pour la requête SupprimerType");
+    } else {
+        throw new Exception('Type non définie pour la requête SupprimerType');
     }
     $resultat = $connexion->query($requete);
     $resultat->setFetchMode(PDO::FETCH_OBJ);
@@ -180,17 +188,18 @@ function mdlSupprimerType($id, $type){
     $resultat->closeCursor();
 }
 
-function mdlGetTypeById($id, $type){
+function mdlGetTypeById($id, $type)
+{
 
     $connexion = getConnexion();
 
     $requete = '';
-    if($type == 'account'){
+    if ($type == 'account') {
         $requete = 'SELECT * FROM typecompte WHERE id = '.$id.';';
-    }elseif($type == 'contract'){
+    } elseif ($type == 'contract') {
         $requete = 'SELECT * FROM typecontrat WHERE id = '.$id.';';
-    }else{
-        throw new Exception("Type non définie pour la requête GetTypeById");
+    } else {
+        throw new Exception('Type non définie pour la requête GetTypeById');
     }
 
     $resultat = $connexion->query($requete);
@@ -201,7 +210,8 @@ function mdlGetTypeById($id, $type){
     return $queryResult;
 }
 
-function mdlSupprimerMotif($name){
+function mdlSupprimerMotif($name)
+{
 
     $connexion = getConnexion();
 
@@ -214,21 +224,21 @@ function mdlSupprimerMotif($name){
     $resultat->closeCursor();
 }
 
-
-
-function rechercheClient($nom,$prenom){
-    $connexion=getConnexion();
-    $requete="select nom,prenom from client where nom='$nom' and prenom='$prenom'";
+function rechercheClient($nom, $prenom)
+{
+    $connexion = getConnexion();
+    $requete = "select nom,prenom from client where nom='$nom' and prenom='$prenom'";
     $resultat = $connexion->query($requete);
     $resultat->setFetchMode(PDO::FETCH_OBJ);
-    $ligne=$resultat->fetchAll();
+    $ligne = $resultat->fetchAll();
+
     return $ligne;
 }
 
-
-function modifierClient($champs,$valeur,$nom,$prenom){
-    $connexion=getConnexion();
+function modifierClient($champs, $valeur, $nom, $prenom)
+{
+    $connexion = getConnexion();
     $requete = "UPDATE client SET $champs= '$valeur' WHERE nom='$nom' and prenom='$prenom'";
-    $resultat=$connexion->query($requete);
+    $resultat = $connexion->query($requete);
     $resultat->closeCursor();
 }

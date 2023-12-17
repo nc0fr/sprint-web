@@ -1,13 +1,13 @@
 body {
     margin: 0;
     font-family: 'Roboto', sans-serif;
-    background-color: #E7E9E7; 
+    background-color: #E7E9E7;
   }
-  
+
   .navbar {
     width: 17%;
     height: 100%;
-    background-color: #46A758; 
+    background-color: #46A758;
     padding-top: 20px;
     box-sizing: border-box;
     position: fixed;
@@ -18,11 +18,11 @@ body {
   .infos {
     margin-bottom: 50px;
     padding: 12px;
-    background-color: #3E9B4F; 
+    background-color: #3E9B4F;
     border-radius: 8px;
     text-align: center;
     font-weight: bold;
-    color: #FCFDFC; 
+    color: #FCFDFC;
 
   }
 
@@ -33,18 +33,18 @@ body {
 }
 
 a{
-  text-decoration: none ; 
+  text-decoration: none ;
   color: inherit;
 }
 
 .item {
-  margin-bottom: 15px; 
+  margin-bottom: 15px;
   padding: 20px;
 }
-  
+
   .item,.logout {
 
-    background-color: #46A758; 
+    background-color: #46A758;
     border-radius: 8px;
     text-align: center;
     font-weight: bold;
@@ -52,8 +52,8 @@ a{
     transition: transform 0.3s;
     cursor: pointer;
   }
-  
+
   .item:hover,.logout:hover {
-    background-color: #3E9B4F; 
-    transform: scale(1.05); 
+    background-color: #3E9B4F;
+    transform: scale(1.05);
   }
