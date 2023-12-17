@@ -16,9 +16,9 @@
       <a href="sprintBank.php"><div class="logout">Déconnexion</div></a>
       </div>
       <form method="post" class="formulaire">  
-        <?php 
-        if (isset($contenu)){
-        echo '<p>'.$contenu.'</p>';
+        <?php
+        if (isset($contenu)) {
+            echo '<p>'.$contenu.'</p>';
         }
         ?>
       </form>

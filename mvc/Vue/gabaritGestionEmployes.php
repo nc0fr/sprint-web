@@ -34,9 +34,9 @@
           </fieldset>
         </form>
         <?php
-        if(isset($contenu)){
-          echo '<p>'.$contenu.'</p>' ;
-        } 
+        if (isset($contenu)) {
+            echo '<p>'.$contenu.'</p>';
+        }
         ?>
 
 

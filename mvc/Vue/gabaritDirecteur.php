@@ -8,7 +8,9 @@
     </head>
     <body>
     <div class="navbar">
-      <div class="infos"><?php if(isset($contenu1)){echo $contenu1 ;} ?></div>
+      <div class="infos"><?php if (isset($contenu1)) {
+          echo $contenu1;
+      } ?></div>
       <a href="?action=gestion_employes"><div class="item">Gestion des employés</div></a>
       <a href="?action1=gestion_motifs"><div class="item">Gestions des justificatifs</div></a>
       <a href="?action3=gestion_comptes_contrats"><div class="item">Comptes et contrats</div></a>
@@ -16,8 +18,9 @@
       <a href="sprintBank.php"><div class="logout">Déconnexion</div></a>
     </div>
 //TODO : Action pour Comptes et contrats
-      <?php if(isset($contenu)){
-        echo $contenu;} ?>
+      <?php if (isset($contenu)) {
+          echo $contenu;
+      } ?>
     </body>
 </html>
 
