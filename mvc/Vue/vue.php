@@ -30,7 +30,6 @@ function pageConseille($nom,$prenom,$type){
     require_once('Vue/gabaritConseille.php');
 }
 
-
 function pageGestion(){
     require_once('Vue/gabaritGestionEmployes.php');
 }
@@ -42,28 +41,6 @@ function msgGestionEmployes($message){
     $contenu="<script>alert('".$message."');</script>";
     require_once('Vue/gabaritGestionEmployes.php');
 }
-
-
-//Directeur -> Gestion des justificatifs
-
-//Inutile 
-/*function vueGestionMotif(){
-
-    $contenu = '<ul>
-                    <li>
-                        <form method="post" action="sprintBank.php">
-                            <p>
-                                <input type="submit" name="showAllMotif" value="Afficher tous motifs">
-                            </p>
-                        </form>
-                    </li>
-                    <li>
-                        <p>A remplir</p>
-                    </li>
-                </ul>';
-    require_once('Vue/gabaritDirecteur.php');
-
-}*/
 
 function vueGetAllMotif($motif){
     $contenu1='';
@@ -176,8 +153,6 @@ function pageGestionClients(){
     ';
     require_once('Vue/gabaritGestionClients.php');
 }
-
-
 
 
 //Erreurs PHP

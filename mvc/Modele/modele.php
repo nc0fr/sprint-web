@@ -106,6 +106,27 @@ function mdlGetAllTypeContract(){
     return $typeContract;
 }
 
+function mdlGetTypeByName($name, $type){
+
+    $connexion = getConnexion();
+
+    $requete = '';
+    if($type == 'account'){
+        $requete = 'SELECT * FROM typecompte WHERE nom = "'.$name.'";';
+    }elseif($type == 'contract'){
+        $requete = 'SELECT * FROM typecontrat WHERE nom = "'.$name.'";';
+    }else{
+        throw new Exception("Type non définie pour la requête GetTypeByName");
+    }
+
+    $resultat = $connexion->query($requete);
+    $resultat->setFetchMode(PDO::FETCH_OBJ);
+    $queryResult = $resultat->fetch();
+    $resultat->closeCursor();
+
+    return $queryResult;
+}
+
 function mdlAjouterType($nature, $nom, $pieceCreation, $pieceModification, $pieceSuppression){
     $connexion = getConnexion();
 
@@ -159,7 +180,7 @@ function mdlSupprimerType($id, $type){
     $resultat->closeCursor();
 }
 
-function mdlGetType($id, $type){
+function mdlGetTypeById($id, $type){
 
     $connexion = getConnexion();
 
@@ -169,15 +190,15 @@ function mdlGetType($id, $type){
     }elseif($type == 'contract'){
         $requete = 'SELECT * FROM typecontrat WHERE id = '.$id.';';
     }else{
-        throw new Exception("Type non définie pour la requête GetType");
+        throw new Exception("Type non définie pour la requête GetTypeById");
     }
 
     $resultat = $connexion->query($requete);
     $resultat->setFetchMode(PDO::FETCH_OBJ);
-    $type = $resultat->fetch();
+    $queryResult = $resultat->fetch();
     $resultat->closeCursor();
 
-    return $type;
+    return $queryResult;
 }
 
 function mdlSupprimerMotif($name){

@@ -15,9 +15,9 @@
       <div class="item">Statistiques</div>
       <a href="sprintBank.php"><div class="logout">Déconnexion</div></a>
     </div>
-      <?php echo $contenu ;?>
 //TODO : Action pour Comptes et contrats
-
+      <?php if(isset($contenu)){
+        echo $contenu;} ?>
     </body>
 </html>
 

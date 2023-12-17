@@ -4,17 +4,11 @@ require_once('Controleur/controleur.php');
 try {
     if (isset($_POST['connexion'])){
         ctrlVerifierId();
-        
+      
     }elseif (isset($_GET['action1'])=='gestion_motifs'){
         ctrlGetAllMotif();
 
-    }
-    //Inutile
-    /*elseif (isset($_POST['showAllMotif'])){
-
-        ctrlGetAllMotif();
-
-    }*/elseif (isset($_POST['modifierPiece'])){
+    }elseif (isset($_POST['modifierPiece'])){
 
         ctrlModifierPiece($_POST);
 
