@@ -1,19 +1,23 @@
 <!DOCTYPE html>
 <html lang="fr">
     <head>
-      <title>Sprint Bank : Login</title>
-      <link rel="stylesheet" href="Vue/css/styleLogin.css">
+    <link rel="stylesheet" href="Vue/css/styleLogin.css">
+      <title>Sprint Bank | Login</title>
       <meta charset="utf-8">
+
     </head>
     <body>
-        <form method="post">                        
-                <p><label>Nom d'utilisateur :</label>
-                <input type="text" name="login"></p>
-                <p><label>Mot de passe :</label>
-                <input type="password" name="mdp"></p>
-                <p><input type="submit" value="Connexion" name="connexion"></p>
-                <?php echo $contenu; ?>
+      <div class="ensemble">
+        <h2>Connectez-vous</h2>
+        <form method="post" class="formulaire">                        
+                
+                <input type="text" name="login" placeholder="Nom d'utilisateur" required>
+                <input type="password" name="mdp" placeholder="Mot de passe" required>
+                <input type="submit" name="connexion" value="Connexion" class="boutton">
+                
         </form>
+      </div>
+      <?php echo $contenu; ?>
     </body>
 </html>
 

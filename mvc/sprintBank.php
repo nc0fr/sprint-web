@@ -3,19 +3,33 @@ require_once('Controleur/controleur.php');
 
 try {
     if (isset($_POST['connexion'])){
-        $usr=$_POST['login'];
-        $mdp=$_POST['mdp'];
-        ctrlVerifierId($usr,$mdp);
-        
-    }elseif (isset($_POST['showAllMotif'])){
-
+        ctrlVerifierId();
+      
+    }elseif (isset($_GET['action1'])=='gestion_motifs'){
         ctrlGetAllMotif();
 
     }elseif (isset($_POST['modifierPiece'])){
-        
+
         ctrlModifierPiece($_POST);
 
-    }elseif (isset($_POST['gestionTypeCompteContrat'])){
+    }elseif (isset($_GET['action'])=='gestion_employes'){        
+        if (isset($_POST['ajtemploye'])){    
+            ctrlAjouterEmploye();
+        }
+
+        elseif (isset($_POST['setemploye'])){ 
+            ctrlModifierEmploye();
+        }else{
+            ctrlGestion();
+        }
+
+    }elseif (isset($_GET['action2'])=='gestion_clients'){   
+        if(isset($_POST['choixmodif'])){
+            ctrlModifierClient();
+        }else{
+            ctrlGestionClients(); 
+        }
+    }elseif (isset($_GET['action3'])=='gestion_comptes_contrats'){
 
         ctrlGetAllTypeAccountContract();
 

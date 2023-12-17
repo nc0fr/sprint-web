@@ -8,6 +8,35 @@ function getConnexion(){
     return $connexion;
 }
 
+
+
+function verifierLogin($usr,$mdp){
+    $connexion=getConnexion();
+    $requete="select login,mdp,nom,prenom,type from employe where login='$usr' and mdp='$mdp'";
+    $resultat=$connexion->query($requete);
+    $resultat->setFetchMode(PDO::FETCH_OBJ);
+    $ligne=$resultat->fetch();
+    $resultat->closeCursor();
+    return $ligne;
+}
+
+
+
+function verifierAvantAjout($nom,$prenom,$login){
+    $connexion=getConnexion();
+    $requete="select nom,prenom from employe where nom='$nom' and prenom='$prenom'";
+    $resultat=$connexion->query($requete);
+    $resultat->setFetchMode(PDO::FETCH_OBJ);
+    $verifPersonne=$resultat->fetch();
+    $resultat->closeCursor();
+    $requete="select login from employe where login='$login'";
+    $resultat=$connexion->query($requete);
+    $verifLogin=$resultat->fetch();
+    $resultat->closeCursor();
+    $ensemble=array('personne'=>$verifPersonne,'login'=>$verifLogin);
+    return $ensemble;
+}
+
 function ajouterEmploye($nom,$prenom,$login,$mdp,$dateEmbauche,$type){
     $connexion=getConnexion();
     $requete = "INSERT INTO employe (NOM, PRENOM, LOGIN, MDP, DATEEMBAUCHE, TYPE)
@@ -17,15 +46,14 @@ function ajouterEmploye($nom,$prenom,$login,$mdp,$dateEmbauche,$type){
 }
 
 
-function verifierLogin($usr,$mdp){
+function modifierEmploye($login,$mdp,$nom,$prenom){
     $connexion=getConnexion();
-    $requete="select login,mdp,type from employe where login='$usr' and mdp='$mdp'";
+    $requete = "UPDATE employe SET  login = '$login', mdp = '$mdp' WHERE nom='$nom' and prenom='$prenom'";
     $resultat=$connexion->query($requete);
-    $resultat->setFetchMode(PDO::FETCH_OBJ);
-    $ligne=$resultat->fetch();
     $resultat->closeCursor();
-    return $ligne;
 }
+
+
 
 function mdlGetAllMotif(){
 
@@ -49,6 +77,8 @@ function mdlModifierPiece($id, $value){
     $resultat->setFetchMode(PDO::FETCH_OBJ);
     $resultat->fetchAll();
 }
+
+
 
 function mdlGetAllTypeAccount(){
 
@@ -181,5 +211,24 @@ function mdlSupprimerMotif($name){
     $resultat = $connexion->query($requete);
     $resultat->setFetchMode(PDO::FETCH_OBJ);
     $resultat->fetch();
+    $resultat->closeCursor();
+}
+
+
+
+function rechercheClient($nom,$prenom){
+    $connexion=getConnexion();
+    $requete="select nom,prenom from client where nom='$nom' and prenom='$prenom'";
+    $resultat = $connexion->query($requete);
+    $resultat->setFetchMode(PDO::FETCH_OBJ);
+    $ligne=$resultat->fetchAll();
+    return $ligne;
+}
+
+
+function modifierClient($champs,$valeur,$nom,$prenom){
+    $connexion=getConnexion();
+    $requete = "UPDATE client SET $champs= '$valeur' WHERE nom='$nom' and prenom='$prenom'";
+    $resultat=$connexion->query($requete);
     $resultat->closeCursor();
 }
