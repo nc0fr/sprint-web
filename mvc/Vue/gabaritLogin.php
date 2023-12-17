@@ -9,12 +9,12 @@
     <body>
       <div class="ensemble">
         <h2>Connectez-vous</h2>
-        <form method="post" class="formulaire">                        
-                
+        <form method="post" class="formulaire">
+
                 <input type="text" name="login" placeholder="Nom d'utilisateur" required>
                 <input type="password" name="mdp" placeholder="Mot de passe" required>
                 <input type="submit" name="connexion" value="Connexion" class="boutton">
-                
+
         </form>
       </div>
       <?php echo $contenu; ?>

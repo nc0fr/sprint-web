@@ -19,9 +19,9 @@
 
 
 
-        <form method="post" class="formulaire">                        
+        <form method="post" class="formulaire">
           <fieldset class="ajouter">
-          <h2>Ajouter Employé</h2>      
+          <h2>Ajouter Employé</h2>
           <p><input type="text" name="nom" placeholder="Nom" required>
           <input type="text" name="prenom" placeholder="Prénom" required></p>
           <p><input type="text" name="login" placeholder="Nom d'utilisateur" required>
@@ -40,8 +40,8 @@
         ?>
 
 
-        <form method="post" class="formulaire">    
-          <fieldset class="modifier">    
+        <form method="post" class="formulaire">
+          <fieldset class="modifier">
           <h2>Modifier Identifiants</h2>
           <p><input type="text" name="nom" placeholder="Nom" required>
           <input type="text" name="prenom" placeholder="Prénom" required></p>
@@ -50,6 +50,6 @@
           <p><input type="submit" name="setemploye" value="Modifier"></p>
           </fieldset>
         </form>
-       
+
     </body>
 </html>

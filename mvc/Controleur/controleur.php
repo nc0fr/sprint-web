@@ -48,7 +48,6 @@ function ctrlAjouterEmploye()
         ajouterEmploye($nom, $prenom, $login, $mdp, $dateEmbauche, $type);
         msgGestionEmployes('Nouvel employé ajouté !');
     }
-
 }
 
 function ctrlModifierEmploye()
@@ -86,11 +85,9 @@ function ctrlModifierPiece($motif)
             mdlModifierPiece($id, $value);
 
             vueMsgDirecteur('Le motif a bien été modifié');
-
         } else {
             vueMsgDirecteur('Veuillez remplir le nouveau motif');
         }
-
     } else {
         vueMsgDirecteur('Veuillez selectionner un motif');
     }
@@ -118,11 +115,9 @@ function ctrlSupprimerTypeAccount($type)
                 mdlSupprimerMotif($name);
                 mdlSupprimerType($type['account'], 'account');
                 vueMsgDirecteur('Le type de compte "'.$name.'" a bien été supprimé');
-
             } else {
 
                 vueMsgDirecteur('Le type de compte ne peut être supprimé car il est assigné');
-
             }
         } catch (Exception $e) {
             vueMsgDirecteur($e->getMessage());
@@ -138,7 +133,6 @@ function ctrlSupprimerTypeAccount($type)
                 mdlSupprimerMotif($name);
                 mdlSupprimerType($type['contract'], 'contract');
                 vueMsgDirecteur('Le type de contrat "'.$name.'" a bien été supprimé');
-
             } else {
                 vueMsgDirecteur('Le type de contrat ne peut être supprimé car il est assigné');
             }
@@ -153,8 +147,10 @@ function ctrlSupprimerTypeAccount($type)
 function ctrlAjouterType($newType)
 {
 
-    if (strlen($newType['nom']) > 0 && strlen($newType['nature']) > 0 && strlen($newType['pieceCreation']) > 0 &&
-        strlen($newType['pieceModification']) > 0 && strlen($newType['pieceSuppression']) > 0) {
+    if (
+        strlen($newType['nom']) > 0 && strlen($newType['nature']) > 0 && strlen($newType['pieceCreation']) > 0 &&
+        strlen($newType['pieceModification']) > 0 && strlen($newType['pieceSuppression']) > 0
+    ) {
 
         $nom = $newType['nom'];
         $nature = $newType['nature'];
@@ -162,7 +158,8 @@ function ctrlAjouterType($newType)
         $pieceModification = $newType['pieceModification'];
         $pieceSuppression = $newType['pieceSuppression'];
 
-        if (mdlGetTypeByName($nom, 'account') == false && mdlGetTypeByName($nom, 'contract') == false) {
+        if (mdlGetTypeByName($nom, 'account') == false
+            && mdlGetTypeByName($nom, 'contract') == false) {
 
             mdlAjouterType($nature, $nom, $pieceCreation, $pieceModification, $pieceSuppression);
 
@@ -182,7 +179,7 @@ function ctrlGestionClients()
     pageGestionClients();
 }
 
-    function ctrlModifierClient()
+function ctrlModifierClient()
 {
     $nom = $_POST['nom'];
     $prenom = $_POST['prenom'];
@@ -192,16 +189,20 @@ function ctrlGestionClients()
         if (! empty($_POST['adresse'])) {
             modifierClient('adresse', $_POST['adresse'], $nom, $prenom);
             $changements .= '| Adresse |';
-        }if (! empty($_POST['numtel'])) {
+        }
+        if (! empty($_POST['numtel'])) {
             modifierClient('numTel', $_POST['numtel'], $nom, $prenom);
             $changements .= '| Numéro de téléphone |';
-        }if (! empty($_POST['email'])) {
+        }
+        if (! empty($_POST['email'])) {
             modifierClient('mail', $_POST['email'], $nom, $prenom);
             $changements .= '| Adresse mail |';
-        }if (! empty($_POST['profession'])) {
+        }
+        if (! empty($_POST['profession'])) {
             modifierClient('profession', $_POST['profession'], $nom, $prenom);
             $changements .= '| Profession |';
-        }if (! empty($_POST['situation'])) {
+        }
+        if (! empty($_POST['situation'])) {
             modifierClient('situation', $_POST['situation'], $nom, $prenom);
             $changements .= '| Situation |';
         }

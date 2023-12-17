@@ -14,8 +14,6 @@
       <div class="item">Interface 4</div>
       <a href="sprintBank.php"><div class="logout">Déconnexion</div></a>
     </div>
-    
-       
     </body>
 </html>
 

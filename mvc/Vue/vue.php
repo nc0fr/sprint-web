@@ -153,7 +153,7 @@ function pageGestionClients()
     <p><input type="text" name="profession" placeholder="Nouvelle profession" ></p>
     <p><input type="text" name="situation" placeholder="Nouvelle situation familliale" ></p>
     <p><input type="submit" name="choixmodif" value="Modifier"></p>
-    
+
     ';
     require_once 'Vue/gabaritGestionClients.php';
 }
