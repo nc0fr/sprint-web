@@ -295,17 +295,6 @@ function effectuerOperation($compte, $montant, $op)
 
 //Agent -> Synthese Client
 
-function identiteClient($nom, $prenom)
-{
-    $connexion = getConnexion();
-    $requete = "SELECT * FROM client WHERE nom='$nom' AND prenom='$prenom' ";
-    $resultat = $connexion->query($requete);
-    $resultat->setFetchMode(PDO::FETCH_OBJ);
-    $ligne = $resultat->fetch();
-
-    return $ligne;
-}
-
 function syntheseClient($nom, $prenom)
 {
     $connexion = getConnexion();

@@ -254,23 +254,6 @@ function infosClient($infos)
 
 }
 
-function infosCompte($infos)
-{
-    $contenu = '
-    <fieldset><legend>Comptes</legend>
-    <p><label>Nom</label><label>'.$ligne->nom.'</label></p>
-    <p><label>Prénom</label><label>'.$ligne->prenom.'</label></p>
-    <p><label>Adresse</label><label>'.$ligne->adresse.'</label></p>
-    <p><label>Numéro de téléphone</label><label>'.$ligne->numTel.'</label></p>
-    <p><label>Profession</label><label>'.$ligne->profession.'</label></p>
-    <p><label>Situation</label><label>'.$ligne->situation.'</label></p>
-    <p><label>Client depuis le </label><label>'.$ligne->dateAjout.'</label></p>
-    </fieldset>
-    ';
-    require_once 'gabaritSynthese.php';
-
-}
-
 function msgSynthese($msg)
 {
     $contenu = $msg;
