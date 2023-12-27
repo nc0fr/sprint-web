@@ -217,6 +217,74 @@ function ctrlModifierClient()
     }
 }
 
+//AGENT -> OPERATIONS
+
+function ctrlPageOperations()
+{
+    pageOperations();
+}
+
+function ctrlOperations()
+{
+    $nom = $_POST['nom'];
+    $prenom = $_POST['prenom'];
+    $ligne = rechercheClient($nom, $prenom);
+    if ($ligne == false) {
+        msgOperations('<p>
+            Aucun client trouvé, vérifiez votre saisie.</p>
+            <p><input type="submit" name="reessayer" value="Réessayer"></p>');
+    } else {
+        $ligne = typeCompte($nom, $prenom);
+        pageOperationsCompte($ligne);
+    }
+}
+
+function ctrlEffectuerOperation()
+{
+    $idcompte = $_POST['choixcompte'];
+    $montant = $_POST['montant'];
+    $op = $_POST['choixoperation'];
+    $ligne = verifierDecouvert($idcompte);
+    $solde = $ligne->solde;
+    $decouvert = $ligne->decouvert;
+    if ($op == 'RETRAIT') {
+        if ($solde - $montant < $decouvert) {
+            msgOperations('<p>
+            Impossible d\'effectuer l\'opération : Découvert dépassé.</p>
+            <p><input type="submit" name="nouvelleope" value="Nouvelle opération"></p>');
+
+            return;
+        }
+    }
+    effectuerOperation($idcompte, $montant, $op);
+    msgOperations('<p>
+        Vous avez effectué un '.$op.' de '.$montant.' Euro sur le compte N° '.$idcompte.'</p>
+        <p><input type="submit" name="nouvelleope" value="Nouvelle opération"></p>');
+
+}
+
+//AGENT -> Synthese Client
+
+function ctrlPageSynthese()
+{
+    pageSynthese();
+}
+
+function ctrlSynthese()
+{
+    $nom = $_POST['nom'];
+    $prenom = $_POST['prenom'];
+    $ligne = rechercheClient($nom, $prenom);
+    if ($ligne == false) {
+        msgSynthese('<p>
+        Aucun client trouvé, vérifiez votre saisie.</p>
+        <p><input type="submit" name="reessayer" value="Réessayer"></p>');
+    } else {
+        $infos = syntheseClient($nom, $prenom);
+        infosClient($infos);
+    }
+}
+
 //Erreurs
 function ctrlErreur($erreur)
 {

@@ -242,3 +242,114 @@ function modifierClient($champs, $valeur, $nom, $prenom)
     $resultat = $connexion->query($requete);
     $resultat->closeCursor();
 }
+
+//Agent -> Opérations
+
+function typeCompte($nom, $prenom)
+{
+    $connexion = getConnexion();
+    $requete = "SELECT tc.nom,edc.compte
+                FROM client c
+                JOIN aouvert ao ON c.id=ao.client
+                JOIN estdetypecompte edc ON ao.compte=edc.compte
+                JOIN typecompte tc ON tc.id=edc.typecompte
+                WHERE c.nom='$nom' AND c.prenom='$prenom'";
+    $resultat = $connexion->query($requete);
+    $resultat->setFetchMode(PDO::FETCH_OBJ);
+    $ligne = $resultat->fetchAll();
+
+    return $ligne;
+}
+
+function verifierDecouvert($compte)
+{
+    $connexion = getConnexion();
+    $requete = "SELECT solde,decouvert FROM compte WHERE id='$compte'";
+    $resultat = $connexion->query($requete);
+    $resultat->setFetchMode(PDO::FETCH_OBJ);
+    $ligne = $resultat->fetch();
+
+    return $ligne;
+}
+
+function effectuerOperation($compte, $montant, $op)
+{
+    $connexion = getConnexion();
+    if ($op == 'RETRAIT') {
+        $requete = "UPDATE compte SET solde=solde-'$montant' WHERE id=$compte";
+    } else {
+        $requete = "UPDATE compte SET solde=solde+'$montant' WHERE id=$compte";
+    }
+    $resultat = $connexion->query($requete);
+    $resultat->closeCursor();
+    $requete = "INSERT INTO operation(type, valeur) VALUES ('$op','$montant')";
+    $resultat = $connexion->query($requete);
+    $resultat->closeCursor();
+    $requete = "INSERT INTO effectueesur(compte,operation) VALUES('$compte',(SELECT MAX(id) FROM operation))";
+    $resultat = $connexion->query($requete);
+    $resultat->closeCursor();
+    $requete = "INSERT INTO aeffectue(client,operation) VALUES((SELECT client FROM aouvert WHERE compte='$compte'),(SELECT MAX(id) FROM operation))";
+    $resultat = $connexion->query($requete);
+    $resultat->closeCursor();
+}
+
+//Agent -> Synthese Client
+
+function identiteClient($nom, $prenom)
+{
+    $connexion = getConnexion();
+    $requete = "SELECT * FROM client WHERE nom='$nom' AND prenom='$prenom' ";
+    $resultat = $connexion->query($requete);
+    $resultat->setFetchMode(PDO::FETCH_OBJ);
+    $ligne = $resultat->fetch();
+
+    return $ligne;
+}
+
+function syntheseClient($nom, $prenom)
+{
+    $connexion = getConnexion();
+    $requete = "SELECT * FROM client WHERE nom='$nom' AND prenom='$prenom' ";
+    $resultat = $connexion->query($requete);
+    $resultat->setFetchMode(PDO::FETCH_OBJ);
+    $client = $resultat->fetch();
+    $resultat->closeCursor();
+
+    $requete = "SELECT tc.nom 'type',edc.compte 'id',cpt.solde 'solde',cpt.dateOuverture 'date'
+                FROM client c
+                JOIN aouvert ao ON c.id=ao.client
+                JOIN compte cpt ON ao.compte=cpt.id
+                JOIN estdetypecompte edc ON ao.compte=edc.compte
+                JOIN typecompte tc ON tc.id=edc.typecompte
+                WHERE c.nom='$nom' AND c.prenom='$prenom'";
+    $resultat = $connexion->query($requete);
+    $resultat->setFetchMode(PDO::FETCH_OBJ);
+    $comptes = $resultat->fetchAll();
+    $resultat->closeCursor();
+
+    $requete = "SELECT tc.nom 'type',edc.contrat 'id',ctr.tarifMensuel 'prix',ctr.dateOuverture 'date'
+                FROM client c
+                JOIN asouscrit aso ON c.id=aso.client
+                JOIN contrat ctr ON aso.contrat=ctr.id
+                JOIN estdetypecontrat edc ON aso.contrat=edc.contrat
+                JOIN typecontrat tc ON tc.id=edc.typeContrat
+                WHERE c.nom='$nom' AND c.prenom='$prenom'";
+    $resultat = $connexion->query($requete);
+    $resultat->setFetchMode(PDO::FETCH_OBJ);
+    $contrats = $resultat->fetchAll();
+    $resultat->closeCursor();
+
+    $requete = "SELECT e.nom 'nomC',e.prenom'prenomC'
+                FROM client c JOIN
+                estconseillerde ecd ON c.id=ecd.client JOIN
+                employe e ON e.id=ecd.conseiller
+                WHERE c.nom='$nom' AND c.prenom='$prenom'";
+    $resultat = $connexion->query($requete);
+    $resultat->setFetchMode(PDO::FETCH_OBJ);
+    $conseiller = $resultat->fetch();
+    $resultat->closeCursor();
+
+    $infos = ['client' => $client, 'comptes' => $comptes, 'contrats' => $contrats, 'conseiller' => $conseiller];
+
+    return $infos;
+}
