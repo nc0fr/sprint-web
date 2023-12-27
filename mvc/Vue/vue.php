@@ -162,7 +162,7 @@ function pageGestionClients()
 function pageOperations()
 {
     $contenu = '
-    <p>Quel client souhaitez vous afficher ?</p>
+    <p>Insérez le nom du client :</p>
     <p><input type="text" name="nom" placeholder="Nom" >
     <input type="text" name="prenom" placeholder="Prénom" ></p>
     <p><input type="submit" name="choixclientoperations" value="Valider"></p>';
