@@ -242,3 +242,16 @@ function modifierClient($champs, $valeur, $nom, $prenom)
     $resultat = $connexion->query($requete);
     $resultat->closeCursor();
 }
+
+function mdlGetClient($client)
+{
+    $connexion = getConnexion();
+
+    $requete = 'SELECT id FROM client WHERE nom="'.$client['clientName'].'" AND prenom="'.$client['clientPrenom'].'" AND mail="'.$client['clientMail'].'"';
+    $resultat = $connexion->query($requete);
+    $resultat->setFetchMode(PDO::FETCH_OBJ);
+    $clientId = $resultat->fetch();
+    $resultat->closeCursor();
+
+    return $clientId;
+}

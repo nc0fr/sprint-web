@@ -33,6 +33,16 @@ try {
     } elseif (isset($_POST['ajouterType'])) {
 
         ctrlAjouterType($_POST);
+    } elseif (isset($_GET['actionConseil'])) {
+        if ($_GET['actionConseil'] == 'conseiller_login_client') {
+            ctrlConseillerLoginClient();
+        } elseif ($_GET['actionConseil'] == 'conseiller_deconnection_client') {
+            ctrlConseillerClientDeconnection();
+        } elseif ($_GET['actionConseil'] == 'conseiller_inscription_client') {
+            ctrlConseillerInscriptionClient();
+        }
+    } elseif (isset($_POST['conseillerLoginClient'])) {
+        ctrlConseillerClient($_POST);
     } else {
         ctrlPageLogin();
     }

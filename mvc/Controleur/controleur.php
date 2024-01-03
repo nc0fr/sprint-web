@@ -86,10 +86,10 @@ function ctrlModifierPiece($motif)
 
             vueMsgDirecteur('Le motif a bien été modifié');
         } else {
-            vueMsgDirecteur('Veuillez remplir le nouveau motif');
+            throw new Exception("ctrlModifierPiece : motif['valeurModifier'] empty");
         }
     } else {
-        vueMsgDirecteur('Veuillez selectionner un motif');
+        throw new Exception("ctrlModifierPiece : motif['modifier'] or motif['valeurModifier'] not defined");
     }
 }
 
@@ -140,7 +140,7 @@ function ctrlSupprimerTypeAccount($type)
             vueMsgDirecteur($e->getMessage());
         }
     } else {
-        vueMsgDirecteur('Pour supprimer un type selectionnez un type');
+        throw new Exception('ctrlSupprimerTypeAccount : type["account"] not defined');
     }
 }
 
@@ -168,7 +168,7 @@ function ctrlAjouterType($newType)
             vueMsgDirecteur('Le nom "'.$nom.'" est déjà utilisé pour un type de compte ou contrat');
         }
     } else {
-        vueMsgDirecteur("Tous les champs de texte n'ont pas été remplis");
+        throw new Exception("ctrlAjouterType : one of newType field not define or empty");
     }
 }
 
@@ -215,6 +215,27 @@ function ctrlModifierClient()
                 Aucun client trouvé, vérifiez votre saisie.</p>
                 <p><input type="submit" name="reessayer" value="Réessayer"></p>');
     }
+}
+
+function ctrlConseillerLoginClient()
+{
+    vueConseillerLoginClient();
+}
+
+function ctrlConseillerClient($client)
+{
+    $clientId = mdlGetClient($client);
+    vueConseillerClient($clientId);
+}
+
+function ctrlConseillerClientDeconnection()
+{
+    vueConseillerClientDeconnection();
+}
+
+function ctrlConseillerInscriptionClient()
+{
+    vueConseillerInscriptionClient();
 }
 
 //Erreurs
