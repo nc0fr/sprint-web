@@ -39,10 +39,12 @@ try {
         } elseif ($_GET['actionConseil'] == 'conseiller_deconnection_client') {
             ctrlConseillerClientDeconnection();
         } elseif ($_GET['actionConseil'] == 'conseiller_inscription_client') {
-            ctrlConseillerInscriptionClient();
+            ctrlConseillerPageInscriptionClient();
         }
     } elseif (isset($_POST['conseillerLoginClient'])) {
         ctrlConseillerClient($_POST);
+    } elseif (isset($_POST['conseillerInscriptionClient'])) {
+        ctrlConseillerInscriptionClient($_POST);
     } else {
         ctrlPageLogin();
     }

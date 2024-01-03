@@ -225,7 +225,11 @@ function ctrlConseillerLoginClient()
 function ctrlConseillerClient($client)
 {
     $clientId = mdlGetClient($client);
-    vueConseillerClient($clientId);
+    if($clientId == false){
+        vueConseillerClient("oskur");
+    }else{
+        vueConseillerClient($clientId);
+    }
 }
 
 function ctrlConseillerClientDeconnection()
@@ -233,9 +237,15 @@ function ctrlConseillerClientDeconnection()
     vueConseillerClientDeconnection();
 }
 
-function ctrlConseillerInscriptionClient()
+function ctrlConseillerPageInscriptionClient()
 {
     vueConseillerInscriptionClient();
+}
+
+function ctrlConseillerInscriptionClient($client)
+{
+    mdlInscriptionClient($client);
+    vueConseillerMsg("Le client a été inscrit");
 }
 
 //Erreurs

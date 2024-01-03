@@ -255,3 +255,16 @@ function mdlGetClient($client)
 
     return $clientId;
 }
+
+function mdlInscriptionClient($client)
+{
+    $connexion = getConnexion();
+
+    $requete = 'INSERT INTO
+                client(nom, prenom, adresse, numTel, mail, profession, situation, dateAjout)
+                VALUES
+                ("'.$client['nom'].'", "'.$client['prenom'].'", "'.$client['adresse'].'", "'.$client['telephone'].'", "'.$client['email'].
+                '", "'.$client['profession'].'", "'.$client['situation'].'", NOW())';
+    $resultat = $connexion->query($requete);
+    $resultat->closeCursor();
+}

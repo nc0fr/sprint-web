@@ -189,7 +189,10 @@ function vueConseillerLoginClient()
 function vueConseillerClient($client)
 {
     $contenuNavBar = '<a href="?actionConseil=conseiller_deconnection_client"><div class="item">Deconnection Client</div></a>';
-    if(isset($client->id)){
+    if($client == "oskur"){
+        $contenu = $client;
+    }
+    elseif(isset($client->id)){
         $contenu = $client->id;
     }
     require_once 'Vue/gabaritConseille.php';
@@ -204,7 +207,55 @@ function vueConseillerClientDeconnection()
 function vueConseillerInscriptionClient()
 {
     $contenuNavBar = '<a href="?actionConseil=conseiller_login_client"><div class="item">Authentification Client</div></a>';
-    $contenu = 'oskur';
+    $contenu = '<div>
+                    <form method="post" action="sprintBank.php">
+                        <fieldset>
+                            <legend>Inscription Client</legend>
+                            <p>
+                                <label>Nom :</label>
+                                <input type="text" name="nom" required/>
+                            </p>
+                            <p>
+                                <label>Prénom :</label>
+                                <input type="text" name="prenom" required/>
+                            </p>
+                            <p>
+                                <label>Adresse :</label>
+                                <input type="text" name="adresse" required/>
+                            </p>
+                            <p>
+                                <label>Numéro de téléphone :</label>
+                                <input type="tel" name="telephone" required/>
+                            </p>
+                            <p>
+                                <label>E-mail :</label>
+                                <input type="email" name="email" required/>
+                            </p>
+                            <p>
+                                <label>Profession :</label>
+                                <input type="text" name="profession" required/>
+                            </p>
+                            <p>
+                                <label>Situation familiale:</label>
+                                <select name="situation" required>
+                                    <option value="Marié" selected>Marié</option>
+                                    <option value="Célibataire">Célibataire</option>
+                                    <option value="Divorcé">Divorcé</option>
+                                </select>
+                            </p>
+                            <p>
+                                <input type="submit" name="conseillerInscriptionClient" value="Inscrire le Client"/>
+                            </p>
+                        </fieldset>
+                    </form>
+                </div>';
+    require_once 'Vue/gabaritConseille.php';
+}
+
+function vueConseillerMsg($message)
+{
+    $contenuNavBar = '<a href="?actionConseil=conseiller_login_client"><div class="item">Authentification Client</div></a>';
+    $contenu = $message;
     require_once 'Vue/gabaritConseille.php';
 }
 
