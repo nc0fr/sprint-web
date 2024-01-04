@@ -220,7 +220,7 @@ function vueConseillerClient($client, $clientCompte, $clientContrat, $allCompte,
                                                     <input type="text" name="clientId" value="'.$client->id.'" readonly/>
                                                 </p>';
 
-            foreach($clientCompte as $compte){
+            foreach ($clientCompte as $compte) {
                 $contenu = $contenu.'<p>
                                         <input type="radio" name="radioCompte" value="'.$compte->id.'" required/>
                                         Type de Compte : '.$compte->nom.' | Solde : '.$compte->solde.' | Découvert : '.$compte->decouvert.' | Date d'."'".'ouverture : '.$compte->dateOuverture.'/>
@@ -229,7 +229,7 @@ function vueConseillerClient($client, $clientCompte, $clientContrat, $allCompte,
             $contenu = $contenu.'   <input type="submit" name="suppressionCompte" value="Supprimer le compte"/>
                                     <input type="submit" name="pageModificationDecouvert" value="Modifier le découvert"/>
                                 </form></fieldset></div>';
-        }else{
+        } else {
             $contenu = $contenu.'<p>OSKUR</p>';
         }
 
@@ -245,7 +245,7 @@ function vueConseillerClient($client, $clientCompte, $clientContrat, $allCompte,
                                             <label>Type de compte</label>
                                             <select name="compteType" required>';
 
-        foreach($allCompte as $compte){
+        foreach ($allCompte as $compte) {
             $contenu = $contenu.'<option value="'.$compte->nom.'">'.$compte->nom.'</option>';
         }
 
@@ -266,7 +266,7 @@ function vueConseillerClient($client, $clientCompte, $clientContrat, $allCompte,
                                                 <input type="text" name="clientId" value="'.$client->id.'" readonly/>
                                             </p>';
 
-            foreach($clientContrat as $contrat){
+            foreach ($clientContrat as $contrat) {
                 $contenu = $contenu.'<p>
                                         <input type="radio" name="radioContrat" value="'.$contrat->id.'" required/>
                                         Type de Contrat : '.$contrat->nom.' | Tarif Mensuel : '.$contrat->tarifMensuel.' | Date d'."'".'ouverture : '.$contrat->dateOuverture.'
@@ -288,7 +288,7 @@ function vueConseillerClient($client, $clientCompte, $clientContrat, $allCompte,
                                             <label>Type de contrat</label>
                                             <select name="contratType" required>';
 
-        foreach($allContrat as $contrat){
+        foreach ($allContrat as $contrat) {
             $contenu = $contenu.'<option value="'.$contrat->nom.'">'.$contrat->nom.'</option>';
         }
 
@@ -305,7 +305,7 @@ function vueConseillerClient($client, $clientCompte, $clientContrat, $allCompte,
 
         require_once 'Vue/gabaritConseille.php';
     } else {
-        throw new Exception("Aucun client passée en paramètre");
+        throw new Exception('Aucun client passée en paramètre');
     }
 }
 

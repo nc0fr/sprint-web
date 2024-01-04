@@ -168,7 +168,7 @@ function ctrlAjouterType($newType)
             vueMsgDirecteur('Le nom "'.$nom.'" est déjà utilisé pour un type de compte ou contrat');
         }
     } else {
-        throw new Exception("ctrlAjouterType : one of newType field not define or empty");
+        throw new Exception('ctrlAjouterType : one of newType field not define or empty');
     }
 }
 
@@ -249,38 +249,36 @@ function ctrlConseillerPageInscriptionClient()
 function ctrlConseillerInscriptionClient($client)
 {
     mdlInscriptionClient($client);
-    vueConseillerMsg("Le client a été inscrit");
+    vueConseillerMsg('Le client a été inscrit');
 }
 
 function ctrlConseillerCreationCompte($client)
 {
     $compteClient = mdlGetClientCompte($client['clientId']);
     $typePossede = false;
-    foreach($compteClient as $compte){
-        if ($compte->nom == $client['compteType'])
-        {
+    foreach ($compteClient as $compte) {
+        if ($compte->nom == $client['compteType']) {
             $typePossede = true;
         }
     }
-    if (!$typePossede)
-    {
+    if (! $typePossede) {
         mdlCreationCompte($client['clientId'], $client['compteType']);
-        ctrlConseillerClient($client['clientId'], "id");
+        ctrlConseillerClient($client['clientId'], 'id');
     } else {
-        vueConseillerMsg("Le client possède déjà un compte de se type");
+        vueConseillerMsg('Le client possède déjà un compte de se type');
     }
 }
 
 function ctrlConseillerSouscriptionContrat($client)
 {
     mdlSouscriptionContrat($client['clientId'], $client['contratType'], $client['contratTarif']);
-    ctrlConseillerClient($client['clientId'], "id");
+    ctrlConseillerClient($client['clientId'], 'id');
 }
 
 function ctrlConseillerSuppressionCompte($client)
 {
     mdlSuppressionCompte($client['radioCompte']);
-    ctrlConseillerClient($client['clientId'], "id");
+    ctrlConseillerClient($client['clientId'], 'id');
 }
 
 function ctrlConseillerSuppressionContrat($client)
@@ -297,7 +295,7 @@ function ctrlConseillerPageModificationDecouvert($client)
 function ctrlConseillerModificationDecouvert($client)
 {
     mdlModificationDecouvert($client['compteId'], $client['compteDecouvert']);
-    ctrlConseillerClient($client['clientId'], "id");
+    ctrlConseillerClient($client['clientId'], 'id');
 }
 
 //Erreurs

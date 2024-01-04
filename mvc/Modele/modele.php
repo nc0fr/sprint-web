@@ -249,15 +249,12 @@ function mdlGetClient($client, $methode)
 
     $requete = '';
 
-    if($methode == "info")
-    {
+    if ($methode == 'info') {
         $requete = 'SELECT * FROM client WHERE nom="'.$client['clientName'].'" AND prenom="'.$client['clientPrenom'].'" AND mail="'.$client['clientMail'].'"';
-    }
-    elseif ($methode == "id")
-    {
+    } elseif ($methode == 'id') {
         $requete = 'SELECT * FROM client WHERE id='.$client.';';
     } else {
-        throw new Exception("mdlGetClient : var methode not correct (info or id)");
+        throw new Exception('mdlGetClient : var methode not correct (info or id)');
     }
 
     $resultat = $connexion->query($requete);

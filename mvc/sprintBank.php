@@ -42,7 +42,7 @@ try {
             ctrlConseillerPageInscriptionClient();
         }
     } elseif (isset($_POST['conseillerLoginClient'])) {
-        ctrlConseillerClient($_POST, "info");
+        ctrlConseillerClient($_POST, 'info');
     } elseif (isset($_POST['conseillerInscriptionClient'])) {
         ctrlConseillerInscriptionClient($_POST);
     } elseif (isset($_POST['conseillerCreationCompte'])) {
@@ -56,7 +56,7 @@ try {
     } elseif (isset($_POST['pageModificationDecouvert'])) {
         ctrlConseillerPageModificationDecouvert($_POST);
     } elseif (isset($_POST['retourConseillerClient'])) {
-        ctrlConseillerClient($_POST['clientId'], "id");
+        ctrlConseillerClient($_POST['clientId'], 'id');
     } elseif (isset($_POST['modificationDecouvert'])) {
         ctrlConseillerModificationDecouvert($_POST);
     } else {
