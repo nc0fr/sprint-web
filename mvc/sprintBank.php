@@ -45,6 +45,8 @@ try {
         ctrlConseillerClient($_POST);
     } elseif (isset($_POST['conseillerInscriptionClient'])) {
         ctrlConseillerInscriptionClient($_POST);
+    } elseif (isset($_POST['conseillerCreationCompte'])) {
+        ctrlConseillerCreationCompte($_POST);
     } else {
         ctrlPageLogin();
     }

@@ -247,7 +247,7 @@ function mdlGetClient($client)
 {
     $connexion = getConnexion();
 
-    $requete = 'SELECT id FROM client WHERE nom="'.$client['clientName'].'" AND prenom="'.$client['clientPrenom'].'" AND mail="'.$client['clientMail'].'"';
+    $requete = 'SELECT * FROM client WHERE nom="'.$client['clientName'].'" AND prenom="'.$client['clientPrenom'].'" AND mail="'.$client['clientMail'].'"';
     $resultat = $connexion->query($requete);
     $resultat->setFetchMode(PDO::FETCH_OBJ);
     $clientId = $resultat->fetch();
@@ -267,4 +267,57 @@ function mdlInscriptionClient($client)
                 '", "'.$client['profession'].'", "'.$client['situation'].'", NOW())';
     $resultat = $connexion->query($requete);
     $resultat->closeCursor();
+}
+
+function mdlGetClientCompte($client)
+{
+    $connexion = getConnexion();
+
+    $requeteVIEW = 'CREATE OR REPLACE VIEW CompteClient(idCompte) AS
+                    SELECT compte.id FROM compte WHERE compte.id
+                    IN (SELECT aouvert.compte FROM aouvert WHERE aouvert.client = '.$client.');
+
+                    CREATE OR REPLACE VIEW CompteClientType(idCompte, typeCompte) AS
+                    SELECT compteclient.idCompte, estdetypecompte.typeCompte FROM compteclient
+                    INNER JOIN estdetypecompte ON estdetypecompte.compte = compteclient.idCompte;';
+
+    $requete = 'SELECT compte.solde, compte.decouvert, compte.dateOuverture, typeCompte.nom FROM compte
+                INNER JOIN compteclienttype ON compte.id = compteclienttype.idCompte
+                INNER JOIN typeCompte ON typeCompte.id = compteclienttype.typeCompte;';
+
+    $resultat = $connexion->query($requeteVIEW);
+    $resultat->closeCursor();
+    $resultat = $connexion->query($requete);
+    $resultat->setFetchMode(PDO::FETCH_OBJ);
+    $clientCompte = $resultat->fetchAll();
+    $resultat->closeCursor();
+
+    return $clientCompte;
+}
+
+function mdlGetContrat($client)
+{
+    $connexion = getConnexion();
+
+    $requeteVIEW = 'CREATE OR REPLACE VIEW ContratClient(idContrat) AS
+                    SELECT contrat.id FROM contrat WHERE contrat.id
+                    IN (SELECT asouscrit.contrat FROM asouscrit WHERE asouscrit.client = '.$client.');
+
+                    CREATE OR REPLACE VIEW ContratClientType(idContrat, typeContrat) AS
+                    SELECT contratclient.idContrat, estdetypecontrat.typeContrat FROM contratclient
+                    INNER JOIN estdetypecontrat ON estdetypecontrat.contrat = contratclient.idContrat;';
+
+    $requete = 'SELECT contrat.tarifMensuel, contrat.dateOuverture, typecontrat.nom FROM contrat
+                INNER JOIN contratclienttype ON contrat.id = contratclienttype.idContrat
+                INNER JOIN typeContrat ON typeContrat.id = contratclienttype.typeContrat;';
+
+    $resultat = $connexion->query($requeteVIEW);
+    $resultat->closeCursor();
+
+    $resultat = $connexion->query($requete);
+    $resultat->setFetchMode(PDO::FETCH_OBJ);
+    $clientContrat = $resultat->fetchAll();
+    $resultat->closeCursor();
+
+    return $clientContrat;
 }

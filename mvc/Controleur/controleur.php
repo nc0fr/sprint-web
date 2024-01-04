@@ -224,11 +224,15 @@ function ctrlConseillerLoginClient()
 
 function ctrlConseillerClient($client)
 {
-    $clientId = mdlGetClient($client);
-    if($clientId == false){
-        vueConseillerClient("oskur");
-    }else{
-        vueConseillerClient($clientId);
+    $clientInfo = mdlGetClient($client);
+    if ($clientInfo == false) {
+        vueConseillerMsg("Aucun client n'a été trouvé");
+    } else {
+        $compte = mdlGetClientCompte($clientInfo->id);
+        $contrat = mdlGetContrat($clientInfo->id);
+        $allCompte = mdlGetAllTypeAccount();
+        $allContrat = mdlGetAllTypeContract();
+        vueConseillerClient($clientInfo, $compte, $contrat, $allCompte, $allContrat);
     }
 }
 
@@ -246,6 +250,10 @@ function ctrlConseillerInscriptionClient($client)
 {
     mdlInscriptionClient($client);
     vueConseillerMsg("Le client a été inscrit");
+}
+
+function ctrlConseillerCreationCompte($client){
+
 }
 
 //Erreurs

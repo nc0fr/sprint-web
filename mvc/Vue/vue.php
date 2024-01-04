@@ -186,16 +186,106 @@ function vueConseillerLoginClient()
     require_once 'Vue/gabaritConseille.php';
 }
 
-function vueConseillerClient($client)
+function vueConseillerClient($client, $clientCompte, $clientContrat, $allCompte, $allContrat) //TODO Ajouter la recherche de type compte contrat au menu select via requete
 {
     $contenuNavBar = '<a href="?actionConseil=conseiller_deconnection_client"><div class="item">Deconnection Client</div></a>';
-    if($client == "oskur"){
-        $contenu = $client;
+    if (isset($client)) {
+        $contenu = '<div>
+                        <fieldset>
+                            <legend>Client</legend>
+                            <p>
+                                Id : '.$client->id.'
+                            </p>
+                            <p>
+                                Nom : '.$client->nom.'
+                            </p>
+                            <p>
+                                Prénom : '.$client->prenom.'
+                            </p>
+                            <p>
+                                E-mail : '.$client->mail.'
+                            </p>
+                            <p>
+                                Numéro de téléphone : '.$client->numTel.'
+                            </p>
+                        </fieldset>
+                    </div>';
+        if ($clientCompte != false) {
+            $contenu = $contenu.'<div>
+                                    <fieldset>
+                                        <legend>Compte</legend>';
+            foreach($clientCompte as $compte){
+                $contenu = $contenu.'<p>
+                                        Type de Compte : '.$compte->nom.' | Solde : '.$compte->solde.' | Découvert : '.$compte->decouvert.' | Date d'."'".'ouverture : '.$compte->dateOuverture.'
+                                    </p>';
+            }
+            $contenu = $contenu.'</fieldset></div>';
+        }else{
+            $contenu = $contenu.'<p>OSKUR</p>';
+        }
+
+        $contenu = $contenu.'<div>
+                                <form method="post" action="sprintBank.php">
+                                    <fieldset>
+                                        <legend>Ouvrir un compte</legend>
+                                        <p>
+                                            <label>Id Client :</label>
+                                            <input type="text" name="clientId" value="'.$client->id.'" readonly/>
+                                        </p>
+                                        <p>
+                                            <label>Type de compte</label>
+                                            <select name="compteType" required>';
+
+        foreach($allCompte as $compte){
+            $contenu = $contenu.'<option value="'.$compte->nom.'">'.$compte->nom.'</option>';
+        }
+
+        $contenu = $contenu.'               </select>
+                                        </p>
+                                        <input type="submit" name="conseillerCreationCompte" value="Créer le compte"/>
+                                    </fieldset>
+                                </form>
+                            </div>';
+
+        if ($clientContrat != false) {
+            $contenu = $contenu.'<div>
+                                    <fieldset>
+                                        <legend>Contrat</legend>';
+            foreach($clientContrat as $contrat){
+                $contenu = $contenu.'<p>
+                                        Type de Contrat : '.$contrat->nom.' | Tarif Mensuel : '.$contrat->tarifMensuel.' | Date d'."'".'ouverture : '.$contrat->dateOuverture.'
+                                    </p>';
+            }
+            $contenu = $contenu.'</fieldset></div>';
+        }
+
+        $contenu = $contenu.'<div>
+                                <form method="post" action="sprintBank.php">
+                                    <fieldset>
+                                        <legend>Souscrire un contrat</legend>
+                                        <p>
+                                            <label>Id Client :</label>
+                                            <input type="text" name="clientId" value="'.$client->id.'" readonly/>
+                                        </p>
+                                        <p>
+                                            <label>Type de contrat</label>
+                                            <select name="contratType" required>';
+
+        foreach($allContrat as $contrat){
+            $contenu = $contenu.'<option value="'.$contrat->nom.'">'.$contrat->nom.'</option>';
+        }
+
+        $contenu = $contenu.'               </select>
+                                        </p>
+                                        <input type="submit" name="conseillerSouscriptionContrat" value="Souscrire le contrat"/>
+                                    </fieldset>
+                                </form>
+                            </div>';
+
+        require_once 'Vue/gabaritConseille.php';
+    } else {
+        throw new Exception("Aucun client passée en paramètre");
     }
-    elseif(isset($client->id)){
-        $contenu = $client->id;
-    }
-    require_once 'Vue/gabaritConseille.php';
 }
 
 function vueConseillerClientDeconnection()
