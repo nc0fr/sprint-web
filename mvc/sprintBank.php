@@ -49,6 +49,16 @@ try {
         ctrlConseillerCreationCompte($_POST);
     } elseif (isset($_POST['conseillerSouscriptionContrat'])) {
         ctrlConseillerSouscriptionContrat($_POST);
+    } elseif (isset($_POST['suppressionCompte'])) {
+        ctrlConseillerSuppressionCompte($_POST);
+    } elseif (isset($_POST['suppressionContrat'])) {
+        ctrlConseillerSuppressionContrat($_POST);
+    } elseif (isset($_POST['pageModificationDecouvert'])) {
+        ctrlConseillerPageModificationDecouvert($_POST);
+    } elseif (isset($_POST['retourConseillerClient'])) {
+        ctrlConseillerClient($_POST['clientId'], "id");
+    } elseif (isset($_POST['modificationDecouvert'])) {
+        ctrlConseillerModificationDecouvert($_POST);
     } else {
         ctrlPageLogin();
     }

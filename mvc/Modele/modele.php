@@ -293,7 +293,7 @@ function mdlGetClientCompte($client)
                     SELECT compteclient.idCompte, estdetypecompte.typeCompte FROM compteclient
                     INNER JOIN estdetypecompte ON estdetypecompte.compte = compteclient.idCompte;';
 
-    $requete = 'SELECT compte.solde, compte.decouvert, compte.dateOuverture, typeCompte.nom FROM compte
+    $requete = 'SELECT compte.id, compte.solde, compte.decouvert, compte.dateOuverture, typeCompte.nom FROM compte
                 INNER JOIN compteclienttype ON compte.id = compteclienttype.idCompte
                 INNER JOIN typeCompte ON typeCompte.id = compteclienttype.typeCompte;';
 
@@ -319,7 +319,7 @@ function mdlGetClientContrat($client)
                     SELECT contratclient.idContrat, estdetypecontrat.typeContrat FROM contratclient
                     INNER JOIN estdetypecontrat ON estdetypecontrat.contrat = contratclient.idContrat;';
 
-    $requete = 'SELECT contrat.tarifMensuel, contrat.dateOuverture, typecontrat.nom FROM contrat
+    $requete = 'SELECT contrat.id, contrat.tarifMensuel, contrat.dateOuverture, typecontrat.nom FROM contrat
                 INNER JOIN contratclienttype ON contrat.id = contratclienttype.idContrat
                 INNER JOIN typeContrat ON typeContrat.id = contratclienttype.typeContrat;';
 
@@ -355,6 +355,41 @@ function mdlSouscriptionContrat($clientId, $typeContrat, $tarif)
                 SET @contratId = LAST_INSERT_ID();
                 INSERT INTO asouscrit (client, contrat) VALUES ('.$clientId.', @contratId);
                 INSERT INTO estdetypecontrat (contrat, typeContrat) VALUES (@contratId, (SELECT id FROM typeContrat WHERE nom = "'.$typeContrat.'"));';
+
+    $resultat = $connexion->query($requete);
+    $resultat->closeCursor();
+}
+
+function mdlSuppressionCompte($compteId)
+{
+    $connexion = getConnexion();
+
+    $requete = 'DELETE FROM estdetypecompte WHERE compte = '.$compteId.';
+                DELETE FROM aouvert WHERE compte = '.$compteId.';
+                DELETE FROM compte WHERE id = '.$compteId.';';
+
+    $resultat = $connexion->query($requete);
+    $resultat->closeCursor();
+}
+
+function mdlSuppressionContrat($contratId)
+{
+    $connexion = getConnexion();
+
+    $requete = 'DELETE FROM estdetypecontrat WHERE contrat = '.$contratId.';
+                DELETE FROM asouscrit WHERE contrat = '.$contratId.';
+                DELETE FROM contrat WHERE id = '.$contratId.';';
+
+    $resultat = $connexion->query($requete);
+    $resultat->closeCursor();
+}
+
+function mdlModificationDecouvert($compteId, $compteDecouvert)
+{
+    $connexion = getConnexion();
+
+    $requete = 'UPDATE compte SET decouvert = '.$compteDecouvert.'
+                WHERE id = '.$compteId.';';
 
     $resultat = $connexion->query($requete);
     $resultat->closeCursor();

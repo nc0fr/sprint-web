@@ -212,14 +212,23 @@ function vueConseillerClient($client, $clientCompte, $clientContrat, $allCompte,
                     </div>';
         if ($clientCompte != false) {
             $contenu = $contenu.'<div>
-                                    <fieldset>
-                                        <legend>Compte</legend>';
+                                    <form method="post" action="sprintBank.php">
+                                        <fieldset>
+                                            <legend>Compte</legend>
+                                                <p>
+                                                    <label>Id Client :</label>
+                                                    <input type="text" name="clientId" value="'.$client->id.'" readonly/>
+                                                </p>';
+
             foreach($clientCompte as $compte){
                 $contenu = $contenu.'<p>
-                                        Type de Compte : '.$compte->nom.' | Solde : '.$compte->solde.' | Découvert : '.$compte->decouvert.' | Date d'."'".'ouverture : '.$compte->dateOuverture.'
+                                        <input type="radio" name="radioCompte" value="'.$compte->id.'" required/>
+                                        Type de Compte : '.$compte->nom.' | Solde : '.$compte->solde.' | Découvert : '.$compte->decouvert.' | Date d'."'".'ouverture : '.$compte->dateOuverture.'/>
                                     </p>';
             }
-            $contenu = $contenu.'</fieldset></div>';
+            $contenu = $contenu.'   <input type="submit" name="suppressionCompte" value="Supprimer le compte"/>
+                                    <input type="submit" name="pageModificationDecouvert" value="Modifier le découvert"/>
+                                </form></fieldset></div>';
         }else{
             $contenu = $contenu.'<p>OSKUR</p>';
         }
@@ -249,14 +258,22 @@ function vueConseillerClient($client, $clientCompte, $clientContrat, $allCompte,
 
         if ($clientContrat != false) {
             $contenu = $contenu.'<div>
-                                    <fieldset>
-                                        <legend>Contrat</legend>';
+                                    <form method="post" action="sprintBank.php">
+                                        <fieldset>
+                                            <legend>Contrat</legend>
+                                            <p>
+                                                <label>Id Client :</label>
+                                                <input type="text" name="clientId" value="'.$client->id.'" readonly/>
+                                            </p>';
+
             foreach($clientContrat as $contrat){
                 $contenu = $contenu.'<p>
+                                        <input type="radio" name="radioContrat" value="'.$contrat->id.'" required/>
                                         Type de Contrat : '.$contrat->nom.' | Tarif Mensuel : '.$contrat->tarifMensuel.' | Date d'."'".'ouverture : '.$contrat->dateOuverture.'
                                     </p>';
             }
-            $contenu = $contenu.'</fieldset></div>';
+            $contenu = $contenu.'<input type="submit" name="suppressionContrat" value="Supprimer le contrat"/>
+                                </form></fieldset></div>';
         }
 
         $contenu = $contenu.'<div>
@@ -279,7 +296,7 @@ function vueConseillerClient($client, $clientCompte, $clientContrat, $allCompte,
                                         </p>
                                         <p>
                                             <label>Montant du tarif mensuel :</label>
-                                            <input type="number" name="contratTarif" value="75"/>
+                                            <input type="number" name="contratTarif" value="75" required/>
                                         </p>
                                         <input type="submit" name="conseillerSouscriptionContrat" value="Souscrire le contrat"/>
                                     </fieldset>
@@ -350,6 +367,32 @@ function vueConseillerMsg($message)
 {
     $contenuNavBar = '<a href="?actionConseil=conseiller_login_client"><div class="item">Authentification Client</div></a>';
     $contenu = $message;
+    require_once 'Vue/gabaritConseille.php';
+}
+
+function vueConseillerPageModificationDecouvert($clientId, $compteId)
+{
+    $contenuNavBar = '<a href="?actionConseil=conseiller_deconnection_client"><div class="item">Deconnection Client</div></a>';
+    $contenu = '<form method="post" action="sprintBank.php">
+                    <fieldset>
+                        <legend>Modification de découvert</legend>
+                        <p>
+                            <label>Id Client :</label>
+                            <input type="txt" name="clientId" value="'.$clientId.'" readonly/>
+                        </p>
+                        <p>
+                            <label>Id Compte :</label>
+                            <input type="txt" name="compteId" value="'.$compteId.'" readonly/>
+                        </p>
+                        <p>
+                            <label>Nouveau montant de découvert :</label>
+                            <input type="number" name="compteDecouvert" value="-200" max="0" required/>
+                        </p>
+                        <input type="submit" name="modificationDecouvert" value="Changer le découvert"/>
+                        <input type="submit" name="retourConseillerClient" value="Retourner à la page Client"/>
+                    </fieldset>
+                </form>';
+
     require_once 'Vue/gabaritConseille.php';
 }
 
