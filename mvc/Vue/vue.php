@@ -277,6 +277,10 @@ function vueConseillerClient($client, $clientCompte, $clientContrat, $allCompte,
 
         $contenu = $contenu.'               </select>
                                         </p>
+                                        <p>
+                                            <label>Montant du tarif mensuel :</label>
+                                            <input type="number" name="contratTarif" value="75"/>
+                                        </p>
                                         <input type="submit" name="conseillerSouscriptionContrat" value="Souscrire le contrat"/>
                                     </fieldset>
                                 </form>

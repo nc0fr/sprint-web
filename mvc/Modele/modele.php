@@ -243,11 +243,23 @@ function modifierClient($champs, $valeur, $nom, $prenom)
     $resultat->closeCursor();
 }
 
-function mdlGetClient($client)
+function mdlGetClient($client, $methode)
 {
     $connexion = getConnexion();
 
-    $requete = 'SELECT * FROM client WHERE nom="'.$client['clientName'].'" AND prenom="'.$client['clientPrenom'].'" AND mail="'.$client['clientMail'].'"';
+    $requete = '';
+
+    if($methode == "info")
+    {
+        $requete = 'SELECT * FROM client WHERE nom="'.$client['clientName'].'" AND prenom="'.$client['clientPrenom'].'" AND mail="'.$client['clientMail'].'"';
+    }
+    elseif ($methode == "id")
+    {
+        $requete = 'SELECT * FROM client WHERE id='.$client.';';
+    } else {
+        throw new Exception("mdlGetClient : var methode not correct (info or id)");
+    }
+
     $resultat = $connexion->query($requete);
     $resultat->setFetchMode(PDO::FETCH_OBJ);
     $clientId = $resultat->fetch();
@@ -295,7 +307,7 @@ function mdlGetClientCompte($client)
     return $clientCompte;
 }
 
-function mdlGetContrat($client)
+function mdlGetClientContrat($client)
 {
     $connexion = getConnexion();
 
@@ -320,4 +332,30 @@ function mdlGetContrat($client)
     $resultat->closeCursor();
 
     return $clientContrat;
+}
+
+function mdlCreationCompte($clientId, $typeCompte)
+{
+    $connexion = getConnexion();
+
+    $requete = 'INSERT INTO compte (solde, decouvert, dateOuverture) VALUES (0, -200, NOW());
+                SET @compteId = LAST_INSERT_ID();
+                INSERT INTO aouvert (client, compte) VALUES ('.$clientId.', @compteId);
+                INSERT INTO estdetypecompte (compte, typeCompte) VALUES (@compteId, (SELECT id FROM typecompte WHERE nom = "'.$typeCompte.'"));';
+
+    $resultat = $connexion->query($requete);
+    $resultat->closeCursor();
+}
+
+function mdlSouscriptionContrat($clientId, $typeContrat, $tarif)
+{
+    $connexion = getConnexion();
+
+    $requete = 'INSERT INTO contrat (tarifMensuel, dateOuverture) VALUES ('.$tarif.', NOW());
+                SET @contratId = LAST_INSERT_ID();
+                INSERT INTO asouscrit (client, contrat) VALUES ('.$clientId.', @contratId);
+                INSERT INTO estdetypecontrat (contrat, typeContrat) VALUES (@contratId, (SELECT id FROM typeContrat WHERE nom = "'.$typeContrat.'"));';
+
+    $resultat = $connexion->query($requete);
+    $resultat->closeCursor();
 }

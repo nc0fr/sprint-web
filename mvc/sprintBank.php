@@ -42,11 +42,13 @@ try {
             ctrlConseillerPageInscriptionClient();
         }
     } elseif (isset($_POST['conseillerLoginClient'])) {
-        ctrlConseillerClient($_POST);
+        ctrlConseillerClient($_POST, "info");
     } elseif (isset($_POST['conseillerInscriptionClient'])) {
         ctrlConseillerInscriptionClient($_POST);
     } elseif (isset($_POST['conseillerCreationCompte'])) {
         ctrlConseillerCreationCompte($_POST);
+    } elseif (isset($_POST['conseillerSouscriptionContrat'])) {
+        ctrlConseillerSouscriptionContrat($_POST);
     } else {
         ctrlPageLogin();
     }

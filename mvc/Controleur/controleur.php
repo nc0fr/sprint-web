@@ -222,14 +222,14 @@ function ctrlConseillerLoginClient()
     vueConseillerLoginClient();
 }
 
-function ctrlConseillerClient($client)
+function ctrlConseillerClient($client, $methode)
 {
-    $clientInfo = mdlGetClient($client);
+    $clientInfo = mdlGetClient($client, $methode);
     if ($clientInfo == false) {
         vueConseillerMsg("Aucun client n'a été trouvé");
     } else {
         $compte = mdlGetClientCompte($clientInfo->id);
-        $contrat = mdlGetContrat($clientInfo->id);
+        $contrat = mdlGetClientContrat($clientInfo->id);
         $allCompte = mdlGetAllTypeAccount();
         $allContrat = mdlGetAllTypeContract();
         vueConseillerClient($clientInfo, $compte, $contrat, $allCompte, $allContrat);
@@ -252,8 +252,16 @@ function ctrlConseillerInscriptionClient($client)
     vueConseillerMsg("Le client a été inscrit");
 }
 
-function ctrlConseillerCreationCompte($client){
+function ctrlConseillerCreationCompte($client)
+{
+    mdlCreationCompte($client['clientId'], $client['compteType']);
+    ctrlConseillerClient($client['clientId'], "id");
+}
 
+function ctrlConseillerSouscriptionContrat($client)
+{
+    mdlSouscriptionContrat($client['clientId'], $client['contratType'], $client['contratTarif']);
+    ctrlConseillerClient($client['clientId'], "id");
 }
 
 //Erreurs
