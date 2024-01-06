@@ -22,12 +22,13 @@
     <a href="?action3=gestion_comptes_contrats">
         <div class="item">Comptes et contrats</div>
     </a>
-    <div class="item">Statistiques</div>
+    <a href="?action4=statistiques">
+        <div class="item">Statistiques</div>
+    </a>
     <a href="sprintBank.php">
         <div class="logout">Déconnexion</div>
     </a>
 </div>
-
 <!-- TODO : Action pour Comptes et contrats -->
 <?php if (!empty($contenu)) {
     echo $contenu;

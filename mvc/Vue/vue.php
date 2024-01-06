@@ -80,6 +80,24 @@ function vueModifierPiece(array $etat): void
     require_once __DIR__ . '/gabaritDirecteur.php';
 }
 
+function vueStatistiques(
+    float $nbArgent,
+    int $nbCompte,
+    int $nbContrat,
+    int $nbClient,
+    int $nbEmploye,
+): void
+{
+    $contenu = '<fieldset><legend>Statistiques de la banque</legend>';
+    $contenu .= "<p>Nombre d'argent en banque : $nbArgent EUR</p>";
+    $contenu .= "<p>Nombre de comptes : $nbCompte</p>";
+    $contenu .= "<p>Nombre de contrats : $nbContrat</p>";
+    $contenu .= "<p>Nombre de clients : $nbClient</p>";
+    $contenu .= "<p>Nombre d'employés : $nbEmploye</p>";
+    $contenu .= '</fieldset>';
+    require_once __DIR__ . '/gabaritDirecteur.php';
+}
+
 function vueMsgDirecteur(string $msg): void
 {
     $contenu = $msg;

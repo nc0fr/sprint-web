@@ -285,3 +285,48 @@ function modifierClient($champs,
     $resultat = $connexion->query($requete);
     $resultat->closeCursor();
 }
+
+function totalArgent(): float
+{
+    $connexion = getConnexion();
+    $requete = "select sum(solde) from `Compte`;";
+    $resultat = $connexion->query($requete);
+
+    return $resultat->fetchColumn(0);
+}
+
+function nbComptes(): int
+{
+    $connexion = getConnexion();
+    $requete = "select count(id) from `Compte`;";
+    $resultat = $connexion->query($requete);
+
+    return $resultat->fetchColumn(0);
+}
+
+function nbContrats(): int
+{
+    $connexion = getConnexion();
+    $requete = "select count(id) from `Contrat`;";
+    $resultat = $connexion->query($requete);
+
+    return $resultat->fetchColumn(0);
+}
+
+function nbClients(): int
+{
+    $connexion = getConnexion();
+    $requete = "select count(id) from `Client`;";
+    $resultat = $connexion->query($requete);
+
+    return $resultat->fetchColumn(0);
+}
+
+function nbEmployes(): int
+{
+    $connexion = getConnexion();
+    $requete = "select count(id) from `Employe`;";
+    $resultat = $connexion->query($requete);
+
+    return $resultat->fetchColumn(0);
+}

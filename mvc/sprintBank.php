@@ -29,6 +29,8 @@ try {
         ctrlSupprimerTypeAccount($_POST);
     } elseif (isset($_POST['ajouterType'])) {
         ctrlAjouterType($_POST);
+    } elseif (isset($_GET['action4']) == 'statistiques') {
+        ctrlStatistiques();
     } else {
         ctrlPageLogin();
     }
