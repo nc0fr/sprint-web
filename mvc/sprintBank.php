@@ -31,6 +31,49 @@ try {
         ctrlAjouterType($_POST);
     } elseif (isset($_GET['action4']) == 'statistiques') {
         ctrlStatistiques();
+
+    } elseif (isset($_GET['action4']) == 'operations') {
+        if (isset($_POST['choixclientoperations'])) {
+            ctrlOperations();
+        } elseif (isset($_POST['choixcompteoperations'])) {
+            ctrlEffectuerOperation();
+        } else {
+            ctrlPageOperations();
+        }
+
+    } elseif (isset($_GET['action5']) == 'synthese') {
+        if (isset($_POST['clientsynthese'])) {
+            ctrlSynthese();
+        } else {
+            ctrlPageSynthese();
+        }
+
+    } elseif (isset($_GET['actionConseil'])) {
+        if ($_GET['actionConseil'] == 'conseiller_login_client') {
+            ctrlConseillerLoginClient();
+        } elseif ($_GET['actionConseil'] == 'conseiller_deconnection_client') {
+            ctrlConseillerClientDeconnection();
+        } elseif ($_GET['actionConseil'] == 'conseiller_inscription_client') {
+            ctrlConseillerPageInscriptionClient();
+        }
+    } elseif (isset($_POST['conseillerLoginClient'])) {
+        ctrlConseillerClient($_POST, 'info');
+    } elseif (isset($_POST['conseillerInscriptionClient'])) {
+        ctrlConseillerInscriptionClient($_POST);
+    } elseif (isset($_POST['conseillerCreationCompte'])) {
+        ctrlConseillerCreationCompte($_POST);
+    } elseif (isset($_POST['conseillerSouscriptionContrat'])) {
+        ctrlConseillerSouscriptionContrat($_POST);
+    } elseif (isset($_POST['suppressionCompte'])) {
+        ctrlConseillerSuppressionCompte($_POST);
+    } elseif (isset($_POST['suppressionContrat'])) {
+        ctrlConseillerSuppressionContrat($_POST);
+    } elseif (isset($_POST['pageModificationDecouvert'])) {
+        ctrlConseillerPageModificationDecouvert($_POST);
+    } elseif (isset($_POST['retourConseillerClient'])) {
+        ctrlConseillerClient($_POST['clientId'], 'id');
+    } elseif (isset($_POST['modificationDecouvert'])) {
+        ctrlConseillerModificationDecouvert($_POST);
     } else {
         ctrlPageLogin();
     }

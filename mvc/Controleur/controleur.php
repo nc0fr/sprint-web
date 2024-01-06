@@ -13,10 +13,8 @@ function ctrlVerifierId(): void
 {
     $usr = $_POST['login'];
     $mdp = $_POST['mdp'];
-
     $ligne = verifierLogin($usr, $mdp);
-
-    if (! $ligne) {
+    if ($ligne == false) {
         erreurId();
     } elseif ($ligne->type == 'DIRECTEUR') {
         pageDirecteur($ligne->nom, $ligne->prenom, $ligne->type);
@@ -28,12 +26,12 @@ function ctrlVerifierId(): void
 }
 
 //Gestion des employés
-function ctrlGestion(): void
+function ctrlGestion()
 {
     pageGestion();
 }
 
-function ctrlAjouterEmploye(): void
+function ctrlAjouterEmploye()
 {
     $nom = $_POST['nom'];
     $prenom = $_POST['prenom'];
@@ -41,12 +39,10 @@ function ctrlAjouterEmploye(): void
     $mdp = $_POST['mdp'];
     $dateEmbauche = $_POST['dateembauche'];
     $type = $_POST['poste'];
-
     $ensemble = verifierAvantAjout($nom, $prenom, $login);
-
-    if ($ensemble['personne']) {
+    if ($ensemble['personne'] != false) {
         msgGestionEmployes('Personne déjà existante !');
-    } elseif ($ensemble['login']) {
+    } elseif ($ensemble['login'] != false) {
         msgGestionEmployes('Login déjà utilisé !');
     } else {
         ajouterEmploye($nom, $prenom, $login, $mdp, $dateEmbauche, $type);
@@ -54,18 +50,16 @@ function ctrlAjouterEmploye(): void
     }
 }
 
-function ctrlModifierEmploye(): void
+function ctrlModifierEmploye()
 {
     $login = $_POST['login'];
     $mdp = $_POST['mdp'];
     $nom = $_POST['nom'];
     $prenom = $_POST['prenom'];
-
     $ensemble = verifierAvantAjout($nom, $prenom, $login);
-
-    if (! $ensemble['personne']) {
+    if ($ensemble['personne'] == false) {
         msgGestionEmployes('Aucun employé ne correspond à votre saisis.');
-    } elseif ($ensemble['login']) {
+    } elseif ($ensemble['login'] != false) {
         msgGestionEmployes('Login déjà utilisé !');
     } else {
         modifierEmploye($login, $mdp, $nom, $prenom);
@@ -73,15 +67,15 @@ function ctrlModifierEmploye(): void
     }
 }
 
-function ctrlGetAllMotif(): void
+function ctrlGetAllMotif()
 {
-    vueGetAllMotif(mdlGetAllMotif());
+    $motif = mdlGetAllMotif();
+    vueGetAllMotif($motif);
 }
 
-function ctrlModifierPiece($motif): void
+function ctrlModifierPiece($motif)
 {
-    if (isset($motif['modifier'])
-        && isset($motif['valeurModifier'])) {
+    if (isset($motif['modifier']) && isset($motif['valeurModifier'])) {
 
         if (strlen($motif['valeurModifier']) > 0) {
 
@@ -100,7 +94,7 @@ function ctrlModifierPiece($motif): void
 }
 
 //Comptes et contrats
-function ctrlGetAllTypeAccountContract(): void
+function ctrlGetAllTypeAccountContract()
 {
     $account = mdlGetAllTypeAccount();
     $contract = mdlGetAllTypeContract();
@@ -108,14 +102,14 @@ function ctrlGetAllTypeAccountContract(): void
     vueGetAllTypeAccountContract($account, $contract);
 }
 
-function ctrlSupprimerTypeAccount($type): void
+function ctrlSupprimerTypeAccount($type)
 {
     if (isset($type['account'])) {
         try {
 
             $result = mdlTypeIsAssign($type['account'], 'account');
 
-            if (! $result) {
+            if ($result == false) {
 
                 $name = mdlGetTypeById($type['account'], 'account')->nom;
                 mdlSupprimerMotif($name);
@@ -133,7 +127,7 @@ function ctrlSupprimerTypeAccount($type): void
 
             $result = mdlTypeIsAssign($type['contract'], 'contract');
 
-            if (! $result) {
+            if ($result == false) {
 
                 $name = mdlGetTypeById($type['contract'], 'contract')->nom;
                 mdlSupprimerMotif($name);
@@ -150,10 +144,7 @@ function ctrlSupprimerTypeAccount($type): void
     }
 }
 
-/**
- * @throws Exception
- */
-function ctrlAjouterType($newType): void
+function ctrlAjouterType($newType)
 {
 
     if (
@@ -167,8 +158,8 @@ function ctrlAjouterType($newType): void
         $pieceModification = $newType['pieceModification'];
         $pieceSuppression = $newType['pieceSuppression'];
 
-        if (! mdlGetTypeByName($nom, 'account')
-            && ! mdlGetTypeByName($nom, 'contract')) {
+        if (mdlGetTypeByName($nom, 'account') == false
+            && mdlGetTypeByName($nom, 'contract') == false) {
 
             mdlAjouterType($nature, $nom, $pieceCreation, $pieceModification, $pieceSuppression);
 
@@ -183,17 +174,17 @@ function ctrlAjouterType($newType): void
 
 //Agent -> Modification clients
 
-function ctrlGestionClients(): void
+function ctrlGestionClients()
 {
     pageGestionClients();
 }
 
-function ctrlModifierClient(): void
+function ctrlModifierClient()
 {
     $nom = $_POST['nom'];
     $prenom = $_POST['prenom'];
     $ligne = rechercheClient($nom, $prenom);
-    if ($ligne) {
+    if ($ligne != false) {
         $changements = 'Changements effectués pour '.$nom.' '.$prenom.' : ';
         if (! empty($_POST['adresse'])) {
             modifierClient('adresse', $_POST['adresse'], $nom, $prenom);
@@ -226,6 +217,155 @@ function ctrlModifierClient(): void
     }
 }
 
+//AGENT -> OPERATIONS
+
+function ctrlPageOperations()
+{
+    pageOperations();
+}
+
+function ctrlOperations()
+{
+    $nom = $_POST['nom'];
+    $prenom = $_POST['prenom'];
+    $ligne = rechercheClient($nom, $prenom);
+    if ($ligne == false) {
+        msgOperations('<p>
+            Aucun client trouvé, vérifiez votre saisie.</p>
+            <p><input type="submit" name="reessayer" value="Réessayer"></p>');
+    } else {
+        $ligne = typeCompte($nom, $prenom);
+        pageOperationsCompte($ligne);
+    }
+}
+
+function ctrlEffectuerOperation()
+{
+    $idcompte = $_POST['choixcompte'];
+    $montant = $_POST['montant'];
+    $op = $_POST['choixoperation'];
+    $ligne = verifierDecouvert($idcompte);
+    $solde = $ligne->solde;
+    $decouvert = $ligne->decouvert;
+    if ($op == 'RETRAIT') {
+        if ($solde - $montant < $decouvert) {
+            msgOperations('<p>
+            Impossible d\'effectuer l\'opération : Découvert dépassé.</p>
+            <p><input type="submit" name="nouvelleope" value="Nouvelle opération"></p>');
+
+            return;
+        }
+    }
+    effectuerOperation($idcompte, $montant, $op);
+    msgOperations('<p>
+        Vous avez effectué un '.$op.' de '.$montant.' Euro sur le compte N° '.$idcompte.'</p>
+        <p><input type="submit" name="nouvelleope" value="Nouvelle opération"></p>');
+
+}
+
+//AGENT -> Synthese Client
+
+function ctrlPageSynthese()
+{
+    pageSynthese();
+}
+
+function ctrlSynthese()
+{
+    $nom = $_POST['nom'];
+    $prenom = $_POST['prenom'];
+    $ligne = rechercheClient($nom, $prenom);
+    if ($ligne == false) {
+        msgSynthese('<p>
+        Aucun client trouvé, vérifiez votre saisie.</p>
+        <p><input type="submit" name="reessayer" value="Réessayer"></p>');
+    } else {
+        $infos = syntheseClient($nom, $prenom);
+        infosClient($infos);
+    }
+
+    function ctrlConseillerLoginClient()
+    {
+        vueConseillerLoginClient();
+    }
+
+    function ctrlConseillerClient($client, $methode)
+    {
+        $clientInfo = mdlGetClient($client, $methode);
+        if ($clientInfo == false) {
+            vueConseillerMsg("Aucun client n'a été trouvé");
+        } else {
+            $compte = mdlGetClientCompte($clientInfo->id);
+            $contrat = mdlGetClientContrat($clientInfo->id);
+            $allCompte = mdlGetAllTypeAccount();
+            $allContrat = mdlGetAllTypeContract();
+            vueConseillerClient($clientInfo, $compte, $contrat, $allCompte, $allContrat);
+        }
+    }
+
+    function ctrlConseillerClientDeconnection()
+    {
+        vueConseillerClientDeconnection();
+    }
+
+    function ctrlConseillerPageInscriptionClient()
+    {
+        vueConseillerInscriptionClient();
+    }
+
+    function ctrlConseillerInscriptionClient($client)
+    {
+        mdlInscriptionClient($client);
+        vueConseillerMsg('Le client a été inscrit');
+    }
+
+    function ctrlConseillerCreationCompte($client)
+    {
+        $compteClient = mdlGetClientCompte($client['clientId']);
+        $typePossede = false;
+        foreach ($compteClient as $compte) {
+            if ($compte->nom == $client['compteType']) {
+                $typePossede = true;
+            }
+        }
+        if (! $typePossede) {
+            mdlCreationCompte($client['clientId'], $client['compteType']);
+            ctrlConseillerClient($client['clientId'], 'id');
+        } else {
+            vueConseillerMsg('Le client possède déjà un compte de se type');
+        }
+    }
+
+    function ctrlConseillerSouscriptionContrat($client)
+    {
+        mdlSouscriptionContrat($client['clientId'], $client['contratType'], $client['contratTarif']);
+        ctrlConseillerClient($client['clientId'], 'id');
+    }
+
+    function ctrlConseillerSuppressionCompte($client)
+    {
+        mdlSuppressionCompte($client['radioCompte']);
+        ctrlConseillerClient($client['clientId'], 'id');
+    }
+
+    function ctrlConseillerSuppressionContrat($client)
+    {
+        mdlSuppressionContrat($client['radioContrat']);
+        ctrlConseillerClient($client['clientId'], 'id');
+    }
+
+    function ctrlConseillerPageModificationDecouvert($client)
+    {
+        vueConseillerPageModificationDecouvert($client['clientId'], $client['radioCompte']);
+    }
+
+    function ctrlConseillerModificationDecouvert($client)
+    {
+        mdlModificationDecouvert($client['compteId'], $client['compteDecouvert']);
+        ctrlConseillerClient($client['clientId'], 'id');
+
+    }
+
 function ctrlStatistiques(): void
 {
     $argent = totalArgent();
@@ -240,4 +380,4 @@ function ctrlStatistiques(): void
 function ctrlErreur($erreur): void
 {
     afficherErreur($erreur);
-}
+}}
