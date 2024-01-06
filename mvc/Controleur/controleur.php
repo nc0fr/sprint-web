@@ -366,18 +366,19 @@ function ctrlSynthese()
 
     }
 
-function ctrlStatistiques(): void
-{
-    $argent = totalArgent();
-    $comptes = nbComptes();
-    $contrats = nbContrats();
-    $clients = nbClients();
-    $employes = nbEmployes();
-    vueStatistiques($argent, $comptes, $contrats, $clients, $employes);
-}
+    function ctrlStatistiques(): void
+    {
+        $argent = totalArgent();
+        $comptes = nbComptes();
+        $contrats = nbContrats();
+        $clients = nbClients();
+        $employes = nbEmployes();
+        vueStatistiques($argent, $comptes, $contrats, $clients, $employes);
+    }
 
-//Erreurs
-function ctrlErreur($erreur): void
-{
-    afficherErreur($erreur);
-}}
+    //Erreurs
+    function ctrlErreur($erreur): void
+    {
+        afficherErreur($erreur);
+    }
+}
