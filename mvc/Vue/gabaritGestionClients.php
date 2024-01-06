@@ -16,7 +16,7 @@
       </div>
       <form method="post" class="formulaire">
         <?php
-        if (isset($contenu)) {
+        if (!empty($contenu)) {
             echo '<p>'.$contenu.'</p>';
         }
         ?>

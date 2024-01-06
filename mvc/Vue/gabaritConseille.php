@@ -7,7 +7,9 @@
     </head>
     <body>
     <div class="navbar">
-      <div class="infos"><?php echo $contenu; ?></div>
+      <div class="infos"><?php if (!empty($contenu)) {
+              echo $contenu;
+          } ?></div>
       <div class="item">Interface 1</div>
       <div class="item">Interface 2</div>
       <div class="item">Interface 3</div>

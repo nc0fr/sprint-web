@@ -7,7 +7,9 @@
     </head>
     <body>
     <div class="navbar">
-      <div class="infos"><?php echo $contenu; ?></div>
+      <div class="infos"><?php if (!empty($contenu)) {
+              echo $contenu;
+          } ?></div>
       <a href="?action2=gestion_clients"><div class="item">Modifier client</div></a>
       <div class="item">Synthèse client</div>
       <div class="item">Effectuer opération</div>

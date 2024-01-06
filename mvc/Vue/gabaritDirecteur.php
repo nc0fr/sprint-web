@@ -8,7 +8,7 @@
     </head>
     <body>
     <div class="navbar">
-      <div class="infos"><?php if (isset($contenu1)) {
+      <div class="infos"><?php if (!empty($contenu1)) {
           echo $contenu1;
       } ?></div>
       <a href="?action=gestion_employes"><div class="item">Gestion des employés</div></a>
@@ -17,8 +17,9 @@
       <div class="item">Statistiques</div>
       <a href="sprintBank.php"><div class="logout">Déconnexion</div></a>
     </div>
-//TODO : Action pour Comptes et contrats
-      <?php if (isset($contenu)) {
+
+    <!-- TODO : Action pour Comptes et contrats -->
+      <?php if (!empty($contenu)) {
           echo $contenu;
       } ?>
     </body>

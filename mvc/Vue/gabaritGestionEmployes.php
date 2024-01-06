@@ -16,9 +16,6 @@
         <div class="item">Statistiques</div>
         <a href="sprintBank.php"><div class="logout">Déconnexion</div></a>
         </div>
-
-
-
         <form method="post" class="formulaire">
           <fieldset class="ajouter">
           <h2>Ajouter Employé</h2>
@@ -33,13 +30,7 @@
           <p><input type="submit" name="ajtemploye" value="Ajouter"></p>
           </fieldset>
         </form>
-        <?php
-        if (isset($contenu)) {
-            echo '<p>'.$contenu.'</p>';
-        }
-        ?>
-
-
+        <?php if (!empty($contenu)) { echo '<p>'.$contenu.'</p>'; } ?>
         <form method="post" class="formulaire">
           <fieldset class="modifier">
           <h2>Modifier Identifiants</h2>

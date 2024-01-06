@@ -17,7 +17,9 @@
 
         </form>
       </div>
-      <?php echo $contenu; ?>
+      <?php if (!empty($contenu)) {
+          echo $contenu;
+      } ?>
     </body>
 </html>
 
