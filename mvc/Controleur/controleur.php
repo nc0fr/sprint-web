@@ -13,7 +13,9 @@ function ctrlVerifierId(): void
 {
     $usr = $_POST['login'];
     $mdp = $_POST['mdp'];
+
     $ligne = verifierLogin($usr, $mdp);
+
     if (!$ligne) {
         erreurId();
     } elseif ($ligne->type == 'DIRECTEUR') {

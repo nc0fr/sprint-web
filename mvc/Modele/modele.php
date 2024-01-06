@@ -4,17 +4,24 @@ require_once __DIR__ . '/../Modele/connect.php';
 
 function getConnexion(): PDO
 {
-    $connexion = new PDO('mysql:host='.SERVEUR.';dbname='.BDD, USER, PASSWORD);
-    $connexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    $host = SERVEUR;
+    $dbname = BDD;
+    $user = USER;
+    $passwd = PASSWORD;
+    $connexion = new PDO("mysql:host=$host;dbname=$dbname",
+                         $user, $passwd);
+    $connexion->setAttribute(PDO::ATTR_ERRMODE,
+        PDO::ERRMODE_EXCEPTION);
     $connexion->query('SET NAMES UTF8');
 
     return $connexion;
 }
 
-function verifierLogin($usr, $mdp)
+function verifierLogin(string $usr,
+                       string $mdp)
 {
     $connexion = getConnexion();
-    $requete = "select login,mdp,nom,prenom,type from employe where login='$usr' and mdp='$mdp'";
+    $requete = "select login, mdp, nom, prenom, type from `Employe` where login='$usr' and mdp='$mdp'";
 
     $resultat = $connexion->query($requete);
     $resultat->setFetchMode(PDO::FETCH_OBJ);
@@ -26,12 +33,12 @@ function verifierLogin($usr, $mdp)
     return $ligne;
 }
 
-function verifierAvantAjout($nom,
-                            $prenom,
-                            $login): array
+function verifierAvantAjout(string $nom,
+                            string $prenom,
+                            string $login): array
 {
     $connexion = getConnexion();
-    $requete = "select nom,prenom from employe where nom='$nom' and prenom='$prenom'";
+    $requete = "select nom, prenom from `Employe` where nom='$nom' and prenom='$prenom'";
 
     $resultat = $connexion->query($requete);
     $resultat->setFetchMode(PDO::FETCH_OBJ);

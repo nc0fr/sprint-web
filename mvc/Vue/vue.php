@@ -177,7 +177,7 @@ function pageGestionClients(): void
 }
 
 //Erreurs PHP
-function afficherErreur(Exception $erreur): void
+function afficherErreur(string $erreur): void
 {
     $contenu = '<p>'.$erreur.'</p>';
     require_once __DIR__. '/gabaritLogin.php';

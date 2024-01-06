@@ -8,7 +8,6 @@ try {
     } elseif (isset($_GET['action1']) == 'gestion_motifs') {
         ctrlGetAllMotif();
     } elseif (isset($_POST['modifierPiece'])) {
-
         ctrlModifierPiece($_POST);
     } elseif (isset($_GET['action']) == 'gestion_employes') {
         if (isset($_POST['ajtemploye'])) {
@@ -25,13 +24,10 @@ try {
             ctrlGestionClients();
         }
     } elseif (isset($_GET['action3']) == 'gestion_comptes_contrats') {
-
         ctrlGetAllTypeAccountContract();
     } elseif (isset($_POST['supprimerType'])) {
-
         ctrlSupprimerTypeAccount($_POST);
     } elseif (isset($_POST['ajouterType'])) {
-
         ctrlAjouterType($_POST);
     } else {
         ctrlPageLogin();
