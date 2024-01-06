@@ -75,8 +75,7 @@ function ctrlModifierEmploye(): void
 
 function ctrlGetAllMotif(): void
 {
-    $motif = mdlGetAllMotif();
-    vueGetAllMotif($motif);
+    vueGetAllMotif(mdlGetAllMotif());
 }
 
 function ctrlModifierPiece($motif): void
