@@ -284,90 +284,91 @@ function ctrlSynthese()
         infosClient($infos);
     }
 
-function ctrlConseillerLoginClient()
-{
-    vueConseillerLoginClient();
-}
-
-function ctrlConseillerClient($client, $methode)
-{
-    $clientInfo = mdlGetClient($client, $methode);
-    if ($clientInfo == false) {
-        vueConseillerMsg("Aucun client n'a été trouvé");
-    } else {
-        $compte = mdlGetClientCompte($clientInfo->id);
-        $contrat = mdlGetClientContrat($clientInfo->id);
-        $allCompte = mdlGetAllTypeAccount();
-        $allContrat = mdlGetAllTypeContract();
-        vueConseillerClient($clientInfo, $compte, $contrat, $allCompte, $allContrat);
+    function ctrlConseillerLoginClient()
+    {
+        vueConseillerLoginClient();
     }
-}
 
-function ctrlConseillerClientDeconnection()
-{
-    vueConseillerClientDeconnection();
-}
-
-function ctrlConseillerPageInscriptionClient()
-{
-    vueConseillerInscriptionClient();
-}
-
-function ctrlConseillerInscriptionClient($client)
-{
-    mdlInscriptionClient($client);
-    vueConseillerMsg('Le client a été inscrit');
-}
-
-function ctrlConseillerCreationCompte($client)
-{
-    $compteClient = mdlGetClientCompte($client['clientId']);
-    $typePossede = false;
-    foreach ($compteClient as $compte) {
-        if ($compte->nom == $client['compteType']) {
-            $typePossede = true;
+    function ctrlConseillerClient($client, $methode)
+    {
+        $clientInfo = mdlGetClient($client, $methode);
+        if ($clientInfo == false) {
+            vueConseillerMsg("Aucun client n'a été trouvé");
+        } else {
+            $compte = mdlGetClientCompte($clientInfo->id);
+            $contrat = mdlGetClientContrat($clientInfo->id);
+            $allCompte = mdlGetAllTypeAccount();
+            $allContrat = mdlGetAllTypeContract();
+            vueConseillerClient($clientInfo, $compte, $contrat, $allCompte, $allContrat);
         }
     }
-    if (! $typePossede) {
-        mdlCreationCompte($client['clientId'], $client['compteType']);
-        ctrlConseillerClient($client['clientId'], 'id');
-    } else {
-        vueConseillerMsg('Le client possède déjà un compte de se type');
+
+    function ctrlConseillerClientDeconnection()
+    {
+        vueConseillerClientDeconnection();
     }
-}
 
-function ctrlConseillerSouscriptionContrat($client)
-{
-    mdlSouscriptionContrat($client['clientId'], $client['contratType'], $client['contratTarif']);
-    ctrlConseillerClient($client['clientId'], 'id');
-}
+    function ctrlConseillerPageInscriptionClient()
+    {
+        vueConseillerInscriptionClient();
+    }
 
-function ctrlConseillerSuppressionCompte($client)
-{
-    mdlSuppressionCompte($client['radioCompte']);
-    ctrlConseillerClient($client['clientId'], 'id');
-}
+    function ctrlConseillerInscriptionClient($client)
+    {
+        mdlInscriptionClient($client);
+        vueConseillerMsg('Le client a été inscrit');
+    }
 
-function ctrlConseillerSuppressionContrat($client)
-{
-    mdlSuppressionContrat($client['radioContrat']);
-    ctrlConseillerClient($client['clientId'], 'id');
-}
+    function ctrlConseillerCreationCompte($client)
+    {
+        $compteClient = mdlGetClientCompte($client['clientId']);
+        $typePossede = false;
+        foreach ($compteClient as $compte) {
+            if ($compte->nom == $client['compteType']) {
+                $typePossede = true;
+            }
+        }
+        if (! $typePossede) {
+            mdlCreationCompte($client['clientId'], $client['compteType']);
+            ctrlConseillerClient($client['clientId'], 'id');
+        } else {
+            vueConseillerMsg('Le client possède déjà un compte de se type');
+        }
+    }
 
-function ctrlConseillerPageModificationDecouvert($client)
-{
-    vueConseillerPageModificationDecouvert($client['clientId'], $client['radioCompte']);
-}
+    function ctrlConseillerSouscriptionContrat($client)
+    {
+        mdlSouscriptionContrat($client['clientId'], $client['contratType'], $client['contratTarif']);
+        ctrlConseillerClient($client['clientId'], 'id');
+    }
 
-function ctrlConseillerModificationDecouvert($client)
-{
-    mdlModificationDecouvert($client['compteId'], $client['compteDecouvert']);
-    ctrlConseillerClient($client['clientId'], 'id');
+    function ctrlConseillerSuppressionCompte($client)
+    {
+        mdlSuppressionCompte($client['radioCompte']);
+        ctrlConseillerClient($client['clientId'], 'id');
+    }
 
-}
+    function ctrlConseillerSuppressionContrat($client)
+    {
+        mdlSuppressionContrat($client['radioContrat']);
+        ctrlConseillerClient($client['clientId'], 'id');
+    }
 
-//Erreurs
-function ctrlErreur($erreur)
-{
-    afficherErreur($erreur);
+    function ctrlConseillerPageModificationDecouvert($client)
+    {
+        vueConseillerPageModificationDecouvert($client['clientId'], $client['radioCompte']);
+    }
+
+    function ctrlConseillerModificationDecouvert($client)
+    {
+        mdlModificationDecouvert($client['compteId'], $client['compteDecouvert']);
+        ctrlConseillerClient($client['clientId'], 'id');
+
+    }
+
+    //Erreurs
+    function ctrlErreur($erreur)
+    {
+        afficherErreur($erreur);
+    }
 }
