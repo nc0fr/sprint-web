@@ -9,7 +9,7 @@
 <body>
 <div class="navbar">
     <div class="infos">
-        <?php if (!empty($contenu1)) {
+        <?php if (! empty($contenu1)) {
             echo $contenu1;
         } ?>
     </div>
@@ -30,7 +30,7 @@
     </a>
 </div>
 <!-- TODO : Action pour Comptes et contrats -->
-<?php if (!empty($contenu)) {
+<?php if (! empty($contenu)) {
     echo $contenu;
 } ?>
 </body>

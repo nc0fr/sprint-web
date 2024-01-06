@@ -8,7 +8,7 @@
 <body>
 <div class="navbar">
     <div class="infos">
-        <?php if (!empty($contenu)) {
+        <?php if (! empty($contenu)) {
             echo $contenu;
         } ?>
     </div>

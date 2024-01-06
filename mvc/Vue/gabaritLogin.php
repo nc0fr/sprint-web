@@ -28,7 +28,7 @@
                class="boutton">
     </form>
 </div>
-<?php if (!empty($contenu)) {
+<?php if (! empty($contenu)) {
     echo $contenu;
 } ?>
 </body>

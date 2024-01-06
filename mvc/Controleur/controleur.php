@@ -1,7 +1,7 @@
 <?php
 
-require_once __DIR__ . '/../Modele/modele.php';
-require_once __DIR__ . '/../Vue/vue.php';
+require_once __DIR__.'/../Modele/modele.php';
+require_once __DIR__.'/../Vue/vue.php';
 
 //Page login
 function ctrlPageLogin(): void
@@ -16,7 +16,7 @@ function ctrlVerifierId(): void
 
     $ligne = verifierLogin($usr, $mdp);
 
-    if (!$ligne) {
+    if (! $ligne) {
         erreurId();
     } elseif ($ligne->type == 'DIRECTEUR') {
         pageDirecteur($ligne->nom, $ligne->prenom, $ligne->type);
@@ -63,7 +63,7 @@ function ctrlModifierEmploye(): void
 
     $ensemble = verifierAvantAjout($nom, $prenom, $login);
 
-    if (!$ensemble['personne']) {
+    if (! $ensemble['personne']) {
         msgGestionEmployes('Aucun employé ne correspond à votre saisis.');
     } elseif ($ensemble['login']) {
         msgGestionEmployes('Login déjà utilisé !');
@@ -115,7 +115,7 @@ function ctrlSupprimerTypeAccount($type): void
 
             $result = mdlTypeIsAssign($type['account'], 'account');
 
-            if (!$result) {
+            if (! $result) {
 
                 $name = mdlGetTypeById($type['account'], 'account')->nom;
                 mdlSupprimerMotif($name);
@@ -133,7 +133,7 @@ function ctrlSupprimerTypeAccount($type): void
 
             $result = mdlTypeIsAssign($type['contract'], 'contract');
 
-            if (!$result) {
+            if (! $result) {
 
                 $name = mdlGetTypeById($type['contract'], 'contract')->nom;
                 mdlSupprimerMotif($name);
@@ -167,8 +167,8 @@ function ctrlAjouterType($newType): void
         $pieceModification = $newType['pieceModification'];
         $pieceSuppression = $newType['pieceSuppression'];
 
-        if (!mdlGetTypeByName($nom, 'account')
-            && !mdlGetTypeByName($nom, 'contract')) {
+        if (! mdlGetTypeByName($nom, 'account')
+            && ! mdlGetTypeByName($nom, 'contract')) {
 
             mdlAjouterType($nature, $nom, $pieceCreation, $pieceModification, $pieceSuppression);
 

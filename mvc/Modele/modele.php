@@ -1,6 +1,6 @@
 <?php
 
-require_once __DIR__ . '/../Modele/connect.php';
+require_once __DIR__.'/../Modele/connect.php';
 
 function getConnexion(): PDO
 {
@@ -9,7 +9,7 @@ function getConnexion(): PDO
     $user = USER;
     $passwd = PASSWORD;
     $connexion = new PDO("mysql:host=$host;dbname=$dbname",
-                         $user, $passwd);
+        $user, $passwd);
     $connexion->setAttribute(PDO::ATTR_ERRMODE,
         PDO::ERRMODE_EXCEPTION);
     $connexion->query('SET NAMES UTF8');
@@ -18,7 +18,7 @@ function getConnexion(): PDO
 }
 
 function verifierLogin(string $usr,
-                       string $mdp)
+    string $mdp)
 {
     $connexion = getConnexion();
     $requete = "select login, mdp, nom, prenom, type from `Employe` where login='$usr' and mdp='$mdp'";
@@ -34,8 +34,8 @@ function verifierLogin(string $usr,
 }
 
 function verifierAvantAjout(string $nom,
-                            string $prenom,
-                            string $login): array
+    string $prenom,
+    string $login): array
 {
     $connexion = getConnexion();
     $requete = "select nom, prenom from `Employe` where nom='$nom' and prenom='$prenom'";
@@ -58,11 +58,11 @@ function verifierAvantAjout(string $nom,
 }
 
 function ajouterEmploye($nom,
-                        $prenom,
-                        $login,
-                        $mdp,
-                        $dateEmbauche,
-                        $type): void
+    $prenom,
+    $login,
+    $mdp,
+    $dateEmbauche,
+    $type): void
 {
     $connexion = getConnexion();
     $requete = "insert into `Employe` (NOM, PRENOM, LOGIN, MDP, DATEEMBAUCHE, TYPE) values ('$nom', '$prenom', '$login', '$mdp', '$dateEmbauche', '$type')";
@@ -160,18 +160,18 @@ function mdlGetTypeByName($name, $type)
 }
 
 function mdlAjouterType($nature,
-                        $nom,
-                        $pieceCreation,
-                        $pieceModification,
-                        $pieceSuppression): void
+    $nom,
+    $pieceCreation,
+    $pieceModification,
+    $pieceSuppression): void
 {
     $connexion = getConnexion();
 
     $table = $nature == 'Compte' ? 'TypeCompte' : 'TypeContrat';
 
     $requete = "insert into `$table` (nom) values ('$nom');"
-               . "insert into motif(libelle,justificatifs) values ('Création d\'un $nom', '$pieceCreation'),"
-               . "('Modification d\'un $nom' ,'$pieceModification'), ('Suppression d\'un $nom', '$pieceSuppression');";
+               ."insert into motif(libelle,justificatifs) values ('Création d\'un $nom', '$pieceCreation'),"
+               ."('Modification d\'un $nom' ,'$pieceModification'), ('Suppression d\'un $nom', '$pieceSuppression');";
 
     $resultat = $connexion->query($requete);
     $resultat->setFetchMode(PDO::FETCH_OBJ);
@@ -276,9 +276,9 @@ function rechercheClient($nom, $prenom): false|array
 }
 
 function modifierClient($champs,
-                        $valeur,
-                        $nom,
-                        $prenom): void
+    $valeur,
+    $nom,
+    $prenom): void
 {
     $connexion = getConnexion();
     $requete = "update `Client` set $champs= '$valeur' where nom='$nom' and prenom='$prenom'";
@@ -289,7 +289,7 @@ function modifierClient($champs,
 function totalArgent(): float
 {
     $connexion = getConnexion();
-    $requete = "select sum(solde) from `Compte`;";
+    $requete = 'select sum(solde) from `Compte`;';
     $resultat = $connexion->query($requete);
 
     return $resultat->fetchColumn(0);
@@ -298,7 +298,7 @@ function totalArgent(): float
 function nbComptes(): int
 {
     $connexion = getConnexion();
-    $requete = "select count(id) from `Compte`;";
+    $requete = 'select count(id) from `Compte`;';
     $resultat = $connexion->query($requete);
 
     return $resultat->fetchColumn(0);
@@ -307,7 +307,7 @@ function nbComptes(): int
 function nbContrats(): int
 {
     $connexion = getConnexion();
-    $requete = "select count(id) from `Contrat`;";
+    $requete = 'select count(id) from `Contrat`;';
     $resultat = $connexion->query($requete);
 
     return $resultat->fetchColumn(0);
@@ -316,7 +316,7 @@ function nbContrats(): int
 function nbClients(): int
 {
     $connexion = getConnexion();
-    $requete = "select count(id) from `Client`;";
+    $requete = 'select count(id) from `Client`;';
     $resultat = $connexion->query($requete);
 
     return $resultat->fetchColumn(0);
@@ -325,7 +325,7 @@ function nbClients(): int
 function nbEmployes(): int
 {
     $connexion = getConnexion();
-    $requete = "select count(id) from `Employe`;";
+    $requete = 'select count(id) from `Employe`;';
     $resultat = $connexion->query($requete);
 
     return $resultat->fetchColumn(0);

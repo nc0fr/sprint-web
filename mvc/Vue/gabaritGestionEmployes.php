@@ -42,8 +42,8 @@
         <p><input type="submit" name="ajtemploye" value="Ajouter"></p>
     </fieldset>
 </form>
-<?php if (!empty($contenu)) {
-    echo '<p>' . $contenu . '</p>';
+<?php if (! empty($contenu)) {
+    echo '<p>'.$contenu.'</p>';
 } ?>
 <form method="post" class="formulaire">
     <fieldset class="modifier">

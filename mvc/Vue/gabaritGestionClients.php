@@ -20,8 +20,8 @@
 </div>
 <form method="post" class="formulaire">
     <?php
-    if (!empty($contenu)) {
-        echo '<p>' . $contenu . '</p>';
+    if (! empty($contenu)) {
+        echo '<p>'.$contenu.'</p>';
     }
     ?>
 </form>

@@ -5,42 +5,42 @@
 function pageLogin(): void
 {
     $contenu = '';
-    require_once __DIR__ . '/gabaritLogin.php';
+    require_once __DIR__.'/gabaritLogin.php';
 }
 
 function erreurId(): void
 {
     $contenu = '<p>Identifiants faux</p>';
-    require_once __DIR__ . '/gabaritLogin.php';
+    require_once __DIR__.'/gabaritLogin.php';
 }
 
 function pageDirecteur(string $nom,
-                       string $prenom,
-                       string $type): void
+    string $prenom,
+    string $type): void
 {
     $contenu = "$nom $prenom<br>$type";
-    require_once __DIR__ . '/gabaritDirecteur.php';
+    require_once __DIR__.'/gabaritDirecteur.php';
 }
 
 function pageAgent(string $nom,
-                   string $prenom,
-                   string $type): void
+    string $prenom,
+    string $type): void
 {
     $contenu = "$nom $prenom<br>$type";
-    require_once __DIR__ . '/gabaritAgent.php';
+    require_once __DIR__.'/gabaritAgent.php';
 }
 
 function pageConseille(string $nom,
-                       string $prenom,
-                       string $type): void
+    string $prenom,
+    string $type): void
 {
     $contenu = "$nom $prenom<br>$type";
-    require_once __DIR__ . '/gabaritConseille.php';
+    require_once __DIR__.'/gabaritConseille.php';
 }
 
 function pageGestion(): void
 {
-    require_once __DIR__ . '/gabaritGestionEmployes.php';
+    require_once __DIR__.'/gabaritGestionEmployes.php';
 }
 
 //Directeur -> Gestion des employés
@@ -48,7 +48,7 @@ function pageGestion(): void
 function msgGestionEmployes(string $message): void
 {
     $contenu = "<script>alert('".$message."');</script>";
-    require_once __DIR__ . '/gabaritGestionEmployes.php';
+    require_once __DIR__.'/gabaritGestionEmployes.php';
 }
 
 function vueGetAllMotif(array $motif): void
@@ -66,7 +66,7 @@ function vueGetAllMotif(array $motif): void
         $contenu .= '</ul><input type="text" name="valeurModifier"/><input type="submit" name="modifierPiece" value="Modifier le motif selectionné"/></form></fieldset>';
     }
 
-    require_once __DIR__ . '/gabaritDirecteur.php';
+    require_once __DIR__.'/gabaritDirecteur.php';
 }
 
 function vueModifierPiece(array $etat): void
@@ -77,7 +77,7 @@ function vueModifierPiece(array $etat): void
         $contenu .= '<p>Etat n°'.$val.'</p>';
     }
 
-    require_once __DIR__ . '/gabaritDirecteur.php';
+    require_once __DIR__.'/gabaritDirecteur.php';
 }
 
 function vueStatistiques(
@@ -86,8 +86,7 @@ function vueStatistiques(
     int $nbContrat,
     int $nbClient,
     int $nbEmploye,
-): void
-{
+): void {
     $contenu = '<fieldset><legend>Statistiques de la banque</legend>';
     $contenu .= "<p>Nombre d'argent en banque : $nbArgent EUR</p>";
     $contenu .= "<p>Nombre de comptes : $nbCompte</p>";
@@ -95,19 +94,19 @@ function vueStatistiques(
     $contenu .= "<p>Nombre de clients : $nbClient</p>";
     $contenu .= "<p>Nombre d'employés : $nbEmploye</p>";
     $contenu .= '</fieldset>';
-    require_once __DIR__ . '/gabaritDirecteur.php';
+    require_once __DIR__.'/gabaritDirecteur.php';
 }
 
 function vueMsgDirecteur(string $msg): void
 {
     $contenu = $msg;
-    require_once __DIR__ . '/gabaritDirecteur.php';
+    require_once __DIR__.'/gabaritDirecteur.php';
 }
 
 //Directeur -> Gestion des comptes et contrats
 
 function vueGetAllTypeAccountContract(array $account,
-                                      array $contract): void
+    array $contract): void
 {
     $contenu = '<fieldset><legend>Liste des types de Compte</legend><form method="post" action="sprintBank.php">';
 
@@ -165,7 +164,7 @@ function vueGetAllTypeAccountContract(array $account,
                             </fieldset>
                         </form>';
 
-    require_once __DIR__ . '/gabaritDirecteur.php';
+    require_once __DIR__.'/gabaritDirecteur.php';
 }
 
 //Agent -> Modification clients
@@ -173,7 +172,7 @@ function vueGetAllTypeAccountContract(array $account,
 function msgGestionClients(string $msg): void
 {
     $contenu = $msg;
-    require_once __DIR__ . '/gabaritGestionClients.php';
+    require_once __DIR__.'/gabaritGestionClients.php';
 }
 
 function pageGestionClients(): void
@@ -191,12 +190,12 @@ function pageGestionClients(): void
     <p><input type="submit" name="choixmodif" value="Modifier"></p>
 
     ';
-    require_once __DIR__ . '/gabaritGestionClients.php';
+    require_once __DIR__.'/gabaritGestionClients.php';
 }
 
 //Erreurs PHP
 function afficherErreur(string $erreur): void
 {
     $contenu = '<p>'.$erreur.'</p>';
-    require_once __DIR__. '/gabaritLogin.php';
+    require_once __DIR__.'/gabaritLogin.php';
 }
