@@ -13,8 +13,8 @@
         <label>
             <input type="text"
                    name="login"
-                    placeholder="Nom d'utilisateur"
-                    required>
+                   placeholder="Nom d'utilisateur"
+                   required>
         </label>
         <label>
             <input type="password"
