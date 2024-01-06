@@ -157,6 +157,108 @@ function pageGestionClients()
     ';
     require_once 'Vue/gabaritGestionClients.php';
 }
+//Agent -> Opérations
+
+function pageOperations()
+{
+    $contenu = '
+    <p>Insérez le nom du client :</p>
+    <p><input type="text" name="nom" placeholder="Nom" >
+    <input type="text" name="prenom" placeholder="Prénom" ></p>
+    <p><input type="submit" name="choixclientoperations" value="Valider"></p>';
+    require_once 'Vue/gabaritOperations.php';
+}
+
+function pageOperationsCompte($ligne)
+{
+    $contenu = '<p>Choisissez le compte souhaité :</p>
+    <p><select id="choixcompte" name="choixcompte"></p>';
+    if (count($ligne) > 0) {
+        foreach ($ligne as $value) {
+            $contenu .= ' <option value="'.$value->compte.'">'.$value->nom.'</option>';
+        }
+        $contenu .= '</select>
+        <p>Choisissez l\'opération à effectuer :</p>
+        <p><select id="choixoperation" name="choixoperation"></p>
+        <option value="DEPOT">Dépot</option>
+        <option value="RETRAIT">Retrait</option>
+        </select>
+        <p><input type="number" name="montant" placeholder="Montant" ></p>';
+        $contenu .= '<p><input type="submit" name="choixcompteoperations" value="Valider"></p>';
+    }
+    require_once 'Vue/gabaritOperations.php';
+
+}
+
+function msgOperations($msg)
+{
+    $contenu = $msg;
+    require_once 'Vue/gabaritOperations.php';
+}
+
+//Agent => Synthese Client
+
+function pageSynthese()
+{
+    $contenu = '
+    <p>Entrez l\'identité du client :</p>
+    <p><input type="text" name="nom" placeholder="Nom" >
+    <input type="text" name="prenom" placeholder="Prénom" ></p>
+    <p><input type="submit" name="clientsynthese" value="Synthèse client"></p>';
+    require_once 'Vue/gabaritSynthese.php';
+}
+
+function infosClient($infos)
+{
+    $client = $infos['client'];
+    $comptes = $infos['comptes'];
+    $contrats = $infos['contrats'];
+    $conseiller = $infos['conseiller'];
+    $contenu = '
+    <fieldset><legend>Identité client</legend>
+    <p><label>Nom : </label><label>'.$client->nom.'</label></p>
+    <p><label>Prénom : </label><label>'.$client->prenom.'</label></p>
+    <p><label>Adresse : </label><label>'.$client->adresse.'</label></p>
+    <p><label>Numéro de téléphone : </label><label>'.$client->numTel.'</label></p>
+    <p><label>Profession : </label><label>'.$client->profession.'</label></p>
+    <p><label>Situation : </label><label>'.$client->situation.'</label></p>
+    <p><label>Client depuis le : </label><label>'.$client->dateAjout.'</label></p>
+    <p><label>Conseiller assigné : </label><label>'.$conseiller->nomC.' '.$conseiller->prenomC.'</label></p>
+    </fieldset>
+    <fieldset><legend>Comptes ouverts</legend>
+    <table>
+    <tr><th>Type de compte</th><th>Date d\'ouverture</th><th>Solde</th></tr>
+    ';
+    foreach ($comptes as $value) {
+        $contenu .= '<tr><td>'.$value->type.'</td>
+                   <td>'.$value->date.'</td>
+                   <td>'.$value->solde.' €</td></tr>';
+    }
+    $contenu .= '</table></fieldset>';
+    $contenu .= '<fieldset><legend>Contrats souscrits</legend>';
+
+    if ($contrats == false) {
+        $contenu .= '<label>Aucun contrat souscris pour ce client.</label>';
+    } else {
+        $contenu .= '<table><tr><th>Type de contrat</th><th>Date de souscription</th><th>Tarif mensuel</th></tr>';
+        foreach ($contrats as $value) {
+            $contenu .= '<tr><td>'.$value->type.'</td>
+            <td>'.$value->date.'</td>
+            <td>'.$value->prix.' €</td></tr>';
+        }
+    }
+    $contenu .= '</table></fieldset>
+    TODO Bonus : Ajout section rdv  à venir ';
+
+    require_once 'gabaritSynthese.php';
+
+}
+
+function msgSynthese($msg)
+{
+    $contenu = $msg;
+    require_once 'Vue/gabaritSynthese.php';
+}
 
 function vueConseillerLoginClient()
 {

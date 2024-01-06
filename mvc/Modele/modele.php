@@ -243,46 +243,145 @@ function modifierClient($champs, $valeur, $nom, $prenom)
     $resultat->closeCursor();
 }
 
-function mdlGetClient($client, $methode)
+//Agent -> Opérations
+
+function typeCompte($nom, $prenom)
 {
     $connexion = getConnexion();
-
-    $requete = '';
-
-    if ($methode == 'info') {
-        $requete = 'SELECT * FROM client WHERE nom="'.$client['clientName'].'" AND prenom="'.$client['clientPrenom'].'" AND mail="'.$client['clientMail'].'"';
-    } elseif ($methode == 'id') {
-        $requete = 'SELECT * FROM client WHERE id='.$client.';';
-    } else {
-        throw new Exception('mdlGetClient : var methode not correct (info or id)');
-    }
-
+    $requete = "SELECT tc.nom,edc.compte
+                FROM client c
+                JOIN aouvert ao ON c.id=ao.client
+                JOIN estdetypecompte edc ON ao.compte=edc.compte
+                JOIN typecompte tc ON tc.id=edc.typecompte
+                WHERE c.nom='$nom' AND c.prenom='$prenom'";
     $resultat = $connexion->query($requete);
     $resultat->setFetchMode(PDO::FETCH_OBJ);
-    $clientId = $resultat->fetch();
-    $resultat->closeCursor();
+    $ligne = $resultat->fetchAll();
 
-    return $clientId;
+    return $ligne;
 }
 
-function mdlInscriptionClient($client)
+function verifierDecouvert($compte)
 {
     $connexion = getConnexion();
+    $requete = "SELECT solde,decouvert FROM compte WHERE id='$compte'";
+    $resultat = $connexion->query($requete);
+    $resultat->setFetchMode(PDO::FETCH_OBJ);
+    $ligne = $resultat->fetch();
 
-    $requete = 'INSERT INTO
+    return $ligne;
+}
+
+function effectuerOperation($compte, $montant, $op)
+{
+    $connexion = getConnexion();
+    if ($op == 'RETRAIT') {
+        $requete = "UPDATE compte SET solde=solde-'$montant' WHERE id=$compte";
+    } else {
+        $requete = "UPDATE compte SET solde=solde+'$montant' WHERE id=$compte";
+    }
+    $resultat = $connexion->query($requete);
+    $resultat->closeCursor();
+    $requete = "INSERT INTO operation(type, valeur) VALUES ('$op','$montant')";
+    $resultat = $connexion->query($requete);
+    $resultat->closeCursor();
+    $requete = "INSERT INTO effectueesur(compte,operation) VALUES('$compte',(SELECT MAX(id) FROM operation))";
+    $resultat = $connexion->query($requete);
+    $resultat->closeCursor();
+    $requete = "INSERT INTO aeffectue(client,operation) VALUES((SELECT client FROM aouvert WHERE compte='$compte'),(SELECT MAX(id) FROM operation))";
+    $resultat = $connexion->query($requete);
+    $resultat->closeCursor();
+}
+
+//Agent -> Synthese Client
+
+function syntheseClient($nom, $prenom)
+{
+    $connexion = getConnexion();
+    $requete = "SELECT * FROM client WHERE nom='$nom' AND prenom='$prenom' ";
+    $resultat = $connexion->query($requete);
+    $resultat->setFetchMode(PDO::FETCH_OBJ);
+    $client = $resultat->fetch();
+    $resultat->closeCursor();
+
+    $requete = "SELECT tc.nom 'type',edc.compte 'id',cpt.solde 'solde',cpt.dateOuverture 'date'
+                FROM client c
+                JOIN aouvert ao ON c.id=ao.client
+                JOIN compte cpt ON ao.compte=cpt.id
+                JOIN estdetypecompte edc ON ao.compte=edc.compte
+                JOIN typecompte tc ON tc.id=edc.typecompte
+                WHERE c.nom='$nom' AND c.prenom='$prenom'";
+    $resultat = $connexion->query($requete);
+    $resultat->setFetchMode(PDO::FETCH_OBJ);
+    $comptes = $resultat->fetchAll();
+    $resultat->closeCursor();
+
+    $requete = "SELECT tc.nom 'type',edc.contrat 'id',ctr.tarifMensuel 'prix',ctr.dateOuverture 'date'
+                FROM client c
+                JOIN asouscrit aso ON c.id=aso.client
+                JOIN contrat ctr ON aso.contrat=ctr.id
+                JOIN estdetypecontrat edc ON aso.contrat=edc.contrat
+                JOIN typecontrat tc ON tc.id=edc.typeContrat
+                WHERE c.nom='$nom' AND c.prenom='$prenom'";
+    $resultat = $connexion->query($requete);
+    $resultat->setFetchMode(PDO::FETCH_OBJ);
+    $contrats = $resultat->fetchAll();
+    $resultat->closeCursor();
+
+    $requete = "SELECT e.nom 'nomC',e.prenom'prenomC'
+                FROM client c JOIN
+                estconseillerde ecd ON c.id=ecd.client JOIN
+                employe e ON e.id=ecd.conseiller
+                WHERE c.nom='$nom' AND c.prenom='$prenom'";
+    $resultat = $connexion->query($requete);
+    $resultat->setFetchMode(PDO::FETCH_OBJ);
+    $conseiller = $resultat->fetch();
+    $resultat->closeCursor();
+
+    $infos = ['client' => $client, 'comptes' => $comptes, 'contrats' => $contrats, 'conseiller' => $conseiller];
+
+    return $infos;
+
+    function mdlGetClient($client, $methode)
+    {
+        $connexion = getConnexion();
+
+        $requete = '';
+
+        if ($methode == 'info') {
+            $requete = 'SELECT * FROM client WHERE nom="'.$client['clientName'].'" AND prenom="'.$client['clientPrenom'].'" AND mail="'.$client['clientMail'].'"';
+        } elseif ($methode == 'id') {
+            $requete = 'SELECT * FROM client WHERE id='.$client.';';
+        } else {
+            throw new Exception('mdlGetClient : var methode not correct (info or id)');
+        }
+
+        $resultat = $connexion->query($requete);
+        $resultat->setFetchMode(PDO::FETCH_OBJ);
+        $clientId = $resultat->fetch();
+        $resultat->closeCursor();
+
+        return $clientId;
+    }
+
+    function mdlInscriptionClient($client)
+    {
+        $connexion = getConnexion();
+
+        $requete = 'INSERT INTO
                 client(nom, prenom, adresse, numTel, mail, profession, situation, dateAjout)
                 VALUES
                 ("'.$client['nom'].'", "'.$client['prenom'].'", "'.$client['adresse'].'", "'.$client['telephone'].'", "'.$client['email'].
-                '", "'.$client['profession'].'", "'.$client['situation'].'", NOW())';
-    $resultat = $connexion->query($requete);
-    $resultat->closeCursor();
-}
+            '", "'.$client['profession'].'", "'.$client['situation'].'", NOW())';
+        $resultat = $connexion->query($requete);
+        $resultat->closeCursor();
+    }
 
-function mdlGetClientCompte($client)
-{
-    $connexion = getConnexion();
+    function mdlGetClientCompte($client)
+    {
+        $connexion = getConnexion();
 
-    $requeteVIEW = 'CREATE OR REPLACE VIEW CompteClient(idCompte) AS
+        $requeteVIEW = 'CREATE OR REPLACE VIEW CompteClient(idCompte) AS
                     SELECT compte.id FROM compte WHERE compte.id
                     IN (SELECT aouvert.compte FROM aouvert WHERE aouvert.client = '.$client.');
 
@@ -290,25 +389,25 @@ function mdlGetClientCompte($client)
                     SELECT compteclient.idCompte, estdetypecompte.typeCompte FROM compteclient
                     INNER JOIN estdetypecompte ON estdetypecompte.compte = compteclient.idCompte;';
 
-    $requete = 'SELECT compte.id, compte.solde, compte.decouvert, compte.dateOuverture, typeCompte.nom FROM compte
+        $requete = 'SELECT compte.id, compte.solde, compte.decouvert, compte.dateOuverture, typeCompte.nom FROM compte
                 INNER JOIN compteclienttype ON compte.id = compteclienttype.idCompte
                 INNER JOIN typeCompte ON typeCompte.id = compteclienttype.typeCompte;';
 
-    $resultat = $connexion->query($requeteVIEW);
-    $resultat->closeCursor();
-    $resultat = $connexion->query($requete);
-    $resultat->setFetchMode(PDO::FETCH_OBJ);
-    $clientCompte = $resultat->fetchAll();
-    $resultat->closeCursor();
+        $resultat = $connexion->query($requeteVIEW);
+        $resultat->closeCursor();
+        $resultat = $connexion->query($requete);
+        $resultat->setFetchMode(PDO::FETCH_OBJ);
+        $clientCompte = $resultat->fetchAll();
+        $resultat->closeCursor();
 
-    return $clientCompte;
-}
+        return $clientCompte;
+    }
 
-function mdlGetClientContrat($client)
-{
-    $connexion = getConnexion();
+    function mdlGetClientContrat($client)
+    {
+        $connexion = getConnexion();
 
-    $requeteVIEW = 'CREATE OR REPLACE VIEW ContratClient(idContrat) AS
+        $requeteVIEW = 'CREATE OR REPLACE VIEW ContratClient(idContrat) AS
                     SELECT contrat.id FROM contrat WHERE contrat.id
                     IN (SELECT asouscrit.contrat FROM asouscrit WHERE asouscrit.client = '.$client.');
 
@@ -316,78 +415,79 @@ function mdlGetClientContrat($client)
                     SELECT contratclient.idContrat, estdetypecontrat.typeContrat FROM contratclient
                     INNER JOIN estdetypecontrat ON estdetypecontrat.contrat = contratclient.idContrat;';
 
-    $requete = 'SELECT contrat.id, contrat.tarifMensuel, contrat.dateOuverture, typecontrat.nom FROM contrat
+        $requete = 'SELECT contrat.id, contrat.tarifMensuel, contrat.dateOuverture, typecontrat.nom FROM contrat
                 INNER JOIN contratclienttype ON contrat.id = contratclienttype.idContrat
                 INNER JOIN typeContrat ON typeContrat.id = contratclienttype.typeContrat;';
 
-    $resultat = $connexion->query($requeteVIEW);
-    $resultat->closeCursor();
+        $resultat = $connexion->query($requeteVIEW);
+        $resultat->closeCursor();
 
-    $resultat = $connexion->query($requete);
-    $resultat->setFetchMode(PDO::FETCH_OBJ);
-    $clientContrat = $resultat->fetchAll();
-    $resultat->closeCursor();
+        $resultat = $connexion->query($requete);
+        $resultat->setFetchMode(PDO::FETCH_OBJ);
+        $clientContrat = $resultat->fetchAll();
+        $resultat->closeCursor();
 
-    return $clientContrat;
-}
+        return $clientContrat;
+    }
 
-function mdlCreationCompte($clientId, $typeCompte)
-{
-    $connexion = getConnexion();
+    function mdlCreationCompte($clientId, $typeCompte)
+    {
+        $connexion = getConnexion();
 
-    $requete = 'INSERT INTO compte (solde, decouvert, dateOuverture) VALUES (0, -200, NOW());
+        $requete = 'INSERT INTO compte (solde, decouvert, dateOuverture) VALUES (0, -200, NOW());
                 SET @compteId = LAST_INSERT_ID();
                 INSERT INTO aouvert (client, compte) VALUES ('.$clientId.', @compteId);
                 INSERT INTO estdetypecompte (compte, typeCompte) VALUES (@compteId, (SELECT id FROM typecompte WHERE nom = "'.$typeCompte.'"));';
 
-    $resultat = $connexion->query($requete);
-    $resultat->closeCursor();
-}
+        $resultat = $connexion->query($requete);
+        $resultat->closeCursor();
+    }
 
-function mdlSouscriptionContrat($clientId, $typeContrat, $tarif)
-{
-    $connexion = getConnexion();
+    function mdlSouscriptionContrat($clientId, $typeContrat, $tarif)
+    {
+        $connexion = getConnexion();
 
-    $requete = 'INSERT INTO contrat (tarifMensuel, dateOuverture) VALUES ('.$tarif.', NOW());
+        $requete = 'INSERT INTO contrat (tarifMensuel, dateOuverture) VALUES ('.$tarif.', NOW());
                 SET @contratId = LAST_INSERT_ID();
                 INSERT INTO asouscrit (client, contrat) VALUES ('.$clientId.', @contratId);
                 INSERT INTO estdetypecontrat (contrat, typeContrat) VALUES (@contratId, (SELECT id FROM typeContrat WHERE nom = "'.$typeContrat.'"));';
 
-    $resultat = $connexion->query($requete);
-    $resultat->closeCursor();
-}
+        $resultat = $connexion->query($requete);
+        $resultat->closeCursor();
+    }
 
-function mdlSuppressionCompte($compteId)
-{
-    $connexion = getConnexion();
+    function mdlSuppressionCompte($compteId)
+    {
+        $connexion = getConnexion();
 
-    $requete = 'DELETE FROM estdetypecompte WHERE compte = '.$compteId.';
+        $requete = 'DELETE FROM estdetypecompte WHERE compte = '.$compteId.';
                 DELETE FROM aouvert WHERE compte = '.$compteId.';
                 DELETE FROM compte WHERE id = '.$compteId.';';
 
-    $resultat = $connexion->query($requete);
-    $resultat->closeCursor();
-}
+        $resultat = $connexion->query($requete);
+        $resultat->closeCursor();
+    }
 
-function mdlSuppressionContrat($contratId)
-{
-    $connexion = getConnexion();
+    function mdlSuppressionContrat($contratId)
+    {
+        $connexion = getConnexion();
 
-    $requete = 'DELETE FROM estdetypecontrat WHERE contrat = '.$contratId.';
+        $requete = 'DELETE FROM estdetypecontrat WHERE contrat = '.$contratId.';
                 DELETE FROM asouscrit WHERE contrat = '.$contratId.';
                 DELETE FROM contrat WHERE id = '.$contratId.';';
 
-    $resultat = $connexion->query($requete);
-    $resultat->closeCursor();
-}
+        $resultat = $connexion->query($requete);
+        $resultat->closeCursor();
+    }
 
-function mdlModificationDecouvert($compteId, $compteDecouvert)
-{
-    $connexion = getConnexion();
+    function mdlModificationDecouvert($compteId, $compteDecouvert)
+    {
+        $connexion = getConnexion();
 
-    $requete = 'UPDATE compte SET decouvert = '.$compteDecouvert.'
+        $requete = 'UPDATE compte SET decouvert = '.$compteDecouvert.'
                 WHERE id = '.$compteId.';';
 
-    $resultat = $connexion->query($requete);
-    $resultat->closeCursor();
+        $resultat = $connexion->query($requete);
+        $resultat->closeCursor();
+    }
 }
