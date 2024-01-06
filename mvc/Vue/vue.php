@@ -5,37 +5,37 @@
 function pageLogin()
 {
     $contenu = '';
-    require_once 'Vue/gabaritLogin.php';
+    require_once __DIR__ . '/gabaritLogin.php';
 }
 
 function erreurId()
 {
     $contenu = '<p>Identifiants faux</p>';
-    require_once 'Vue/gabaritLogin.php';
+    require_once __DIR__ . '/gabaritLogin.php';
 }
 
 function pageDirecteur($nom, $prenom, $type)
 {
     $contenu = '';
     $contenu1 = $nom.' '.$prenom.'<br>'.$type;
-    require_once 'Vue/gabaritDirecteur.php';
+    require_once __DIR__ . '/gabaritDirecteur.php';
 }
 
 function pageAgent($nom, $prenom, $type)
 {
     $contenu = $nom.' '.$prenom.'<br>'.$type;
-    require_once 'Vue/gabaritAgent.php';
+    require_once __DIR__ . '/gabaritAgent.php';
 }
 
 function pageConseille($nom, $prenom, $type)
 {
     $contenu = $nom.' '.$prenom.'<br>'.$type;
-    require_once 'Vue/gabaritConseille.php';
+    require_once __DIR__ . '/gabaritConseille.php';
 }
 
 function pageGestion()
 {
-    require_once 'Vue/gabaritGestionEmployes.php';
+    require_once __DIR__ . '/gabaritGestionEmployes.php';
 }
 
 //Directeur -> Gestion des employés
@@ -43,7 +43,7 @@ function pageGestion()
 function msgGestionEmployes($message)
 {
     $contenu = "<script>alert('".$message."');</script>";
-    require_once 'Vue/gabaritGestionEmployes.php';
+    require_once __DIR__ . '/gabaritGestionEmployes.php';
 }
 
 function vueGetAllMotif($motif)
@@ -67,13 +67,13 @@ function vueModifierPiece($etat)
     foreach ($etat as $val) {
         $contenu = $contenu.'<p>Etat n°'.$val.'</p>';
     }
-    require_once 'vue/gabaritDirecteur.php';
+    require_once __DIR__ . '/gabaritDirecteur.php';
 }
 
 function vueMsgDirecteur($msg)
 {
     $contenu = $msg;
-    require_once 'vue/gabaritDirecteur.php';
+    require_once __DIR__ . '/gabaritDirecteur.php';
 }
 
 //Directeur -> Gestion des comptes et contrats
@@ -137,7 +137,7 @@ function vueGetAllTypeAccountContract($account, $contract)
 function msgGestionClients($msg)
 {
     $contenu = $msg;
-    require_once 'Vue/gabaritGestionClients.php';
+    require_once __DIR__ . '/gabaritGestionClients.php';
 }
 
 function pageGestionClients()
@@ -155,12 +155,12 @@ function pageGestionClients()
     <p><input type="submit" name="choixmodif" value="Modifier"></p>
 
     ';
-    require_once 'Vue/gabaritGestionClients.php';
+    require_once __DIR__ . '/gabaritGestionClients.php';
 }
 
 //Erreurs PHP
 function afficherErreur($erreur)
 {
     $contenu = '<p>'.$erreur.'</p>';
-    require_once 'Vue/gabaritLogin.php';
+    require_once __DIR__. '/gabaritLogin.php';
 }

@@ -1,20 +1,20 @@
 <?php
 
-require_once 'Modele/modele.php';
-require_once 'Vue/vue.php';
+require_once __DIR__ . '/../Modele/modele.php';
+require_once __DIR__ . '/../Vue/vue.php';
 
 //Page login
-function ctrlPageLogin()
+function ctrlPageLogin(): void
 {
     pageLogin();
 }
 
-function ctrlVerifierId()
+function ctrlVerifierId(): void
 {
     $usr = $_POST['login'];
     $mdp = $_POST['mdp'];
     $ligne = verifierLogin($usr, $mdp);
-    if ($ligne == false) {
+    if (!$ligne) {
         erreurId();
     } elseif ($ligne->type == 'DIRECTEUR') {
         pageDirecteur($ligne->nom, $ligne->prenom, $ligne->type);
