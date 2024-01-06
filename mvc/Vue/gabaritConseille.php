@@ -2,17 +2,24 @@
 <html lang="fr">
     <head>
       <title>Sprint Bank | Conseiller</title>
-      <link rel="stylesheet" href="Vue/css/styleConseille.css">
+      <!--<link rel="stylesheet" href="Vue/css/styleConseille.css">-->
       <meta charset="utf-8">
     </head>
     <body>
     <div class="navbar">
-      <div class="infos"><?php echo $contenu; ?></div>
-      <div class="item">Interface 1</div>
-      <div class="item">Interface 2</div>
-      <div class="item">Interface 3</div>
-      <div class="item">Interface 4</div>
+      <div class="infos"><?php if (isset($contenuInfoConseiller)) {
+          echo $contenuInfoConseiller;
+      } ?></div>
+      <a href="?actionConseil=conseiller_inscription_client"><div class="item">Inscription Client</div></a>
+      <?php if (isset($contenuNavBar)) {
+          echo $contenuNavBar;
+      }?>
       <a href="sprintBank.php"><div class="logout">Déconnexion</div></a>
+    </div>
+    <div>
+        <?php if (isset($contenu)) {
+            echo $contenu;
+        }?>
     </div>
     </body>
 </html>

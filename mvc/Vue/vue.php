@@ -29,7 +29,8 @@ function pageAgent($nom, $prenom, $type)
 
 function pageConseille($nom, $prenom, $type)
 {
-    $contenu = $nom.' '.$prenom.'<br>'.$type;
+    $contenuInfoConseiller = $nom.' '.$prenom.'<br>'.$type;
+    $contenuNavBar = '<a href="?actionConseil=conseiller_login_client"><div class="item">Authentification Client</div></a>';
     require_once 'Vue/gabaritConseille.php';
 }
 
@@ -48,14 +49,13 @@ function msgGestionEmployes($message)
 
 function vueGetAllMotif($motif)
 {
-    $contenu1 = '';
     $contenu = '<fieldset><legend>Liste des motifs</legend><form method="post" action="sprintBank.php">';
     if (count($motif) > 0) {
         $contenu = $contenu.'<ul>';
         foreach ($motif as $value) {
-            $contenu = $contenu.'<td><input type="radio" name="modifier" value='.$value->id.'>'.$value->libelle.'<br><p>Pieces justificative : '.$value->justificatifs.'</p></td><br><br>';
+            $contenu = $contenu.'<td><input type="radio" name="modifier" required value='.$value->id.'>'.$value->libelle.'<br><p>Pieces justificative : '.$value->justificatifs.'</p></td><br><br>';
         }
-        $contenu = $contenu.'</ul><input type="text" name="valeurModifier"/>
+        $contenu = $contenu.'</ul><input type="text" name="valeurModifier" required/>
                                 <input type="submit" name="modifierPiece" value="Modifier le motif selectionné"/></form></fieldset>';
     }
     require_once 'vue/gabaritDirecteur.php';
@@ -84,7 +84,7 @@ function vueGetAllTypeAccountContract($account, $contract)
     if (count($account) > 0) {
         $contenu = $contenu.'<ul>';
         foreach ($account as $value) {
-            $contenu = $contenu.'<td><input type="radio" name="account" value='.$value->id.'>'.$value->nom.'</td><br><br>';
+            $contenu = $contenu.'<td><input type="radio" name="account" required value='.$value->id.'>'.$value->nom.'</td><br><br>';
         }
         $contenu = $contenu.'</ul><input type="submit" name="supprimerType" value="Supprimer le type de compte selectionné"/></form></fieldset>';
     }
@@ -92,7 +92,7 @@ function vueGetAllTypeAccountContract($account, $contract)
     if (count($contract) > 0) {
         $contenu = $contenu.'<ul>';
         foreach ($contract as $value) {
-            $contenu = $contenu.'<td><input type="radio" name="contract" value='.$value->id.'>'.$value->nom.'</td><br><br>';
+            $contenu = $contenu.'<td><input type="radio" name="contract" required value='.$value->id.'>'.$value->nom.'</td><br><br>';
         }
         $contenu = $contenu.'</ul><input type="submit" name="supprimerType" value="Supprimer le type de contrat selectionné"/></form></fieldset>';
     }
@@ -102,26 +102,26 @@ function vueGetAllTypeAccountContract($account, $contract)
                                 <legend>Creer un nouveau Type</legend>
                                 <p>
                                     <label>Nature du changement :</label>
-                                    <select name="nature">
+                                    <select name="nature" required>
                                         <option value="compte" selected>Compte</option>
                                         <option value="contrat">Contrat</option>
                                     </select>
                                 </p>
                                 <p>
                                     <label>Nom :</label>
-                                    <input type="text" name="nom"/>
+                                    <input type="text" name="nom" required/>
                                 </p>
                                 <p>
                                     <label>Pièces justificative pour Création</label>
-                                    <input type="text" name="pieceCreation"/>
+                                    <input type="text" name="pieceCreation" required/>
                                 </p>
                                 <p>
                                     <label>Pièces justificative pour Modification</label>
-                                    <input type="text" name="pieceModification"/>
+                                    <input type="text" name="pieceModification" required/>
                                 </p>
                                 <p>
                                     <label>Pièces justificative pour Suppression</label>
-                                    <input type="text" name="pieceSuppression"/>
+                                    <input type="text" name="pieceSuppression" required/>
                                 </p>
                                 <p>
                                     <input type="submit" name="ajouterType" value="Ajouter le type"/>
@@ -156,6 +156,244 @@ function pageGestionClients()
 
     ';
     require_once 'Vue/gabaritGestionClients.php';
+}
+
+function vueConseillerLoginClient()
+{
+    $contenuNavBar = '<a href="?actionConseil=conseiller_login_client"><div class="item">Authentification Client</div></a>';
+    $contenu = '<div>
+                    <form method="post" action="sprintBank.php">
+                        <fieldset>
+                            <legend>Authentification Client</legend>
+                            <p>
+                                <label>Nom :</label>
+                                <input type="text" name="clientName" required/>
+                            </p>
+                            <p>
+                                <label>Prénom :</label>
+                                <input type="text" name="clientPrenom" required/>
+                            </p>
+                            <p>
+                                <label>Adresse E-Mail :</label>
+                                <input type="text" name="clientMail" required/>
+                            </p>
+                            <p>
+                                <input type="submit" name="conseillerLoginClient" value="Chercher le client"/>
+                            </p>
+                        </fieldset>
+                    </form>
+                </div>';
+    require_once 'Vue/gabaritConseille.php';
+}
+
+function vueConseillerClient($client, $clientCompte, $clientContrat, $allCompte, $allContrat) //TODO Ajouter la recherche de type compte contrat au menu select via requete
+{
+    $contenuNavBar = '<a href="?actionConseil=conseiller_deconnection_client"><div class="item">Deconnection Client</div></a>';
+    if (isset($client)) {
+        $contenu = '<div>
+                        <fieldset>
+                            <legend>Client</legend>
+                            <p>
+                                Id : '.$client->id.'
+                            </p>
+                            <p>
+                                Nom : '.$client->nom.'
+                            </p>
+                            <p>
+                                Prénom : '.$client->prenom.'
+                            </p>
+                            <p>
+                                E-mail : '.$client->mail.'
+                            </p>
+                            <p>
+                                Numéro de téléphone : '.$client->numTel.'
+                            </p>
+                        </fieldset>
+                    </div>';
+        if ($clientCompte != false) {
+            $contenu = $contenu.'<div>
+                                    <form method="post" action="sprintBank.php">
+                                        <fieldset>
+                                            <legend>Compte</legend>
+                                                <p>
+                                                    <label>Id Client :</label>
+                                                    <input type="text" name="clientId" value="'.$client->id.'" readonly/>
+                                                </p>';
+
+            foreach ($clientCompte as $compte) {
+                $contenu = $contenu.'<p>
+                                        <input type="radio" name="radioCompte" value="'.$compte->id.'" required/>
+                                        Type de Compte : '.$compte->nom.' | Solde : '.$compte->solde.' | Découvert : '.$compte->decouvert.' | Date d'."'".'ouverture : '.$compte->dateOuverture.'/>
+                                    </p>';
+            }
+            $contenu = $contenu.'   <input type="submit" name="suppressionCompte" value="Supprimer le compte"/>
+                                    <input type="submit" name="pageModificationDecouvert" value="Modifier le découvert"/>
+                                </form></fieldset></div>';
+        } else {
+            $contenu = $contenu.'<p>OSKUR</p>';
+        }
+
+        $contenu = $contenu.'<div>
+                                <form method="post" action="sprintBank.php">
+                                    <fieldset>
+                                        <legend>Ouvrir un compte</legend>
+                                        <p>
+                                            <label>Id Client :</label>
+                                            <input type="text" name="clientId" value="'.$client->id.'" readonly/>
+                                        </p>
+                                        <p>
+                                            <label>Type de compte</label>
+                                            <select name="compteType" required>';
+
+        foreach ($allCompte as $compte) {
+            $contenu = $contenu.'<option value="'.$compte->nom.'">'.$compte->nom.'</option>';
+        }
+
+        $contenu = $contenu.'               </select>
+                                        </p>
+                                        <input type="submit" name="conseillerCreationCompte" value="Créer le compte"/>
+                                    </fieldset>
+                                </form>
+                            </div>';
+
+        if ($clientContrat != false) {
+            $contenu = $contenu.'<div>
+                                    <form method="post" action="sprintBank.php">
+                                        <fieldset>
+                                            <legend>Contrat</legend>
+                                            <p>
+                                                <label>Id Client :</label>
+                                                <input type="text" name="clientId" value="'.$client->id.'" readonly/>
+                                            </p>';
+
+            foreach ($clientContrat as $contrat) {
+                $contenu = $contenu.'<p>
+                                        <input type="radio" name="radioContrat" value="'.$contrat->id.'" required/>
+                                        Type de Contrat : '.$contrat->nom.' | Tarif Mensuel : '.$contrat->tarifMensuel.' | Date d'."'".'ouverture : '.$contrat->dateOuverture.'
+                                    </p>';
+            }
+            $contenu = $contenu.'<input type="submit" name="suppressionContrat" value="Supprimer le contrat"/>
+                                </form></fieldset></div>';
+        }
+
+        $contenu = $contenu.'<div>
+                                <form method="post" action="sprintBank.php">
+                                    <fieldset>
+                                        <legend>Souscrire un contrat</legend>
+                                        <p>
+                                            <label>Id Client :</label>
+                                            <input type="text" name="clientId" value="'.$client->id.'" readonly/>
+                                        </p>
+                                        <p>
+                                            <label>Type de contrat</label>
+                                            <select name="contratType" required>';
+
+        foreach ($allContrat as $contrat) {
+            $contenu = $contenu.'<option value="'.$contrat->nom.'">'.$contrat->nom.'</option>';
+        }
+
+        $contenu = $contenu.'               </select>
+                                        </p>
+                                        <p>
+                                            <label>Montant du tarif mensuel :</label>
+                                            <input type="number" name="contratTarif" value="75" required/>
+                                        </p>
+                                        <input type="submit" name="conseillerSouscriptionContrat" value="Souscrire le contrat"/>
+                                    </fieldset>
+                                </form>
+                            </div>';
+
+        require_once 'Vue/gabaritConseille.php';
+    } else {
+        throw new Exception('Aucun client passée en paramètre');
+    }
+}
+
+function vueConseillerClientDeconnection()
+{
+    $contenuNavBar = '<a href="?actionConseil=conseiller_login_client"><div class="item">Authentification Client</div></a>';
+    require_once 'Vue/gabaritConseille.php';
+}
+
+function vueConseillerInscriptionClient()
+{
+    $contenuNavBar = '<a href="?actionConseil=conseiller_login_client"><div class="item">Authentification Client</div></a>';
+    $contenu = '<div>
+                    <form method="post" action="sprintBank.php">
+                        <fieldset>
+                            <legend>Inscription Client</legend>
+                            <p>
+                                <label>Nom :</label>
+                                <input type="text" name="nom" required/>
+                            </p>
+                            <p>
+                                <label>Prénom :</label>
+                                <input type="text" name="prenom" required/>
+                            </p>
+                            <p>
+                                <label>Adresse :</label>
+                                <input type="text" name="adresse" required/>
+                            </p>
+                            <p>
+                                <label>Numéro de téléphone :</label>
+                                <input type="tel" name="telephone" required/>
+                            </p>
+                            <p>
+                                <label>E-mail :</label>
+                                <input type="email" name="email" required/>
+                            </p>
+                            <p>
+                                <label>Profession :</label>
+                                <input type="text" name="profession" required/>
+                            </p>
+                            <p>
+                                <label>Situation familiale:</label>
+                                <select name="situation" required>
+                                    <option value="Marié" selected>Marié</option>
+                                    <option value="Célibataire">Célibataire</option>
+                                    <option value="Divorcé">Divorcé</option>
+                                </select>
+                            </p>
+                            <p>
+                                <input type="submit" name="conseillerInscriptionClient" value="Inscrire le Client"/>
+                            </p>
+                        </fieldset>
+                    </form>
+                </div>';
+    require_once 'Vue/gabaritConseille.php';
+}
+
+function vueConseillerMsg($message)
+{
+    $contenuNavBar = '<a href="?actionConseil=conseiller_login_client"><div class="item">Authentification Client</div></a>';
+    $contenu = $message;
+    require_once 'Vue/gabaritConseille.php';
+}
+
+function vueConseillerPageModificationDecouvert($clientId, $compteId)
+{
+    $contenuNavBar = '<a href="?actionConseil=conseiller_deconnection_client"><div class="item">Deconnection Client</div></a>';
+    $contenu = '<form method="post" action="sprintBank.php">
+                    <fieldset>
+                        <legend>Modification de découvert</legend>
+                        <p>
+                            <label>Id Client :</label>
+                            <input type="txt" name="clientId" value="'.$clientId.'" readonly/>
+                        </p>
+                        <p>
+                            <label>Id Compte :</label>
+                            <input type="txt" name="compteId" value="'.$compteId.'" readonly/>
+                        </p>
+                        <p>
+                            <label>Nouveau montant de découvert :</label>
+                            <input type="number" name="compteDecouvert" value="-200" max="0" required/>
+                        </p>
+                        <input type="submit" name="modificationDecouvert" value="Changer le découvert"/>
+                        <input type="submit" name="retourConseillerClient" value="Retourner à la page Client"/>
+                    </fieldset>
+                </form>';
+
+    require_once 'Vue/gabaritConseille.php';
 }
 
 //Erreurs PHP
