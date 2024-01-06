@@ -283,6 +283,7 @@ function ctrlSynthese()
         $infos = syntheseClient($nom, $prenom);
         infosClient($infos);
     }
+}
 
     function ctrlConseillerLoginClient()
     {
@@ -371,4 +372,3 @@ function ctrlSynthese()
     {
         afficherErreur($erreur);
     }
-}

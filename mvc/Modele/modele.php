@@ -341,7 +341,7 @@ function syntheseClient($nom, $prenom)
     $infos = ['client' => $client, 'comptes' => $comptes, 'contrats' => $contrats, 'conseiller' => $conseiller];
 
     return $infos;
-
+}
     function mdlGetClient($client, $methode)
     {
         $connexion = getConnexion();
@@ -490,4 +490,3 @@ function syntheseClient($nom, $prenom)
         $resultat = $connexion->query($requete);
         $resultat->closeCursor();
     }
-}
