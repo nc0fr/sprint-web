@@ -2,75 +2,85 @@
 
 //Login et choix des pages
 
-function pageLogin()
+function pageLogin(): void
 {
     $contenu = '';
     require_once __DIR__ . '/gabaritLogin.php';
 }
 
-function erreurId()
+function erreurId(): void
 {
     $contenu = '<p>Identifiants faux</p>';
     require_once __DIR__ . '/gabaritLogin.php';
 }
 
-function pageDirecteur($nom, $prenom, $type)
+function pageDirecteur(string $nom,
+                       string $prenom,
+                       string $type): void
 {
-    $contenu = '';
-    $contenu1 = $nom.' '.$prenom.'<br>'.$type;
+    $contenu = "$nom $prenom<br>$type";
     require_once __DIR__ . '/gabaritDirecteur.php';
 }
 
-function pageAgent($nom, $prenom, $type)
+function pageAgent(string $nom,
+                   string $prenom,
+                   string $type): void
 {
-    $contenu = $nom.' '.$prenom.'<br>'.$type;
+    $contenu = "$nom $prenom<br>$type";
     require_once __DIR__ . '/gabaritAgent.php';
 }
 
-function pageConseille($nom, $prenom, $type)
+function pageConseille(string $nom,
+                       string $prenom,
+                       string $type): void
 {
-    $contenu = $nom.' '.$prenom.'<br>'.$type;
+    $contenu = "$nom $prenom<br>$type";
     require_once __DIR__ . '/gabaritConseille.php';
 }
 
-function pageGestion()
+function pageGestion(): void
 {
     require_once __DIR__ . '/gabaritGestionEmployes.php';
 }
 
 //Directeur -> Gestion des employés
 
-function msgGestionEmployes($message)
+function msgGestionEmployes(string $message): void
 {
     $contenu = "<script>alert('".$message."');</script>";
     require_once __DIR__ . '/gabaritGestionEmployes.php';
 }
 
-function vueGetAllMotif($motif)
+function vueGetAllMotif(array $motif): void
 {
     $contenu1 = '';
     $contenu = '<fieldset><legend>Liste des motifs</legend><form method="post" action="sprintBank.php">';
-    if (count($motif) > 0) {
-        $contenu = $contenu.'<ul>';
-        foreach ($motif as $value) {
-            $contenu = $contenu.'<td><input type="radio" name="modifier" value='.$value->id.'>'.$value->libelle.'<br><p>Pieces justificative : '.$value->justificatifs.'</p></td><br><br>';
-        }
-        $contenu = $contenu.'</ul><input type="text" name="valeurModifier"/>
-                                <input type="submit" name="modifierPiece" value="Modifier le motif selectionné"/></form></fieldset>';
-    }
-    require_once 'vue/gabaritDirecteur.php';
-}
 
-function vueModifierPiece($etat)
-{
-    $contenu = '';
-    foreach ($etat as $val) {
-        $contenu = $contenu.'<p>Etat n°'.$val.'</p>';
+    if (count($motif) > 0) {
+        $contenu .= '<ul>';
+
+        foreach ($motif as $value) {
+            $contenu .= "<td><input type='radio' name='modifier' value='$value->id'>$value->libelle<br><p>Pieces justificative : $value->justificatifs</p></td><br><br>";
+        }
+
+        $contenu .= '</ul><input type="text" name="valeurModifier"/><input type="submit" name="modifierPiece" value="Modifier le motif selectionné"/></form></fieldset>';
     }
+
     require_once __DIR__ . '/gabaritDirecteur.php';
 }
 
-function vueMsgDirecteur($msg)
+function vueModifierPiece(array $etat): void
+{
+    $contenu = '';
+
+    foreach ($etat as $val) {
+        $contenu .= '<p>Etat n°'.$val.'</p>';
+    }
+
+    require_once __DIR__ . '/gabaritDirecteur.php';
+}
+
+function vueMsgDirecteur(string $msg): void
 {
     $contenu = $msg;
     require_once __DIR__ . '/gabaritDirecteur.php';
@@ -78,26 +88,34 @@ function vueMsgDirecteur($msg)
 
 //Directeur -> Gestion des comptes et contrats
 
-function vueGetAllTypeAccountContract($account, $contract)
+function vueGetAllTypeAccountContract(array $account,
+                                      array $contract): void
 {
     $contenu = '<fieldset><legend>Liste des types de Compte</legend><form method="post" action="sprintBank.php">';
+
     if (count($account) > 0) {
-        $contenu = $contenu.'<ul>';
+        $contenu .= '<ul>';
+
         foreach ($account as $value) {
-            $contenu = $contenu.'<td><input type="radio" name="account" value='.$value->id.'>'.$value->nom.'</td><br><br>';
+            $contenu .= '<td><input type="radio" name="account" value='.$value->id.'>'.$value->nom.'</td><br><br>';
         }
-        $contenu = $contenu.'</ul><input type="submit" name="supprimerType" value="Supprimer le type de compte selectionné"/></form></fieldset>';
-    }
-    $contenu = $contenu.'<fieldset><legend>Liste des types de Contrat</legend><form method="post" action="sprintBank.php">';
-    if (count($contract) > 0) {
-        $contenu = $contenu.'<ul>';
-        foreach ($contract as $value) {
-            $contenu = $contenu.'<td><input type="radio" name="contract" value='.$value->id.'>'.$value->nom.'</td><br><br>';
-        }
-        $contenu = $contenu.'</ul><input type="submit" name="supprimerType" value="Supprimer le type de contrat selectionné"/></form></fieldset>';
+
+        $contenu .= '</ul><input type="submit" name="supprimerType" value="Supprimer le type de compte selectionné"/></form></fieldset>';
     }
 
-    $contenu = $contenu.'<form method="post" action="sprintBank.php">
+    $contenu .= '<fieldset><legend>Liste des types de Contrat</legend><form method="post" action="sprintBank.php">';
+
+    if (count($contract) > 0) {
+        $contenu .= '<ul>';
+
+        foreach ($contract as $value) {
+            $contenu .= '<td><input type="radio" name="contract" value='.$value->id.'>'.$value->nom.'</td><br><br>';
+        }
+
+        $contenu .= '</ul><input type="submit" name="supprimerType" value="Supprimer le type de contrat selectionné"/></form></fieldset>';
+    }
+
+    $contenu .= '<form method="post" action="sprintBank.php">
                             <fieldset>
                                 <legend>Creer un nouveau Type</legend>
                                 <p>
@@ -129,18 +147,18 @@ function vueGetAllTypeAccountContract($account, $contract)
                             </fieldset>
                         </form>';
 
-    require_once 'vue/gabaritDirecteur.php';
+    require_once __DIR__ . '/gabaritDirecteur.php';
 }
 
 //Agent -> Modification clients
 
-function msgGestionClients($msg)
+function msgGestionClients(string $msg): void
 {
     $contenu = $msg;
     require_once __DIR__ . '/gabaritGestionClients.php';
 }
 
-function pageGestionClients()
+function pageGestionClients(): void
 {
     $contenu = '
     <p>Quel client souhaitez vous modifier ?</p>
@@ -159,7 +177,7 @@ function pageGestionClients()
 }
 
 //Erreurs PHP
-function afficherErreur($erreur)
+function afficherErreur(Exception $erreur): void
 {
     $contenu = '<p>'.$erreur.'</p>';
     require_once __DIR__. '/gabaritLogin.php';

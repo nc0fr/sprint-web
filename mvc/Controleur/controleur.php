@@ -26,12 +26,12 @@ function ctrlVerifierId(): void
 }
 
 //Gestion des employés
-function ctrlGestion()
+function ctrlGestion(): void
 {
     pageGestion();
 }
 
-function ctrlAjouterEmploye()
+function ctrlAjouterEmploye(): void
 {
     $nom = $_POST['nom'];
     $prenom = $_POST['prenom'];
@@ -39,10 +39,12 @@ function ctrlAjouterEmploye()
     $mdp = $_POST['mdp'];
     $dateEmbauche = $_POST['dateembauche'];
     $type = $_POST['poste'];
+
     $ensemble = verifierAvantAjout($nom, $prenom, $login);
-    if ($ensemble['personne'] != false) {
+
+    if ($ensemble['personne']) {
         msgGestionEmployes('Personne déjà existante !');
-    } elseif ($ensemble['login'] != false) {
+    } elseif ($ensemble['login']) {
         msgGestionEmployes('Login déjà utilisé !');
     } else {
         ajouterEmploye($nom, $prenom, $login, $mdp, $dateEmbauche, $type);
@@ -50,16 +52,18 @@ function ctrlAjouterEmploye()
     }
 }
 
-function ctrlModifierEmploye()
+function ctrlModifierEmploye(): void
 {
     $login = $_POST['login'];
     $mdp = $_POST['mdp'];
     $nom = $_POST['nom'];
     $prenom = $_POST['prenom'];
+
     $ensemble = verifierAvantAjout($nom, $prenom, $login);
-    if ($ensemble['personne'] == false) {
+
+    if (!$ensemble['personne']) {
         msgGestionEmployes('Aucun employé ne correspond à votre saisis.');
-    } elseif ($ensemble['login'] != false) {
+    } elseif ($ensemble['login']) {
         msgGestionEmployes('Login déjà utilisé !');
     } else {
         modifierEmploye($login, $mdp, $nom, $prenom);
@@ -67,15 +71,16 @@ function ctrlModifierEmploye()
     }
 }
 
-function ctrlGetAllMotif()
+function ctrlGetAllMotif(): void
 {
     $motif = mdlGetAllMotif();
     vueGetAllMotif($motif);
 }
 
-function ctrlModifierPiece($motif)
+function ctrlModifierPiece($motif): void
 {
-    if (isset($motif['modifier']) && isset($motif['valeurModifier'])) {
+    if (isset($motif['modifier'])
+        && isset($motif['valeurModifier'])) {
 
         if (strlen($motif['valeurModifier']) > 0) {
 
@@ -94,7 +99,7 @@ function ctrlModifierPiece($motif)
 }
 
 //Comptes et contrats
-function ctrlGetAllTypeAccountContract()
+function ctrlGetAllTypeAccountContract(): void
 {
     $account = mdlGetAllTypeAccount();
     $contract = mdlGetAllTypeContract();
@@ -102,14 +107,14 @@ function ctrlGetAllTypeAccountContract()
     vueGetAllTypeAccountContract($account, $contract);
 }
 
-function ctrlSupprimerTypeAccount($type)
+function ctrlSupprimerTypeAccount($type): void
 {
     if (isset($type['account'])) {
         try {
 
             $result = mdlTypeIsAssign($type['account'], 'account');
 
-            if ($result == false) {
+            if (!$result) {
 
                 $name = mdlGetTypeById($type['account'], 'account')->nom;
                 mdlSupprimerMotif($name);
@@ -127,7 +132,7 @@ function ctrlSupprimerTypeAccount($type)
 
             $result = mdlTypeIsAssign($type['contract'], 'contract');
 
-            if ($result == false) {
+            if (!$result) {
 
                 $name = mdlGetTypeById($type['contract'], 'contract')->nom;
                 mdlSupprimerMotif($name);
@@ -144,7 +149,10 @@ function ctrlSupprimerTypeAccount($type)
     }
 }
 
-function ctrlAjouterType($newType)
+/**
+ * @throws Exception
+ */
+function ctrlAjouterType($newType): void
 {
 
     if (
@@ -158,8 +166,8 @@ function ctrlAjouterType($newType)
         $pieceModification = $newType['pieceModification'];
         $pieceSuppression = $newType['pieceSuppression'];
 
-        if (mdlGetTypeByName($nom, 'account') == false
-            && mdlGetTypeByName($nom, 'contract') == false) {
+        if (!mdlGetTypeByName($nom, 'account')
+            && !mdlGetTypeByName($nom, 'contract')) {
 
             mdlAjouterType($nature, $nom, $pieceCreation, $pieceModification, $pieceSuppression);
 
@@ -174,17 +182,17 @@ function ctrlAjouterType($newType)
 
 //Agent -> Modification clients
 
-function ctrlGestionClients()
+function ctrlGestionClients(): void
 {
     pageGestionClients();
 }
 
-function ctrlModifierClient()
+function ctrlModifierClient(): void
 {
     $nom = $_POST['nom'];
     $prenom = $_POST['prenom'];
     $ligne = rechercheClient($nom, $prenom);
-    if ($ligne != false) {
+    if ($ligne) {
         $changements = 'Changements effectués pour '.$nom.' '.$prenom.' : ';
         if (! empty($_POST['adresse'])) {
             modifierClient('adresse', $_POST['adresse'], $nom, $prenom);
@@ -218,7 +226,7 @@ function ctrlModifierClient()
 }
 
 //Erreurs
-function ctrlErreur($erreur)
+function ctrlErreur($erreur): void
 {
     afficherErreur($erreur);
 }
