@@ -417,8 +417,7 @@ function mdlGetClientContrat($client)
     $connexion = getConnexion();
 
     $requeteVIEW = 'CREATE OR REPLACE VIEW ContratClient(idContrat) AS
-                    SELECT contrat.id FROM contrat WHERE contrat.id
-                    IN (SELECT asouscrit.contrat FROM asouscrit WHERE asouscrit.client = '.$client.');
+                    SELECT asouscrit.contrat FROM asouscrit WHERE asouscrit.client = '.$client.';
 
                     CREATE OR REPLACE VIEW ContratClientType(idContrat, typeContrat) AS
                     SELECT contratclient.idContrat, estdetypecontrat.typeContrat FROM contratclient
@@ -469,7 +468,13 @@ function mdlSuppressionCompte($compteId)
 {
     $connexion = getConnexion();
 
-    $requete = 'DELETE FROM estdetypecompte WHERE compte = '.$compteId.';
+    $requete = 'CREATE OR REPLACE VIEW CompteOperation(idOperation) AS
+                SELECT effectueesur.operation FROM effectueesur WHERE effectueesur.compte = '.$compteId.';
+
+                DELETE FROM aeffectue WHERE aeffectue.operation IN (SELECT compteoperation.idOperation FROM compteoperation);
+                DELETE FROM effectueesur WHERE effectueesur.compte = '.$compteId.';
+                DELETE FROM operation WHERE operation.id IN (SELECT compteoperation.idOperation FROM compteoperation);
+                DELETE FROM estdetypecompte WHERE compte = '.$compteId.';
                 DELETE FROM aouvert WHERE compte = '.$compteId.';
                 DELETE FROM compte WHERE id = '.$compteId.';';
 

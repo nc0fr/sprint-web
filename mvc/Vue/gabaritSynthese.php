@@ -8,9 +8,9 @@
     <body>
     <div class="navbar">
 
-      <a href="?action2=gestion_clients"><div class="item">Modifier client</div></a>
-      <a href= "?action5==synthese"><div class="item">Synthèse client</div></a>
-      <a href="?action4==operations"><div class="item">Effectuer opération</div></a>
+      <a href="?action=gestion_clients"><div class="item">Modifier client</div></a>
+      <a href= "?action=synthese"><div class="item">Synthèse client</div></a>
+      <a href="?action=operations"><div class="item">Effectuer opération</div></a>
       <div class="item">Gestion RDV</div>
       <a href="sprintBank.php"><div class="logout">Déconnexion</div></a>
     </div>
