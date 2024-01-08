@@ -158,6 +158,7 @@ function pageGestionClients()
     ';
     require_once 'Vue/gabaritGestionClients.php';
 }
+
 //Agent -> Opérations
 
 function pageOperations()
@@ -481,11 +482,11 @@ function vueConseillerPageModificationDecouvert($clientId, $compteId)
                         <legend>Modification de découvert</legend>
                         <p>
                             <label>Id Client :</label>
-                            <input type="txt" name="clientId" value="'.$clientId.'" readonly/>
+                            <input type="text" name="clientId" value="'.$clientId.'" readonly/>
                         </p>
                         <p>
                             <label>Id Compte :</label>
-                            <input type="txt" name="compteId" value="'.$compteId.'" readonly/>
+                            <input type="text" name="compteId" value="'.$compteId.'" readonly/>
                         </p>
                         <p>
                             <label>Nouveau montant de découvert :</label>
@@ -497,6 +498,25 @@ function vueConseillerPageModificationDecouvert($clientId, $compteId)
                 </form>';
 
     require_once 'Vue/gabaritConseille.php';
+}
+
+function vueStatistiques(string $debut, string $fin, int $contrats, int $comptes, int $rdv, int $clients, float $solde): void
+{
+    $contenu = '<form method="post" action="?action=statistiques">';
+    $contenu .= '<fieldset><legend>Statistiques de la banque</legend>';
+    $contenu .= '<p><label for="debut">Entre le </label><input type="date" id="debut" name="debut" value="'.$debut.'" min="'.$debut.'" max="'.$fin.'">';
+    $contenu .= '<label for="fin"> et le </label><input type="date" id="fin" name="fin" value="'.$fin.'" min="'.$debut.'" max="'.$fin.'"></p>';
+    $contenu .= '<p><input type="submit" name="statistiques" value="Actualiser"></p>';
+    $contenu .= '<ul>';
+    $contenu .= "<li>Nombre de contrats souscris : $contrats</li>";
+    $contenu .= "<li>Nombre d'ouverture de comptes : $comptes</li>";
+    $contenu .= "<li>Nombre de rendez-vous pris : $rdv</li>";
+    $contenu .= "<li>Nombre total de client : $clients</li>";
+    $contenu .= "<li>Solde total des clients : $solde euros</li>";
+    $contenu .= '</ul>';
+    $contenu .= '</fieldset></form>';
+
+    require_once 'Vue/gabaritDirecteur.php';
 }
 
 //Erreurs PHP

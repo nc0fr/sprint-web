@@ -147,10 +147,7 @@ function ctrlSupprimerTypeAccount($type)
 function ctrlAjouterType($newType)
 {
 
-    if (
-        strlen($newType['nom']) > 0 && strlen($newType['nature']) > 0 && strlen($newType['pieceCreation']) > 0 &&
-        strlen($newType['pieceModification']) > 0 && strlen($newType['pieceSuppression']) > 0
-    ) {
+    if (strlen($newType['nom']) > 0 && strlen($newType['nature']) > 0 && strlen($newType['pieceCreation']) > 0 && strlen($newType['pieceModification']) > 0 && strlen($newType['pieceSuppression']) > 0) {
 
         $nom = $newType['nom'];
         $nature = $newType['nature'];
@@ -158,8 +155,7 @@ function ctrlAjouterType($newType)
         $pieceModification = $newType['pieceModification'];
         $pieceSuppression = $newType['pieceSuppression'];
 
-        if (mdlGetTypeByName($nom, 'account') == false
-            && mdlGetTypeByName($nom, 'contract') == false) {
+        if (mdlGetTypeByName($nom, 'account') == false && mdlGetTypeByName($nom, 'contract') == false) {
 
             mdlAjouterType($nature, $nom, $pieceCreation, $pieceModification, $pieceSuppression);
 
@@ -368,12 +364,24 @@ function ctrlConseillerModificationDecouvert($client)
 
 function ctrlStatistiques(): void
 {
-    $argent = totalArgent();
-    $comptes = nbComptes();
-    $contrats = nbContrats();
-    $clients = nbClients();
-    $employes = nbEmployes();
-    vueStatistiques($argent, $comptes, $contrats, $clients, $employes);
+    $debut = '2004-07-30'; // ma date de naissance :)
+    if (isset($_POST['debut'])) {
+        $debut = $_POST['debut'];
+    }
+
+    $fin = new DateTime();
+    $fin = $fin->format('Y-m-d');
+    if (isset($_POST['fin'])) {
+        $fin = $_POST['fin'];
+    }
+
+    $contrats = mdlCountContrats($debut, $fin);
+    $comptes = mdlCountComptes($debut, $fin);
+    $rdv = mdlCountRdv($debut, $fin);
+    $clients = mdlCountClients($fin);
+    $solde = mdlSumSolde($fin);
+
+    vueStatistiques($debut, $fin, $contrats, $comptes, $rdv, $clients, $solde);
 }
 
 //Erreurs
