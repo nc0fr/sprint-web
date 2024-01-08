@@ -6,9 +6,9 @@ try {
     if (isset($_POST['connexion'])) {
         ctrlVerifierId();
     } elseif (isset($_GET['action'])) {
-        if ( $_GET['action'] == 'gestion_motifs') {
+        if ($_GET['action'] == 'gestion_motifs') {
             ctrlGetAllMotif();
-        } elseif ($_GET['action'] == 'gestion_employes' ) {
+        } elseif ($_GET['action'] == 'gestion_employes') {
             if (isset($_POST['ajtemploye'])) {
                 ctrlAjouterEmploye();
             } elseif (isset($_POST['setemploye'])) {
@@ -18,7 +18,7 @@ try {
             }
         } elseif ($_GET['action'] == 'gestion_comptes_contrats') {
             ctrlGetAllTypeAccountContract();
-        } elseif ($_GET['action'] == 'statistiques'){
+        } elseif ($_GET['action'] == 'statistiques') {
             ctrlStatistiques();
         } elseif ($_GET['action'] == 'gestion_clients') {
             if (isset($_POST['choixmodif'])) {
@@ -26,7 +26,7 @@ try {
             } else {
                 ctrlGestionClients();
             }
-        } elseif ($_GET['action'] == "operations") {
+        } elseif ($_GET['action'] == 'operations') {
             if (isset($_POST['choixclientoperations'])) {
                 ctrlOperations();
             } elseif (isset($_POST['choixcompteoperations'])) {
@@ -34,7 +34,7 @@ try {
             } else {
                 ctrlPageOperations();
             }
-        } elseif ($_GET['action'] == "synthese") {
+        } elseif ($_GET['action'] == 'synthese') {
             if (isset($_POST['clientsynthese'])) {
                 ctrlSynthese();
             } else {
