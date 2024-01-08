@@ -368,13 +368,13 @@ function ctrlConseillerModificationDecouvert($client)
 
 function ctrlStatistiques(): void
 {
-        $argent = totalArgent();
-        $comptes = nbComptes();
-        $contrats = nbContrats();
-        $clients = nbClients();
-        $employes = nbEmployes();
-        vueStatistiques($argent, $comptes, $contrats, $clients, $employes);
-    }
+    $argent = totalArgent();
+    $comptes = nbComptes();
+    $contrats = nbContrats();
+    $clients = nbClients();
+    $employes = nbEmployes();
+    vueStatistiques($argent, $comptes, $contrats, $clients, $employes);
+}
 
 //Erreurs
 function ctrlErreur($erreur)
