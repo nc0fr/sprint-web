@@ -11,13 +11,17 @@ function getConnexion()
     return $connexion;
 }
 
-function verifierLogin($usr, $mdp)
+function verifierLogin(string $usr,
+    string $mdp)
 {
     $connexion = getConnexion();
-    $requete = "select login,mdp,nom,prenom,type from employe where login='$usr' and mdp='$mdp'";
+    $requete = "select login, mdp, nom, prenom, type from `Employe` where login='$usr' and mdp='$mdp'";
+
     $resultat = $connexion->query($requete);
     $resultat->setFetchMode(PDO::FETCH_OBJ);
+
     $ligne = $resultat->fetch();
+
     $resultat->closeCursor();
 
     return $ligne;
@@ -29,11 +33,14 @@ function verifierAvantAjout($nom, $prenom, $login)
     $requete = "select nom,prenom from employe where nom='$nom' and prenom='$prenom'";
     $resultat = $connexion->query($requete);
     $resultat->setFetchMode(PDO::FETCH_OBJ);
+
     $verifPersonne = $resultat->fetch();
+
     $resultat->closeCursor();
     $requete = "select login from employe where login='$login'";
     $resultat = $connexion->query($requete);
     $verifLogin = $resultat->fetch();
+
     $resultat->closeCursor();
     $ensemble = ['personne' => $verifPersonne, 'login' => $verifLogin];
 
@@ -61,11 +68,13 @@ function mdlGetAllMotif()
 {
 
     $connexion = getConnexion();
+    $requete = 'select * from `Motif`;';
 
-    $requete = 'SELECT * FROM `motif`;';
     $resultat = $connexion->query($requete);
     $resultat->setFetchMode(PDO::FETCH_OBJ);
+
     $motif = $resultat->fetchAll();
+
     $resultat->closeCursor();
 
     return $motif;
@@ -75,8 +84,8 @@ function mdlModifierPiece($id, $value)
 {
 
     $connexion = getConnexion();
+    $requete = 'update `Motif` set justificatifs = "'.$value.'" where id = '.intval($id);
 
-    $requete = 'UPDATE motif SET justificatifs = "'.$value.'" WHERE id = '.intval($id);
     $resultat = $connexion->query($requete);
     $resultat->setFetchMode(PDO::FETCH_OBJ);
     $resultat->fetchAll();
@@ -86,8 +95,8 @@ function mdlGetAllTypeAccount()
 {
 
     $connexion = getConnexion();
+    $requete = 'select * from `TypeCompte`;';
 
-    $requete = 'SELECT * FROM typecompte;';
     $resultat = $connexion->query($requete);
     $resultat->setFetchMode(PDO::FETCH_OBJ);
     $typeAccount = $resultat->fetchAll();
@@ -100,8 +109,8 @@ function mdlGetAllTypeContract()
 {
 
     $connexion = getConnexion();
+    $requete = 'select * from `TypeContrat`;';
 
-    $requete = 'SELECT * FROM typecontrat;';
     $resultat = $connexion->query($requete);
     $resultat->setFetchMode(PDO::FETCH_OBJ);
     $typeContract = $resultat->fetchAll();
@@ -489,4 +498,49 @@ function mdlModificationDecouvert($compteId, $compteDecouvert)
 
     $resultat = $connexion->query($requete);
     $resultat->closeCursor();
+}
+
+function totalArgent(): float
+{
+    $connexion = getConnexion();
+    $requete = 'select sum(solde) from `Compte`;';
+    $resultat = $connexion->query($requete);
+
+    return $resultat->fetchColumn(0);
+}
+
+function nbComptes(): int
+{
+    $connexion = getConnexion();
+    $requete = 'select count(id) from `Compte`;';
+    $resultat = $connexion->query($requete);
+
+    return $resultat->fetchColumn(0);
+}
+
+function nbContrats(): int
+{
+    $connexion = getConnexion();
+    $requete = 'select count(id) from `Contrat`;';
+    $resultat = $connexion->query($requete);
+
+    return $resultat->fetchColumn(0);
+}
+
+function nbClients(): int
+{
+    $connexion = getConnexion();
+    $requete = 'select count(id) from `Client`;';
+    $resultat = $connexion->query($requete);
+
+    return $resultat->fetchColumn(0);
+}
+
+function nbEmployes(): int
+{
+    $connexion = getConnexion();
+    $requete = 'select count(id) from `Employe`;';
+    $resultat = $connexion->query($requete);
+
+    return $resultat->fetchColumn(0);
 }

@@ -49,13 +49,14 @@ function msgGestionEmployes($message)
 
 function vueGetAllMotif($motif)
 {
+    $contenu1 = '';
     $contenu = '<fieldset><legend>Liste des motifs</legend><form method="post" action="sprintBank.php">';
     if (count($motif) > 0) {
         $contenu = $contenu.'<ul>';
         foreach ($motif as $value) {
-            $contenu = $contenu.'<td><input type="radio" name="modifier" required value='.$value->id.'>'.$value->libelle.'<br><p>Pieces justificative : '.$value->justificatifs.'</p></td><br><br>';
+            $contenu = $contenu.'<td><input type="radio" name="modifier" value='.$value->id.'>'.$value->libelle.'<br><p>Pieces justificative : '.$value->justificatifs.'</p></td><br><br>';
         }
-        $contenu = $contenu.'</ul><input type="text" name="valeurModifier" required/>
+        $contenu = $contenu.'</ul><input type="text" name="valeurModifier"/>
                                 <input type="submit" name="modifierPiece" value="Modifier le motif selectionné"/></form></fieldset>';
     }
     require_once 'vue/gabaritDirecteur.php';
@@ -84,7 +85,7 @@ function vueGetAllTypeAccountContract($account, $contract)
     if (count($account) > 0) {
         $contenu = $contenu.'<ul>';
         foreach ($account as $value) {
-            $contenu = $contenu.'<td><input type="radio" name="account" required value='.$value->id.'>'.$value->nom.'</td><br><br>';
+            $contenu = $contenu.'<td><input type="radio" name="account" value='.$value->id.'>'.$value->nom.'</td><br><br>';
         }
         $contenu = $contenu.'</ul><input type="submit" name="supprimerType" value="Supprimer le type de compte selectionné"/></form></fieldset>';
     }
@@ -92,7 +93,7 @@ function vueGetAllTypeAccountContract($account, $contract)
     if (count($contract) > 0) {
         $contenu = $contenu.'<ul>';
         foreach ($contract as $value) {
-            $contenu = $contenu.'<td><input type="radio" name="contract" required value='.$value->id.'>'.$value->nom.'</td><br><br>';
+            $contenu = $contenu.'<td><input type="radio" name="contract" value='.$value->id.'>'.$value->nom.'</td><br><br>';
         }
         $contenu = $contenu.'</ul><input type="submit" name="supprimerType" value="Supprimer le type de contrat selectionné"/></form></fieldset>';
     }
@@ -102,26 +103,26 @@ function vueGetAllTypeAccountContract($account, $contract)
                                 <legend>Creer un nouveau Type</legend>
                                 <p>
                                     <label>Nature du changement :</label>
-                                    <select name="nature" required>
+                                    <select name="nature">
                                         <option value="compte" selected>Compte</option>
                                         <option value="contrat">Contrat</option>
                                     </select>
                                 </p>
                                 <p>
                                     <label>Nom :</label>
-                                    <input type="text" name="nom" required/>
+                                    <input type="text" name="nom"/>
                                 </p>
                                 <p>
                                     <label>Pièces justificative pour Création</label>
-                                    <input type="text" name="pieceCreation" required/>
+                                    <input type="text" name="pieceCreation"/>
                                 </p>
                                 <p>
                                     <label>Pièces justificative pour Modification</label>
-                                    <input type="text" name="pieceModification" required/>
+                                    <input type="text" name="pieceModification"/>
                                 </p>
                                 <p>
                                     <label>Pièces justificative pour Suppression</label>
-                                    <input type="text" name="pieceSuppression" required/>
+                                    <input type="text" name="pieceSuppression"/>
                                 </p>
                                 <p>
                                     <input type="submit" name="ajouterType" value="Ajouter le type"/>

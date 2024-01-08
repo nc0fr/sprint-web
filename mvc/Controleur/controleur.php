@@ -1,15 +1,15 @@
 <?php
 
-require_once 'Modele/modele.php';
-require_once 'Vue/vue.php';
+require_once __DIR__.'/../Modele/modele.php';
+require_once __DIR__.'/../Vue/vue.php';
 
 //Page login
-function ctrlPageLogin()
+function ctrlPageLogin(): void
 {
     pageLogin();
 }
 
-function ctrlVerifierId()
+function ctrlVerifierId(): void
 {
     $usr = $_POST['login'];
     $mdp = $_POST['mdp'];
@@ -364,7 +364,16 @@ function ctrlConseillerModificationDecouvert($client)
 {
     mdlModificationDecouvert($client['compteId'], $client['compteDecouvert']);
     ctrlConseillerClient($client['clientId'], 'id');
+}
 
+function ctrlStatistiques(): void
+{
+    $argent = totalArgent();
+    $comptes = nbComptes();
+    $contrats = nbContrats();
+    $clients = nbClients();
+    $employes = nbEmployes();
+    vueStatistiques($argent, $comptes, $contrats, $clients, $employes);
 }
 
 //Erreurs

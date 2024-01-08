@@ -32,5 +32,8 @@
         "build": [
             "echo 'Success!'"
         ]
-    }
+    },
+  "require": {
+    "ext-pdo": "*"
+  }
 }
