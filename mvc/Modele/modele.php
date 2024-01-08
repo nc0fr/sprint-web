@@ -223,7 +223,7 @@ function mdlSupprimerMotif($name)
 
     $connexion = getConnexion();
 
-    $requete = 'DELETE FROM motif WHERE libelle = "Création ' . "d'un " . $name . '" OR libelle = "Modification ' . "d'un " . $name . '" OR libelle = "Suppression ' . "d'un " . $name . '";';
+    $requete = 'DELETE FROM motif WHERE libelle = "Création '."d'un ".$name.'" OR libelle = "Modification '."d'un ".$name.'" OR libelle = "Suppression '."d'un ".$name.'";';
     $resultat = $connexion->query($requete);
     $resultat->setFetchMode(PDO::FETCH_OBJ);
     $resultat->fetch();
@@ -378,7 +378,7 @@ function mdlInscriptionClient($client)
     $requete = 'INSERT INTO
                 client(nom, prenom, adresse, numTel, mail, profession, situation, dateAjout)
                 VALUES
-                ("' . $client['nom'] . '", "' . $client['prenom'] . '", "' . $client['adresse'] . '", "' . $client['telephone'] . '", "' . $client['email'] . '", "' . $client['profession'] . '", "' . $client['situation'] . '", NOW())';
+                ("'.$client['nom'].'", "'.$client['prenom'].'", "'.$client['adresse'].'", "'.$client['telephone'].'", "'.$client['email'].'", "'.$client['profession'].'", "'.$client['situation'].'", NOW())';
     $resultat = $connexion->query($requete);
     $resultat->closeCursor();
 }
