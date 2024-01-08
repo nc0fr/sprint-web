@@ -16,13 +16,13 @@
     <a href="?action=gestion_employes">
         <div class="item">Gestion des employés</div>
     </a>
-    <a href="?action1=gestion_motifs">
+    <a href="?action=gestion_motifs">
         <div class="item">Gestions des justificatifs</div>
     </a>
-    <a href="?action3=gestion_comptes_contrats">
+    <a href="?action=gestion_comptes_contrats">
         <div class="item">Comptes et contrats</div>
     </a>
-    <a href="?action4=statistiques">
+    <a href="?action=statistiques">
         <div class="item">Statistiques</div>
     </a>
     <a href="sprintBank.php">
