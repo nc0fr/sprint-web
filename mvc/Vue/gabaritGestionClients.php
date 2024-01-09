@@ -2,6 +2,8 @@
 <html lang="fr">
 <head>
     <title>Sprint Bank | Gestion Clients</title>
+    <link rel="stylesheet" href="Vue/css/pico.min.css">
+
     <!--<link rel="stylesheet" href="Vue/css/styleGestion.css">-->
 
     <meta charset="utf-8">

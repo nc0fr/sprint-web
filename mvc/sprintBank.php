@@ -71,6 +71,8 @@ try {
         ctrlConseillerClient($_POST['clientId'], 'id');
     } elseif (isset($_POST['modificationDecouvert'])) {
         ctrlConseillerModificationDecouvert($_POST);
+    } elseif (isset($_POST['modifierPiece'])){
+        ctrlModifierPiece($_POST);
     } else {
         ctrlPageLogin();
     }

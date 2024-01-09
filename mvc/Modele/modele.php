@@ -505,47 +505,73 @@ function mdlModificationDecouvert($compteId, $compteDecouvert)
     $resultat->closeCursor();
 }
 
-function totalArgent(): float
+function mdlCountContrats(string $debut, $fin): int
 {
     $connexion = getConnexion();
-    $requete = 'select sum(solde) from `Compte`;';
-    $resultat = $connexion->query($requete);
 
-    return $resultat->fetchColumn(0);
+    $requete = "SELECT COUNT(*) FROM `Contrat` WHERE dateOuverture BETWEEN '$debut' AND '$fin';";
+
+    $resultat = $connexion->query($requete);
+    $resultat->setFetchMode(PDO::FETCH_OBJ);
+    $contrats = $resultat->fetch();
+    $resultat->closeCursor();
+
+    return $contrats->{'COUNT(*)'};
 }
 
-function nbComptes(): int
+function mdlCountComptes(string $debut, $fin): int
 {
     $connexion = getConnexion();
-    $requete = 'select count(id) from `Compte`;';
-    $resultat = $connexion->query($requete);
 
-    return $resultat->fetchColumn(0);
+    $requete = "SELECT COUNT(*) FROM `Compte` WHERE dateOuverture BETWEEN '$debut' AND '$fin';";
+
+    $resultat = $connexion->query($requete);
+    $resultat->setFetchMode(PDO::FETCH_OBJ);
+    $contrats = $resultat->fetch();
+    $resultat->closeCursor();
+
+    return $contrats->{'COUNT(*)'};
 }
 
-function nbContrats(): int
+function mdlCountRdv(string $debut, $fin): int
 {
     $connexion = getConnexion();
-    $requete = 'select count(id) from `Contrat`;';
-    $resultat = $connexion->query($requete);
 
-    return $resultat->fetchColumn(0);
+    $requete = "SELECT COUNT(*) FROM `RendezVous` WHERE horaireDebut BETWEEN '$debut' AND '$fin';";
+
+    $resultat = $connexion->query($requete);
+    $resultat->setFetchMode(PDO::FETCH_OBJ);
+    $contrats = $resultat->fetch();
+    $resultat->closeCursor();
+
+    return $contrats->{'COUNT(*)'};
 }
 
-function nbClients(): int
+function mdlCountClients(string $fin): int
 {
     $connexion = getConnexion();
-    $requete = 'select count(id) from `Client`;';
-    $resultat = $connexion->query($requete);
 
-    return $resultat->fetchColumn(0);
+    $requete = "SELECT COUNT(*) FROM `Client` WHERE dateAjout <= '$fin';";
+
+    $resultat = $connexion->query($requete);
+    $resultat->setFetchMode(PDO::FETCH_OBJ);
+    $contrats = $resultat->fetch();
+    $resultat->closeCursor();
+
+    return $contrats->{'COUNT(*)'};
 }
 
-function nbEmployes(): int
+function mdlSumSolde(string $fin)
 {
     $connexion = getConnexion();
-    $requete = 'select count(id) from `Employe`;';
-    $resultat = $connexion->query($requete);
 
-    return $resultat->fetchColumn(0);
+    $requete = "SELECT SUM(solde) FROM `Compte` WHERE dateOuverture <= '$fin';";
+
+    $resultat = $connexion->query($requete);
+    $resultat->setFetchMode(PDO::FETCH_OBJ);
+    $contrats = $resultat->fetch();
+    $resultat->closeCursor();
+
+    return $contrats->{'SUM(solde)'};
 }
+

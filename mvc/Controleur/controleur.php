@@ -368,12 +368,24 @@ function ctrlConseillerModificationDecouvert($client)
 
 function ctrlStatistiques(): void
 {
-    $argent = totalArgent();
-    $comptes = nbComptes();
-    $contrats = nbContrats();
-    $clients = nbClients();
-    $employes = nbEmployes();
-    vueStatistiques($argent, $comptes, $contrats, $clients, $employes);
+    $debut = '2004-07-30'; // ma date de naissance :)
+    if (isset($_POST['debut'])) {
+        $debut = $_POST['debut'];
+    }
+
+    $fin = new DateTime();
+    $fin = $fin->format('Y-m-d');
+    if (isset($_POST['fin'])) {
+        $fin = $_POST['fin'];
+    }
+
+    $contrats = mdlCountContrats($debut, $fin);
+    $comptes = mdlCountComptes($debut, $fin);
+    $rdv = mdlCountRdv($debut, $fin);
+    $clients = mdlCountClients($fin);
+    $solde = mdlSumSolde($fin);
+
+    vueStatistiques($debut, $fin, $contrats, $comptes, $rdv, $clients, $solde);
 }
 
 //Erreurs

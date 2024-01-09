@@ -499,6 +499,25 @@ function vueConseillerPageModificationDecouvert($clientId, $compteId)
     require_once 'Vue/gabaritConseille.php';
 }
 
+function vueStatistiques(string $debut, string $fin, int $contrats, int $comptes, int $rdv, int $clients, $solde): void
+{
+    $contenu = '<form method="post" action="?action=statistiques">';
+    $contenu .= '<fieldset><legend class="text-3xl">Statistiques de la banque</legend>';
+    $contenu .= '<p><label for="debut">Entre le </label><input type="date" id="debut" name="debut" value="'.$debut.'" min="'.$debut.'" max="'.$fin.'" class="input input-neutral input-bordered">';
+    $contenu .= '<label for="fin"> et le </label><input type="date" id="fin" name="fin" value="'.$fin.'" min="'.$debut.'" max="'.$fin.'" class="input input-neutral input-bordered"></p>';
+    $contenu .= '<p><input type="submit" name="statistiques" value="Actualiser" class="btn btn-secondary text-secondary hover:text-secondary-content my-2"></p>';
+    $contenu .= '<ul class="list-disc mx-8 py-4">';
+    $contenu .= "<li>Nombre de contrats souscris : $contrats</li>";
+    $contenu .= "<li>Nombre d'ouverture de comptes : $comptes</li>";
+    $contenu .= "<li>Nombre de rendez-vous pris : $rdv</li>";
+    $contenu .= "<li>Nombre total de client : $clients</li>";
+    $contenu .= "<li>Solde total des clients : $solde euros</li>";
+    $contenu .= '</ul>';
+    $contenu .= '</fieldset></form>';
+
+    require_once 'Vue/gabaritDirecteur.php';
+}
+
 //Erreurs PHP
 function afficherErreur($erreur)
 {

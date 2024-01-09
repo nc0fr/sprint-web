@@ -2,7 +2,7 @@
 <html lang="fr">
     <head>
       <title>Sprint Bank | Agent</title>
-      <!--<link rel="stylesheet" href="Vue/css/styleAgent.css">-->
+      <link rel="stylesheet" href="Vue/css/pico.min.css">
       <meta charset="utf-8">
     </head>
     <body>

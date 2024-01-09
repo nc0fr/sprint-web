@@ -3,6 +3,8 @@
 <head>
     <title>Sprint Bank | Gestion employés</title>
     <!--<link rel="stylesheet" href="Vue/css/styleDirecteur.css">-->
+    <link rel="stylesheet" href="Vue/css/pico.min.css">
+
     <script type="text/javascript" src="/Vue/js/directeur.js"></script>
     <meta charset="utf-8">
 </head>
