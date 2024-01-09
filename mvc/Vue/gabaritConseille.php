@@ -7,25 +7,31 @@
     <meta charset="utf-8">
 </head>
 <body>
-<div class="navbar">
-    <div class="infos"><?php if (isset($contenuInfoConseiller)) {
+<header class="p-3 navbar bg-neutral text-neutral-content">
+    <div class="navbar-start">
+        <?php if (isset($contenuInfoConseiller)) {
             echo $contenuInfoConseiller;
-        } ?></div>
-    <a href="?actionConseil=conseiller_inscription_client">
-        <div class="item">Inscription Client</div>
-    </a>
-    <?php if (isset($contenuNavBar)) {
-        echo $contenuNavBar;
-    } ?>
-    <a href="sprintBank.php">
+        } ?>
+    </div>
+
+    <div class="navbar-center gap-8">
+        <a href="?actionConseil=conseiller_inscription_client">
+            <div class="item">Inscription client</div>
+        </a>
+        <?php if (isset($contenuNavBar)) {
+            echo $contenuNavBar;
+        } ?>
+    </div>
+
+    <a href="sprintBank.php" class="navbar-end">
         <div class="logout">Déconnexion</div>
     </a>
-</div>
-<div>
+</header>
+<main class="m-4 mx-6 bg-base-100 text-neutral">
     <?php if (isset($contenu)) {
         echo $contenu;
     } ?>
-</div>
+</main>
 </body>
 </html>
 

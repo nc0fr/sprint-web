@@ -558,7 +558,7 @@ function mdlCountClients(string $fin): int
     return $contrats->{'COUNT(*)'};
 }
 
-function mdlSumSolde(string $fin): float
+function mdlSumSolde(string $fin)
 {
     $connexion = getConnexion();
 
