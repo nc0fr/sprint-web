@@ -34,12 +34,11 @@ function pageConseille($nom, $prenom, $type)
     require_once 'Vue/gabaritConseille.php';
 }
 
-
 //Directeur -> Gestion des employés
 
 function gestionEmployes()
-    {
-    $contenu='
+{
+    $contenu = '
     <form method="post" class="formulaire">
     <fieldset class="ajouter">
         <h2>Ajouter Employé</h2>
@@ -70,9 +69,8 @@ function gestionEmployes()
             <p><input type="submit" name="setemploye" value="Modifier"></p>
     </fieldset>
     </form>';
-    require_once('Vue/gabaritDirecteur.php');
+    require_once 'Vue/gabaritDirecteur.php';
 }
-
 
 function msgGestionEmployes($message)
 {
@@ -294,7 +292,6 @@ function msgSynthese($msg)
     $contenu = $msg;
     require_once 'Vue/gabaritAgent.php';
 }
-
 
 //Conseiller
 function vueConseillerLoginClient()
