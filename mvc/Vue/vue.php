@@ -23,7 +23,7 @@ function pageDirecteur($nom, $prenom, $type)
 
 function pageAgent($nom, $prenom, $type)
 {
-    $contenu = $nom.' '.$prenom.'<br>'.$type;
+    $contenu1 = $nom.' '.$prenom.'<br>'.$type;
     require_once 'Vue/gabaritAgent.php';
 }
 
@@ -34,12 +34,45 @@ function pageConseille($nom, $prenom, $type)
     require_once 'Vue/gabaritConseille.php';
 }
 
-function pageGestion()
-{
-    require_once 'Vue/gabaritGestionEmployes.php';
-}
 
 //Directeur -> Gestion des employés
+
+function gestionEmployes()
+    {
+    $contenu='
+    <form method="post" class="formulaire">
+    <fieldset class="ajouter">
+        <h2>Ajouter Employé</h2>
+        <p><input type="text" name="nom" placeholder="Nom" required>
+            <input type="text" name="prenom" placeholder="Prénom" required></p>
+        <p><input type="text" name="login" placeholder="Nom d\'utilisateur"
+                  required>
+            <input type="password" name="mdp" placeholder="Mot de passe"
+                   required></p>
+        <p><h4>Directeur</h4><input type="radio" name="poste" value="DIRECTEUR"
+                                    required>
+        <h4>Agent</h4><input type="radio" name="poste" value="AGENT" required>
+        <h4>Conseiller</h4><input type="radio" name="poste" value="CONSEILLER"
+                                  required></p>
+        <h4>Date d\'embauche</h4><input type="datetime-local"
+                                       name="dateembauche">
+        <p><input type="submit" name="ajtemploye" value="Ajouter"></p>
+    </fieldset>
+    </form>
+
+    <form method="post" class="formulaire">
+        <fieldset class="modifier">
+            <h2>Modifier Identifiants</h2>
+            <p><input type="text" name="nom" placeholder="Nom" required>
+            <input type="text" name="prenom" placeholder="Prénom" required></p>
+            <p><input type="text" name="login" placeholder="Nom d\'utilisateur" required>
+            <input type="password" name="mdp" placeholder="Mot de passe" required></p>
+            <p><input type="submit" name="setemploye" value="Modifier"></p>
+    </fieldset>
+    </form>';
+    require_once('Vue/gabaritDirecteur.php');
+}
+
 
 function msgGestionEmployes($message)
 {
@@ -156,7 +189,7 @@ function pageGestionClients()
     <p><input type="submit" name="choixmodif" value="Modifier"></p>
 
     ';
-    require_once 'Vue/gabaritGestionClients.php';
+    require_once 'Vue/gabaritAgent.php';
 }
 
 //Agent -> Opérations
@@ -168,7 +201,7 @@ function pageOperations()
     <p><input type="text" name="nom" placeholder="Nom" >
     <input type="text" name="prenom" placeholder="Prénom" ></p>
     <p><input type="submit" name="choixclientoperations" value="Valider"></p>';
-    require_once 'Vue/gabaritOperations.php';
+    require_once 'Vue/gabaritAgent.php';
 }
 
 function pageOperationsCompte($ligne)
@@ -188,14 +221,14 @@ function pageOperationsCompte($ligne)
         <p><input type="number" name="montant" placeholder="Montant" ></p>';
         $contenu .= '<p><input type="submit" name="choixcompteoperations" value="Valider"></p>';
     }
-    require_once 'Vue/gabaritOperations.php';
+    require_once 'Vue/gabaritAgent.php';
 
 }
 
 function msgOperations($msg)
 {
     $contenu = $msg;
-    require_once 'Vue/gabaritOperations.php';
+    require_once 'Vue/gabaritAgent.php';
 }
 
 //Agent => Synthese Client
@@ -207,7 +240,7 @@ function pageSynthese()
     <p><input type="text" name="nom" placeholder="Nom" >
     <input type="text" name="prenom" placeholder="Prénom" ></p>
     <p><input type="submit" name="clientsynthese" value="Synthèse client"></p>';
-    require_once 'Vue/gabaritSynthese.php';
+    require_once 'Vue/gabaritAgent.php';
 }
 
 function infosClient($infos)
@@ -252,16 +285,18 @@ function infosClient($infos)
     $contenu .= '</table></fieldset>
     TODO Bonus : Ajout section rdv  à venir ';
 
-    require_once 'gabaritSynthese.php';
+    require_once 'gabaritAgent.php';
 
 }
 
 function msgSynthese($msg)
 {
     $contenu = $msg;
-    require_once 'Vue/gabaritSynthese.php';
+    require_once 'Vue/gabaritAgent.php';
 }
 
+
+//Conseiller
 function vueConseillerLoginClient()
 {
     $contenuNavBar = '<a href="?actionConseil=conseiller_login_client"><div class="item">Authentification Client</div></a>';
