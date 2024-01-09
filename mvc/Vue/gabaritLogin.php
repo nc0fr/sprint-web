@@ -33,10 +33,18 @@
                    class="m-4 btn btn-active btn-neutral text-neutral hover:text-neutral-content w-full max-w-xs">
         </form>
     </div>
+    <?php if (!empty($contenu)) {
+        echo $contenu;
+    } ?>
 </main>
-<?php if (!empty($contenu)) {
-    echo $contenu;
-} ?>
+
+<footer class="footer bg-neutral text-neutral-content">
+    <div class="p-2">
+        <div class="text-center text-sm">
+            © 2024 Sprint Bank
+        </div>
+    </div>
+</footer>
 </body>
 </html>
 

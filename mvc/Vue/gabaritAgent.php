@@ -40,5 +40,12 @@
         ?>
     </form>
 </main>
+<footer class="footer bg-neutral text-neutral-content">
+    <div class="p-2">
+        <div class="text-center text-sm">
+            © 2024 Sprint Bank
+        </div>
+    </div>
+</footer>
 </body>
 </html>
