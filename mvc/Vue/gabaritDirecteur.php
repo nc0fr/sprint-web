@@ -2,14 +2,14 @@
 <html lang="fr">
 <head>
     <title>Sprint Bank | Directeur</title>
-    <!--<link rel="stylesheet" href="Vue/css/styleDirecteur.css">-->
-    <script type="text/javascript" src="/Vue/js/directeur.js"></script>
+    <link rel="stylesheet" href="Vue/css/daisyui.css">
+    <script src="Vue/js/tailwindcss.js"></script>
     <meta charset="utf-8">
 </head>
 <body>
 <div class="navbar">
     <div class="infos">
-        <?php if (! empty($contenu1)) {
+        <?php if (!empty($contenu1)) {
             echo $contenu1;
         } ?>
     </div>
@@ -29,7 +29,7 @@
         <div class="logout">Déconnexion</div>
     </a>
 </div>
-<?php if (! empty($contenu)) {
+<?php if (!empty($contenu)) {
     echo $contenu;
 } ?>
 </body>

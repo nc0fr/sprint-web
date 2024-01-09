@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <link rel="stylesheet" href="Vue/css/styleLogin.css">
+    <link rel="stylesheet" href="Vue/css/daisyui.css">
+    <script src="Vue/js/tailwindcss.js"></script>
     <title>Sprint Bank | Login</title>
     <meta charset="utf-8">
-
 </head>
 <body>
 <div class="ensemble">
@@ -28,7 +28,7 @@
                class="boutton">
     </form>
 </div>
-<?php if (! empty($contenu)) {
+<?php if (!empty($contenu)) {
     echo $contenu;
 } ?>
 </body>
