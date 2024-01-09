@@ -28,7 +28,7 @@ function ctrlVerifierId(): void
 //Gestion des employés
 function ctrlGestion()
 {
-    pageGestion();
+    gestionEmployes();
 }
 
 function ctrlAjouterEmploye()
