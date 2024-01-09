@@ -33,7 +33,7 @@
                    class="m-4 btn btn-active btn-neutral text-neutral hover:text-neutral-content w-full max-w-xs">
         </form>
     </div>
-    <?php if (!empty($contenu)) {
+    <?php if (! empty($contenu)) {
         echo $contenu;
     } ?>
 </main>

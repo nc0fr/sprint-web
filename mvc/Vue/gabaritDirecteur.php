@@ -9,7 +9,7 @@
 <body>
 <header class="p-3 navbar bg-neutral text-neutral-content">
     <div class="infos navbar-start">
-        <?php if (!empty($contenu1)) {
+        <?php if (! empty($contenu1)) {
             echo $contenu1;
         } ?>
     </div>
@@ -33,7 +33,7 @@
     </a>
 </header>
 <main class="m-4 mx-6 bg-base-100 text-neutral">
-    <?php if (!empty($contenu)) {
+    <?php if (! empty($contenu)) {
         echo $contenu;
     } ?>
 </main>

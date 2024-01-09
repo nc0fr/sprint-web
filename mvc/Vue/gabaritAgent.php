@@ -9,7 +9,7 @@
 <body>
 <header class="p-3 navbar bg-neutral text-neutral-content">
     <div class="navbar-start">
-        <?php if (!empty($contenu1)) {
+        <?php if (! empty($contenu1)) {
             echo $contenu1;
         } ?>
     </div>
@@ -35,7 +35,7 @@
     <form method="post" class="formulaire">
         <?php
         if (isset($contenu)) {
-            echo '<p>' . $contenu . '</p>';
+            echo '<p>'.$contenu.'</p>';
         }
         ?>
     </form>
