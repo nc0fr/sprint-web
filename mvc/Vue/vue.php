@@ -198,8 +198,10 @@ function pageOperations()
 {
     $contenu = '
     <p>Insérez le nom du client :</p>
-    <p><input type="text" name="nom" placeholder="Nom" >
-    <input type="text" name="prenom" placeholder="Prénom" ></p>
+    <p><input type="text" name="nom" placeholder="Nom" required>
+    <input type="text" name="prenom" placeholder="Prénom" required></p>
+    <p><input type="text" name="numtel" placeholder="Numéro de téléphone" required></p>
+
     <p><input type="submit" name="choixclientoperations" value="Valider"></p>';
     require_once 'Vue/gabaritAgent.php';
 }
@@ -237,8 +239,9 @@ function pageSynthese()
 {
     $contenu = '
     <p>Entrez l\'identité du client :</p>
-    <p><input type="text" name="nom" placeholder="Nom" >
-    <input type="text" name="prenom" placeholder="Prénom" ></p>
+    <p><input type="text" name="nom" placeholder="Nom" required>
+    <input type="text" name="prenom" placeholder="Prénom" required></p>
+    <p><input type="text" name="numtel" placeholder="Numéro de téléphone" required></p>
     <p><input type="submit" name="clientsynthese" value="Synthèse client"></p>';
     require_once 'Vue/gabaritAgent.php';
 }
@@ -553,6 +556,40 @@ function vueStatistiques(string $debut, string $fin, int $contrats, int $comptes
 
     require_once 'Vue/gabaritDirecteur.php';
 }
+
+
+
+
+function vueGestionRdv($allConseiller, $allMotif){
+    $contenu = '<form method="post" action="sprintBank.php">
+                    <fieldset>
+                        <legend>Selectionner le conseiller</legend>
+                        <p>
+                            <select name="conseiller" required>';
+    foreach ($allConseiller as $conseiller){
+        $contenu = $contenu.'<option value="'.$conseiller->id.'">'.$conseiller->nom.' '.$conseiller->prenom.'</option>';
+    }
+    $contenu = $contenu.'           </select>
+                                </p>
+                                <p>
+                                    <label>Date semaine</label>
+                                    <input type="date" name="date" required/>
+                                </p>
+                                <p>
+                                    <label>Motif</label>
+                                    <select name="motif" required>';
+    foreach ($allMotif as $motif){
+        $contenu = $contenu.'<option value="'.$motif->id.'">'.$motif->libelle.'</option>';
+    }
+    $contenu = $contenu.        '   </select>
+                                </p>
+                                <input type="submit" name="agentRDV" value="Ajouter RDV"/>
+                            </fieldset>
+                        </form>';
+    require_once 'Vue/gabaritAgent.php';
+}
+
+
 
 //Erreurs PHP
 function afficherErreur($erreur)

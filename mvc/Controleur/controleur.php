@@ -384,6 +384,26 @@ function ctrlStatistiques(): void
     vueStatistiques($debut, $fin, $contrats, $comptes, $rdv, $clients, $solde);
 }
 
+function ctrlGestionRdv()
+{
+    $allConseiller = mdlGetAllConseiller();
+    $allMotif = mdlGetAllMotif();
+    vueGestionRdv($allConseiller, $allMotif);
+}
+
+function ctrlAgentPlanningConseiller($rdv)
+{
+    $rdvIsSet = mdlAgentGetRdv($rdv['conseiller'],$rdv['date']);
+    if($rdvIsSet){
+        ctrlGestionRdv();
+    } else {
+        mdlAjouterRDV($rdv['conseiller'], $rdv['motif'], $rdv['date']);
+        ctrlGestionRdv();
+    }
+}
+
+
+
 //Erreurs
 function ctrlErreur($erreur)
 {

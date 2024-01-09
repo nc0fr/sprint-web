@@ -571,3 +571,58 @@ function mdlSumSolde(string $fin): float
 
     return $contrats->{'SUM(solde)'};
 }
+
+
+function mdlGetAllConseiller()
+{
+    $connexion = getConnexion();
+
+    $requete = 'SELECT * FROM employe WHERE type = "CONSEILLER";';
+    $resultat = $connexion->query($requete);
+    $resultat->setFetchMode(PDO::FETCH_OBJ);
+    $conseiller = $resultat->fetchAll();
+    $resultat->closeCursor();
+
+    return $conseiller;
+}
+
+function mdlAgentGetRdv($conseillerId, $dateDebut)
+{
+    $connexion = getConnexion();
+
+    $requeteView = 'CREATE OR REPLACE VIEW employeRdv(idRdv) AS
+                SELECT arendezvous.rendezVous FROM arendezvous WHERE arendezvous.conseiller = '.$conseillerId.';
+
+                CREATE OR REPLACE VIEW employeTimeRdv(idRdv, debut, fin) AS
+                SELECT rendezvous.id, rendezvous.horaireDebut, rendezvous.horaireFin FROM rendezvous WHERE (rendezvous.horaireDebut = "'.$dateDebut.'");';
+
+
+    $requete = 'SELECT employerdv.idRdv, employeTimeRdv.debut, employeTimeRdv.fin FROM employerdv
+                INNER JOIN employeTimeRdv ON employerdv.idRdv = employeTimeRdv.idRdv;';
+
+    $resultat = $connexion->query($requeteView);
+    $resultat->closeCursor();
+    $resultat = $connexion->query($requete);
+    $resultat->setFetchMode(PDO::FETCH_OBJ);
+    $rdv = $resultat->fetchAll();
+    $resultat->closeCursor();
+
+    return $rdv;
+}
+
+function mdlAjouterRDV($conseillerId, $motifId, $rdvDate){
+    $connexion = getConnexion();
+
+    $requete = 'INSERT INTO rendezvous (rendezvous.horaireDebut, rendezvous.horaireFin) VALUES
+                ("'.$rdvDate.'", "'.$rdvDate.'");
+
+                SET @rdvId = LAST_INSERT_ID();
+                INSERT INTO arendezvous (arendezvous.rendezVous, arendezvous.conseiller) VALUES
+                (@rdvId, '.$conseillerId.');
+
+                INSERT INTO apourmotif (rendezVous, motif) VALUES
+                (@rdvId, '.$motifId.')';
+
+    $resultat=$connexion->query($requete);
+    $resultat->closeCursor();
+}

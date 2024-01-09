@@ -71,6 +71,8 @@ try {
         ctrlConseillerClient($_POST['clientId'], 'id');
     } elseif (isset($_POST['modificationDecouvert'])) {
         ctrlConseillerModificationDecouvert($_POST);
+    }elseif (isset($_POST['agentRDV'])) {
+        ctrlAgentPlanningConseiller($_POST);
     } else {
         ctrlPageLogin();
     }

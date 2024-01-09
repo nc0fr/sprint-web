@@ -16,7 +16,7 @@
       <a href="?action=gestion_clients"><div class="item">Modifier client</div></a>
       <a href= "?action=synthese"><div class="item">Synthèse client</div></a>
       <a href="?action=operations"><div class="item">Effectuer opération</div></a>
-      <div class="item">Gestion RDV</div>
+      <a href="?action=gestion_rdv"><div class="item">Gestion RDV</div></a>
       <a href="sprintBank.php"><div class="logout">Déconnexion</div></a>
     </div>
     <form method="post" class="formulaire">
