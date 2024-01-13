@@ -3,8 +3,6 @@
     <head>
       <title>Sprint Bank | Conseiller</title>
       <!--<link rel="stylesheet" href="Vue/css/styleConseille.css">-->
-      <link rel="stylesheet" href="Vue/css/pico.min.css">
-
       <meta charset="utf-8">
     </head>
     <body>

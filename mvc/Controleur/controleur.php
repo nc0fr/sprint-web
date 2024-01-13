@@ -28,7 +28,7 @@ function ctrlVerifierId(): void
 //Gestion des employés
 function ctrlGestion()
 {
-    pageGestion();
+    gestionEmployes();
 }
 
 function ctrlAjouterEmploye()
@@ -147,10 +147,7 @@ function ctrlSupprimerTypeAccount($type)
 function ctrlAjouterType($newType)
 {
 
-    if (
-        strlen($newType['nom']) > 0 && strlen($newType['nature']) > 0 && strlen($newType['pieceCreation']) > 0 &&
-        strlen($newType['pieceModification']) > 0 && strlen($newType['pieceSuppression']) > 0
-    ) {
+    if (strlen($newType['nom']) > 0 && strlen($newType['nature']) > 0 && strlen($newType['pieceCreation']) > 0 && strlen($newType['pieceModification']) > 0 && strlen($newType['pieceSuppression']) > 0) {
 
         $nom = $newType['nom'];
         $nature = $newType['nature'];
@@ -158,8 +155,7 @@ function ctrlAjouterType($newType)
         $pieceModification = $newType['pieceModification'];
         $pieceSuppression = $newType['pieceSuppression'];
 
-        if (mdlGetTypeByName($nom, 'account') == false
-            && mdlGetTypeByName($nom, 'contract') == false) {
+        if (mdlGetTypeByName($nom, 'account') == false && mdlGetTypeByName($nom, 'contract') == false) {
 
             mdlAjouterType($nature, $nom, $pieceCreation, $pieceModification, $pieceSuppression);
 
@@ -387,6 +383,28 @@ function ctrlStatistiques(): void
 
     vueStatistiques($debut, $fin, $contrats, $comptes, $rdv, $clients, $solde);
 }
+
+function ctrlGestionRdv()
+{
+    $allConseiller = mdlGetAllConseiller();
+    $allMotif = mdlGetAllMotif();
+    vueGestionRdv($allConseiller, $allMotif);
+}
+
+function ctrlAgentPlanningConseiller()
+{
+    $conseiller=$_POST['conseiller'];
+    $motif=$_POST['motif'];
+    $date=$_POST['date'];
+    $rdvIsSet = mdlAgentGetRdv($conseiller,$date);
+    if($rdvIsSet==false){
+        mdlAjouterRDV($conseiller, $motif, $date);
+    } else {
+        ctrlGestionRdv();
+    }
+}
+
+
 
 //Erreurs
 function ctrlErreur($erreur)

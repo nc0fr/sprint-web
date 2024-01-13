@@ -23,7 +23,7 @@ function pageDirecteur($nom, $prenom, $type)
 
 function pageAgent($nom, $prenom, $type)
 {
-    $contenu = $nom.' '.$prenom.'<br>'.$type;
+    $contenu1 = $nom.' '.$prenom.'<br>'.$type;
     require_once 'Vue/gabaritAgent.php';
 }
 
@@ -34,17 +34,50 @@ function pageConseille($nom, $prenom, $type)
     require_once 'Vue/gabaritConseille.php';
 }
 
-function pageGestion()
-{
-    require_once 'Vue/gabaritGestionEmployes.php';
-}
 
 //Directeur -> Gestion des employés
+
+function gestionEmployes()
+    {
+    $contenu='
+    <form method="post" class="formulaire">
+    <fieldset class="ajouter">
+        <h2>Ajouter Employé</h2>
+        <p><input type="text" name="nom" placeholder="Nom" required>
+            <input type="text" name="prenom" placeholder="Prénom" required></p>
+        <p><input type="text" name="login" placeholder="Nom d\'utilisateur"
+                  required>
+            <input type="password" name="mdp" placeholder="Mot de passe"
+                   required></p>
+        <p><h4>Directeur</h4><input type="radio" name="poste" value="DIRECTEUR"
+                                    required>
+        <h4>Agent</h4><input type="radio" name="poste" value="AGENT" required>
+        <h4>Conseiller</h4><input type="radio" name="poste" value="CONSEILLER"
+                                  required></p>
+        <h4>Date d\'embauche</h4><input type="datetime-local"
+                                       name="dateembauche">
+        <p><input type="submit" name="ajtemploye" value="Ajouter"></p>
+    </fieldset>
+    </form>
+
+    <form method="post" class="formulaire">
+        <fieldset class="modifier">
+            <h2>Modifier Identifiants</h2>
+            <p><input type="text" name="nom" placeholder="Nom" required>
+            <input type="text" name="prenom" placeholder="Prénom" required></p>
+            <p><input type="text" name="login" placeholder="Nom d\'utilisateur" required>
+            <input type="password" name="mdp" placeholder="Mot de passe" required></p>
+            <p><input type="submit" name="setemploye" value="Modifier"></p>
+    </fieldset>
+    </form>';
+    require_once('Vue/gabaritDirecteur.php');
+}
+
 
 function msgGestionEmployes($message)
 {
     $contenu = "<script>alert('".$message."');</script>";
-    require_once 'Vue/gabaritGestionEmployes.php';
+    require_once 'Vue/gabaritAgent.php';
 }
 
 function vueGetAllMotif($motif)
@@ -156,18 +189,21 @@ function pageGestionClients()
     <p><input type="submit" name="choixmodif" value="Modifier"></p>
 
     ';
-    require_once 'Vue/gabaritGestionClients.php';
+    require_once 'Vue/gabaritAgent.php';
 }
+
 //Agent -> Opérations
 
 function pageOperations()
 {
     $contenu = '
     <p>Insérez le nom du client :</p>
-    <p><input type="text" name="nom" placeholder="Nom" >
-    <input type="text" name="prenom" placeholder="Prénom" ></p>
+    <p><input type="text" name="nom" placeholder="Nom" required>
+    <input type="text" name="prenom" placeholder="Prénom" required></p>
+    <p><input type="text" name="numtel" placeholder="Numéro de téléphone" required></p>
+
     <p><input type="submit" name="choixclientoperations" value="Valider"></p>';
-    require_once 'Vue/gabaritOperations.php';
+    require_once 'Vue/gabaritAgent.php';
 }
 
 function pageOperationsCompte($ligne)
@@ -187,14 +223,14 @@ function pageOperationsCompte($ligne)
         <p><input type="number" name="montant" placeholder="Montant" ></p>';
         $contenu .= '<p><input type="submit" name="choixcompteoperations" value="Valider"></p>';
     }
-    require_once 'Vue/gabaritOperations.php';
+    require_once 'Vue/gabaritAgent.php';
 
 }
 
 function msgOperations($msg)
 {
     $contenu = $msg;
-    require_once 'Vue/gabaritOperations.php';
+    require_once 'Vue/gabaritAgent.php';
 }
 
 //Agent => Synthese Client
@@ -203,10 +239,11 @@ function pageSynthese()
 {
     $contenu = '
     <p>Entrez l\'identité du client :</p>
-    <p><input type="text" name="nom" placeholder="Nom" >
-    <input type="text" name="prenom" placeholder="Prénom" ></p>
+    <p><input type="text" name="nom" placeholder="Nom" required>
+    <input type="text" name="prenom" placeholder="Prénom" required></p>
+    <p><input type="text" name="numtel" placeholder="Numéro de téléphone" required></p>
     <p><input type="submit" name="clientsynthese" value="Synthèse client"></p>';
-    require_once 'Vue/gabaritSynthese.php';
+    require_once 'Vue/gabaritAgent.php';
 }
 
 function infosClient($infos)
@@ -251,16 +288,18 @@ function infosClient($infos)
     $contenu .= '</table></fieldset>
     TODO Bonus : Ajout section rdv  à venir ';
 
-    require_once 'gabaritSynthese.php';
+    require_once 'gabaritAgent.php';
 
 }
 
 function msgSynthese($msg)
 {
     $contenu = $msg;
-    require_once 'Vue/gabaritSynthese.php';
+    require_once 'Vue/gabaritAgent.php';
 }
 
+
+//Conseiller
 function vueConseillerLoginClient()
 {
     $contenuNavBar = '<a href="?actionConseil=conseiller_login_client"><div class="item">Authentification Client</div></a>';
@@ -481,11 +520,11 @@ function vueConseillerPageModificationDecouvert($clientId, $compteId)
                         <legend>Modification de découvert</legend>
                         <p>
                             <label>Id Client :</label>
-                            <input type="txt" name="clientId" value="'.$clientId.'" readonly/>
+                            <input type="text" name="clientId" value="'.$clientId.'" readonly/>
                         </p>
                         <p>
                             <label>Id Compte :</label>
-                            <input type="txt" name="compteId" value="'.$compteId.'" readonly/>
+                            <input type="text" name="compteId" value="'.$compteId.'" readonly/>
                         </p>
                         <p>
                             <label>Nouveau montant de découvert :</label>
@@ -499,14 +538,14 @@ function vueConseillerPageModificationDecouvert($clientId, $compteId)
     require_once 'Vue/gabaritConseille.php';
 }
 
-function vueStatistiques(string $debut, string $fin, int $contrats, int $comptes, int $rdv, int $clients, $solde): void
+function vueStatistiques(string $debut, string $fin, int $contrats, int $comptes, int $rdv, int $clients, float $solde): void
 {
     $contenu = '<form method="post" action="?action=statistiques">';
-    $contenu .= '<fieldset><legend class="text-3xl">Statistiques de la banque</legend>';
-    $contenu .= '<p><label for="debut">Entre le </label><input type="date" id="debut" name="debut" value="'.$debut.'" min="'.$debut.'" max="'.$fin.'" class="input input-neutral input-bordered">';
-    $contenu .= '<label for="fin"> et le </label><input type="date" id="fin" name="fin" value="'.$fin.'" min="'.$debut.'" max="'.$fin.'" class="input input-neutral input-bordered"></p>';
-    $contenu .= '<p><input type="submit" name="statistiques" value="Actualiser" class="btn btn-secondary text-secondary hover:text-secondary-content my-2"></p>';
-    $contenu .= '<ul class="list-disc mx-8 py-4">';
+    $contenu .= '<fieldset><legend>Statistiques de la banque</legend>';
+    $contenu .= '<p><label for="debut">Entre le </label><input type="date" id="debut" name="debut" value="'.$debut.'" min="'.$debut.'" max="'.$fin.'">';
+    $contenu .= '<label for="fin"> et le </label><input type="date" id="fin" name="fin" value="'.$fin.'" min="'.$debut.'" max="'.$fin.'"></p>';
+    $contenu .= '<p><input type="submit" name="statistiques" value="Actualiser"></p>';
+    $contenu .= '<ul>';
     $contenu .= "<li>Nombre de contrats souscris : $contrats</li>";
     $contenu .= "<li>Nombre d'ouverture de comptes : $comptes</li>";
     $contenu .= "<li>Nombre de rendez-vous pris : $rdv</li>";
@@ -517,6 +556,39 @@ function vueStatistiques(string $debut, string $fin, int $contrats, int $comptes
 
     require_once 'Vue/gabaritDirecteur.php';
 }
+
+
+
+
+function vueGestionRdv($allConseiller, $allMotif){
+    $contenu = '<form method="post" action="sprintBank.php">
+                    <fieldset>
+                        <legend>Selectionner le conseiller</legend>
+                        <p>
+                            <select name="conseiller" required>';
+    foreach ($allConseiller as $conseiller){
+        $contenu = $contenu.'<option value="'.$conseiller->id.'">'.$conseiller->nom.' '.$conseiller->prenom.'</option>';
+    }
+    $contenu = $contenu.'           </select>
+                                </p>
+                                <p>
+                                    <label>Date semaine</label>
+                                    <input type="datetime-local" name="date" required/>
+                                </p>
+                                <p>
+                                    <label>Motif</label>
+                                    <select name="motif" required>';
+    foreach ($allMotif as $motif){
+        $contenu = $contenu.'<option value="'.$motif->id.'">'.$motif->libelle.'</option>';
+    }
+    $contenu = $contenu.        '   </select>
+                                </p>
+                                <input type="submit" name="agentRDV" value="Ajouter RDV"/>
+                            </fieldset>
+                        </form>';
+    require_once 'Vue/gabaritAgent.php';
+}
+
 
 //Erreurs PHP
 function afficherErreur($erreur)

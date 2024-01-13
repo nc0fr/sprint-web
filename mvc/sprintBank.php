@@ -40,6 +40,12 @@ try {
             } else {
                 ctrlPageSynthese();
             }
+        } elseif ($_GET['action'] == 'gestion_rdv'){
+            ctrlGestionRdv();
+            if (isset($_POST['agentRDV'])) {
+                ctrlAgentPlanningConseiller();
+            }
+
         }
     } elseif (isset($_POST['supprimerType'])) {
         ctrlSupprimerTypeAccount($_POST);
@@ -71,8 +77,6 @@ try {
         ctrlConseillerClient($_POST['clientId'], 'id');
     } elseif (isset($_POST['modificationDecouvert'])) {
         ctrlConseillerModificationDecouvert($_POST);
-    } elseif (isset($_POST['modifierPiece'])){
-        ctrlModifierPiece($_POST);
     } else {
         ctrlPageLogin();
     }

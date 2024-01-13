@@ -11,8 +11,7 @@ function getConnexion()
     return $connexion;
 }
 
-function verifierLogin(string $usr,
-    string $mdp)
+function verifierLogin(string $usr, string $mdp)
 {
     $connexion = getConnexion();
     $requete = "select login, mdp, nom, prenom, type from `Employe` where login='$usr' and mdp='$mdp'";
@@ -224,9 +223,7 @@ function mdlSupprimerMotif($name)
 
     $connexion = getConnexion();
 
-    $requete = 'DELETE FROM motif WHERE libelle = "Création '."d'un ".$name.
-                '" OR libelle = "Modification '."d'un ".$name.
-                '" OR libelle = "Suppression '."d'un ".$name.'";';
+    $requete = 'DELETE FROM motif WHERE libelle = "Création '."d'un ".$name.'" OR libelle = "Modification '."d'un ".$name.'" OR libelle = "Suppression '."d'un ".$name.'";';
     $resultat = $connexion->query($requete);
     $resultat->setFetchMode(PDO::FETCH_OBJ);
     $resultat->fetch();
@@ -351,6 +348,7 @@ function syntheseClient($nom, $prenom)
 
     return $infos;
 }
+
 function mdlGetClient($client, $methode)
 {
     $connexion = getConnexion();
@@ -380,8 +378,7 @@ function mdlInscriptionClient($client)
     $requete = 'INSERT INTO
                 client(nom, prenom, adresse, numTel, mail, profession, situation, dateAjout)
                 VALUES
-                ("'.$client['nom'].'", "'.$client['prenom'].'", "'.$client['adresse'].'", "'.$client['telephone'].'", "'.$client['email'].
-        '", "'.$client['profession'].'", "'.$client['situation'].'", NOW())';
+                ("'.$client['nom'].'", "'.$client['prenom'].'", "'.$client['adresse'].'", "'.$client['telephone'].'", "'.$client['email'].'", "'.$client['profession'].'", "'.$client['situation'].'", NOW())';
     $resultat = $connexion->query($requete);
     $resultat->closeCursor();
 }
@@ -561,7 +558,7 @@ function mdlCountClients(string $fin): int
     return $contrats->{'COUNT(*)'};
 }
 
-function mdlSumSolde(string $fin)
+function mdlSumSolde(string $fin): float
 {
     $connexion = getConnexion();
 
@@ -575,3 +572,61 @@ function mdlSumSolde(string $fin)
     return $contrats->{'SUM(solde)'};
 }
 
+
+function mdlGetAllConseiller()
+{
+    $connexion = getConnexion();
+
+    $requete = 'SELECT * FROM employe WHERE type = "CONSEILLER";';
+    $resultat = $connexion->query($requete);
+    $resultat->setFetchMode(PDO::FETCH_OBJ);
+    $conseiller = $resultat->fetchAll();
+    $resultat->closeCursor();
+
+    return $conseiller;
+}
+
+function mdlAgentGetRdv($conseillerId, $dateDebut)
+{
+    $connexion = getConnexion();
+    //Récupérer tous les rendez-vous du conseiler
+    $requeteView1 = 'CREATE OR REPLACE VIEW employeRdv AS
+                SELECT arendezvous.rendezVous FROM arendezvous WHERE arendezvous.conseiller = "'.$conseillerId.'"';
+
+    $requeteView2 = 'CREATE OR REPLACE VIEW employeTimeRdv AS
+                SELECT rendezvous.id, rendezvous.horaireDebut, rendezvous.horaireFin FROM rendezvous WHERE (rendezvous.horaireDebut = "'.$dateDebut.'")';
+      $connexion->query($requeteView1);
+      $connexion->query($requeteView2);
+    //Récupérer les id des rdv qui ont lieu au même temps que la date qu'on veut réserver avec leur heure de début et leur heur de fin
+
+
+    $requete = 'SELECT employerdv.rendezVous, employeTimeRdv.horaireDebut, employeTimeRdv.horaireFin FROM employerdv
+                INNER JOIN employeTimeRdv ON employerdv.rendezVous = employeTimeRdv.id;';
+
+    $resultat = $connexion->query($requete);
+    $resultat->setFetchMode(PDO::FETCH_OBJ);
+    $rdv = $resultat->fetchAll();
+    $resultat->closeCursor();
+
+    return $rdv;
+}
+
+function mdlAjouterRDV($conseillerId, $motifId, $rdvDate){
+    $connexion = getConnexion();
+    $connexion->beginTransaction();
+
+    $requete1 = 'INSERT INTO rendezvous (horaireDebut, horaireFin) VALUES ("'.$rdvDate.'", DATE_ADD("'.$rdvDate.'",INTERVAL 1 HOUR))';
+    $connexion->query($requete1);
+
+    $rdvId = $connexion->lastInsertId();
+
+    $requete2 = 'INSERT INTO arendezvous (rendezVous, conseiller) VALUES ('.$rdvId.', '.$conseillerId.')';
+    $connexion->query($requete2);
+
+    $requete3 = 'INSERT INTO apourmotif (rendezVous, motif) VALUES ('.$rdvId.', '.$motifId.')';
+    $connexion->query($requete3);
+
+    $connexion->commit();
+
+
+}
