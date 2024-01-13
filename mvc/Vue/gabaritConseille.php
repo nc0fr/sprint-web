@@ -1,26 +1,44 @@
 <!DOCTYPE html>
 <html lang="fr">
-    <head>
-      <title>Sprint Bank | Conseiller</title>
-      <!--<link rel="stylesheet" href="Vue/css/styleConseille.css">-->
-      <meta charset="utf-8">
-    </head>
-    <body>
-    <div class="navbar">
-      <div class="infos"><?php if (isset($contenuInfoConseiller)) {
-          echo $contenuInfoConseiller;
-      } ?></div>
-      <a href="?actionConseil=conseiller_inscription_client"><div class="item">Inscription Client</div></a>
-      <?php if (isset($contenuNavBar)) {
-          echo $contenuNavBar;
-      }?>
-      <a href="sprintBank.php"><div class="logout">Déconnexion</div></a>
+<head>
+    <title>Sprint Bank | Conseiller</title>
+    <link rel="stylesheet" href="Vue/css/daisyui.css">
+    <script src="Vue/js/tailwindcss.js"></script>
+    <meta charset="utf-8">
+</head>
+<body>
+<header class="p-3 navbar bg-neutral text-neutral-content">
+    <div class="navbar-start">
+        <?php if (isset($contenuInfoConseiller)) {
+            echo $contenuInfoConseiller;
+        } ?>
     </div>
-    <div>
-        <?php if (isset($contenu)) {
-            echo $contenu;
-        }?>
+
+    <div class="navbar-center gap-8">
+        <a href="?actionConseil=conseiller_inscription_client">
+            <div class="item">Inscription client</div>
+        </a>
+        <?php if (isset($contenuNavBar)) {
+            echo $contenuNavBar;
+        } ?>
     </div>
-    </body>
+
+    <a href="sprintBank.php" class="navbar-end">
+        <div class="logout">Déconnexion</div>
+    </a>
+</header>
+<main class="m-4 mx-6 bg-base-100 text-neutral">
+    <?php if (isset($contenu)) {
+        echo $contenu;
+    } ?>
+</main>
+<footer class="footer bg-neutral text-neutral-content">
+    <div class="p-2">
+        <div class="text-center text-sm">
+            © 2024 Sprint Bank
+        </div>
+    </div>
+</footer>
+</body>
 </html>
 

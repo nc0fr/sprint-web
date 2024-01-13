@@ -38,41 +38,41 @@ function pageConseille($nom, $prenom, $type)
 //Directeur -> Gestion des employés
 
 function gestionEmployes()
-    {
-    $contenu='
+{
+    $contenu = '
     <form method="post" class="formulaire">
     <fieldset class="ajouter">
         <h2>Ajouter Employé</h2>
-        <p><input type="text" name="nom" placeholder="Nom" required>
-            <input type="text" name="prenom" placeholder="Prénom" required></p>
+        <p><input type="text" name="nom" placeholder="Nom" class="input input-neutral input-bordered" required>
+            <input type="text" name="prenom" placeholder="Prénom" class="input input-neutral input-bordered" required></p>
         <p><input type="text" name="login" placeholder="Nom d\'utilisateur"
-                  required>
+                  class="input input-neutral input-bordered" required>
             <input type="password" name="mdp" placeholder="Mot de passe"
-                   required></p>
+                   class="input input-error input-bordered" required></p>
         <p><h4>Directeur</h4><input type="radio" name="poste" value="DIRECTEUR"
-                                    required>
+                                    class="input input-neutral input-bordered" required>
         <h4>Agent</h4><input type="radio" name="poste" value="AGENT" required>
         <h4>Conseiller</h4><input type="radio" name="poste" value="CONSEILLER"
                                   required></p>
         <h4>Date d\'embauche</h4><input type="datetime-local"
-                                       name="dateembauche">
-        <p><input type="submit" name="ajtemploye" value="Ajouter"></p>
+                                       name="dateembauche"
+                                       class="input input-neutral input-bordered">
+        <p><input class="btn btn-primary text-primary hover:text-primary-content" type="submit" name="ajtemploye" value="Ajouter"></p>
     </fieldset>
     </form>
 
     <form method="post" class="formulaire">
         <fieldset class="modifier">
             <h2>Modifier Identifiants</h2>
-            <p><input type="text" name="nom" placeholder="Nom" required>
-            <input type="text" name="prenom" placeholder="Prénom" required></p>
-            <p><input type="text" name="login" placeholder="Nom d\'utilisateur" required>
-            <input type="password" name="mdp" placeholder="Mot de passe" required></p>
-            <p><input type="submit" name="setemploye" value="Modifier"></p>
+            <p><input type="text" name="nom" placeholder="Nom" class="input input-neutral input-bordered" required>
+            <input type="text" name="prenom" placeholder="Prénom" class="input input-neutral input-bordered" required></p>
+            <p><input type="text" name="login" placeholder="Nom d\'utilisateur" class="input input-neutral input-bordered" required>
+            <input type="password" name="mdp" placeholder="Mot de passe" class="input input-neutral input-bordered" required></p>
+            <p><input type="submit" name="setemploye" class="btn btn-primary text-primary hover:text-primary-content" value="Modifier"></p>
     </fieldset>
     </form>';
-    require_once('Vue/gabaritDirecteur.php');
+    require_once 'Vue/gabaritDirecteur.php';
 }
-
 
 function msgGestionEmployes($message)
 {
@@ -89,8 +89,8 @@ function vueGetAllMotif($motif)
         foreach ($motif as $value) {
             $contenu = $contenu.'<td><input type="radio" name="modifier" value='.$value->id.'>'.$value->libelle.'<br><p>Pieces justificative : '.$value->justificatifs.'</p></td><br><br>';
         }
-        $contenu = $contenu.'</ul><input type="text" name="valeurModifier"/>
-                                <input type="submit" name="modifierPiece" value="Modifier le motif selectionné"/></form></fieldset>';
+        $contenu = $contenu.'</ul><input type="text" class="input input-neutral input-bordered" name="valeurModifier"/>
+                                <input type="submit" class="btn btn-primary text-primary hover:text-primary-content" name="modifierPiece" value="Modifier le motif selectionné"/></form></fieldset>';
     }
     require_once 'vue/gabaritDirecteur.php';
 }
@@ -120,7 +120,7 @@ function vueGetAllTypeAccountContract($account, $contract)
         foreach ($account as $value) {
             $contenu = $contenu.'<td><input type="radio" name="account" value='.$value->id.'>'.$value->nom.'</td><br><br>';
         }
-        $contenu = $contenu.'</ul><input type="submit" name="supprimerType" value="Supprimer le type de compte selectionné"/></form></fieldset>';
+        $contenu = $contenu.'</ul><input class="btn btn-primary text-primary hover:text-primary-content" type="submit" name="supprimerType" value="Supprimer le type de compte selectionné"/></form></fieldset>';
     }
     $contenu = $contenu.'<fieldset><legend>Liste des types de Contrat</legend><form method="post" action="sprintBank.php">';
     if (count($contract) > 0) {
@@ -128,7 +128,7 @@ function vueGetAllTypeAccountContract($account, $contract)
         foreach ($contract as $value) {
             $contenu = $contenu.'<td><input type="radio" name="contract" value='.$value->id.'>'.$value->nom.'</td><br><br>';
         }
-        $contenu = $contenu.'</ul><input type="submit" name="supprimerType" value="Supprimer le type de contrat selectionné"/></form></fieldset>';
+        $contenu = $contenu.'</ul><input class="btn btn-primary text-primary hover:text-primary-content" type="submit" name="supprimerType" value="Supprimer le type de contrat selectionné"/></form></fieldset>';
     }
 
     $contenu = $contenu.'<form method="post" action="sprintBank.php">
@@ -143,22 +143,22 @@ function vueGetAllTypeAccountContract($account, $contract)
                                 </p>
                                 <p>
                                     <label>Nom :</label>
-                                    <input type="text" name="nom"/>
+                                    <input type="text" class="input input-neutral input-bordered" name="nom"/>
                                 </p>
                                 <p>
                                     <label>Pièces justificative pour Création</label>
-                                    <input type="text" name="pieceCreation"/>
+                                    <input type="text" class="input input-neutral input-bordered" name="pieceCreation"/>
                                 </p>
                                 <p>
                                     <label>Pièces justificative pour Modification</label>
-                                    <input type="text" name="pieceModification"/>
+                                    <input type="text" class="input input-neutral input-bordered" name="pieceModification"/>
                                 </p>
                                 <p>
                                     <label>Pièces justificative pour Suppression</label>
-                                    <input type="text" name="pieceSuppression"/>
+                                    <input type="text" class="input input-neutral input-bordered" name="pieceSuppression"/>
                                 </p>
                                 <p>
-                                    <input type="submit" name="ajouterType" value="Ajouter le type"/>
+                                    <input type="submit" class="btn btn-primary text-primary hover:text-primary-content" name="ajouterType" value="Ajouter le type"/>
                                 </p>
                             </fieldset>
                         </form>';
@@ -178,15 +178,15 @@ function pageGestionClients()
 {
     $contenu = '
     <p>Quel client souhaitez vous modifier ?</p>
-    <p><input type="text" name="nom" placeholder="Nom" >
-    <input type="text" name="prenom" placeholder="Prénom" ></p>
+    <p><input type="text" class="input input-neutral input-bordered" name="nom" placeholder="Nom" >
+    <input type="text" class="input input-neutral input-bordered" name="prenom" placeholder="Prénom" ></p>
     <p>Renseignez uniquement les informations à changer :</p>
-    <p><input type="text" name="adresse" placeholder="Nouvelle adresse" ></p>
-    <p><input type="text" name="numtel" placeholder="Nouveau numéro de téléphone" ></p>
-    <p><input type="text" name="email" placeholder="Nouvelle adresse mail" ></p>
-    <p><input type="text" name="profession" placeholder="Nouvelle profession" ></p>
-    <p><input type="text" name="situation" placeholder="Nouvelle situation familliale" ></p>
-    <p><input type="submit" name="choixmodif" value="Modifier"></p>
+    <p><input type="text" class="input input-neutral input-bordered" name="adresse" placeholder="Nouvelle adresse" ></p>
+    <p><input type="text" class="input input-neutral input-bordered" name="numtel" placeholder="Nouveau numéro de téléphone" ></p>
+    <p><input type="text" class="input input-neutral input-bordered" name="email" placeholder="Nouvelle adresse mail" ></p>
+    <p><input type="text" class="input input-neutral input-bordered" name="profession" placeholder="Nouvelle profession" ></p>
+    <p><input type="text" class="input input-neutral input-bordered" name="situation" placeholder="Nouvelle situation familliale" ></p>
+    <p><input type="submit" class="btn btn-primary text-primary hover:text-primary-content" name="choixmodif" value="Modifier"></p>
 
     ';
     require_once 'Vue/gabaritAgent.php';
@@ -220,8 +220,8 @@ function pageOperationsCompte($ligne)
         <option value="DEPOT">Dépot</option>
         <option value="RETRAIT">Retrait</option>
         </select>
-        <p><input type="number" name="montant" placeholder="Montant" ></p>';
-        $contenu .= '<p><input type="submit" name="choixcompteoperations" value="Valider"></p>';
+        <p><input type="number" class="input input-neutral input-bordered" name="montant" placeholder="Montant" ></p>';
+        $contenu .= '<p><input class="btn btn-primary text-primary hover:text-primary-content" type="submit" name="choixcompteoperations" value="Valider"></p>';
     }
     require_once 'Vue/gabaritAgent.php';
 
@@ -298,7 +298,6 @@ function msgSynthese($msg)
     require_once 'Vue/gabaritAgent.php';
 }
 
-
 //Conseiller
 function vueConseillerLoginClient()
 {
@@ -309,18 +308,18 @@ function vueConseillerLoginClient()
                             <legend>Authentification Client</legend>
                             <p>
                                 <label>Nom :</label>
-                                <input type="text" name="clientName" required/>
+                                <input type="text" class="input input-neutral input-bordered" name="clientName" required/>
                             </p>
                             <p>
                                 <label>Prénom :</label>
-                                <input type="text" name="clientPrenom" required/>
+                                <input type="text" class="input input-neutral input-bordered" name="clientPrenom" required/>
                             </p>
                             <p>
                                 <label>Adresse E-Mail :</label>
-                                <input type="text" name="clientMail" required/>
+                                <input type="text" class="input input-neutral input-bordered" name="clientMail" required/>
                             </p>
                             <p>
-                                <input type="submit" name="conseillerLoginClient" value="Chercher le client"/>
+                                <input type="submit" class="btn btn-primary text-primary hover:text-primary-content" name="conseillerLoginClient" value="Chercher le client"/>
                             </p>
                         </fieldset>
                     </form>
@@ -359,7 +358,7 @@ function vueConseillerClient($client, $clientCompte, $clientContrat, $allCompte,
                                             <legend>Compte</legend>
                                                 <p>
                                                     <label>Id Client :</label>
-                                                    <input type="text" name="clientId" value="'.$client->id.'" readonly/>
+                                                    <input type="text" class="input input-neutral input-bordered" name="clientId" value="'.$client->id.'" readonly/>
                                                 </p>';
 
             foreach ($clientCompte as $compte) {
@@ -368,8 +367,8 @@ function vueConseillerClient($client, $clientCompte, $clientContrat, $allCompte,
                                         Type de Compte : '.$compte->nom.' | Solde : '.$compte->solde.' | Découvert : '.$compte->decouvert.' | Date d'."'".'ouverture : '.$compte->dateOuverture.'/>
                                     </p>';
             }
-            $contenu = $contenu.'   <input type="submit" name="suppressionCompte" value="Supprimer le compte"/>
-                                    <input type="submit" name="pageModificationDecouvert" value="Modifier le découvert"/>
+            $contenu = $contenu.'   <input type="submit" class="btn btn-error text-error hover:text-error-content" name="suppressionCompte" value="Supprimer le compte"/>
+                                    <input type="submit" class="btn btn-primary text-primary hover:text-primary-content" name="pageModificationDecouvert" value="Modifier le découvert"/>
                                 </form></fieldset></div>';
         } else {
             $contenu = $contenu.'<p>OSKUR</p>';
@@ -381,7 +380,7 @@ function vueConseillerClient($client, $clientCompte, $clientContrat, $allCompte,
                                         <legend>Ouvrir un compte</legend>
                                         <p>
                                             <label>Id Client :</label>
-                                            <input type="text" name="clientId" value="'.$client->id.'" readonly/>
+                                            <input type="text" class="input input-neutral input-bordered" name="clientId" value="'.$client->id.'" readonly/>
                                         </p>
                                         <p>
                                             <label>Type de compte</label>
@@ -393,7 +392,7 @@ function vueConseillerClient($client, $clientCompte, $clientContrat, $allCompte,
 
         $contenu = $contenu.'               </select>
                                         </p>
-                                        <input type="submit" name="conseillerCreationCompte" value="Créer le compte"/>
+                                        <input type="submit" class="btn btn-success text-success hover:text-success-content" name="conseillerCreationCompte" value="Créer le compte"/>
                                     </fieldset>
                                 </form>
                             </div>';
@@ -405,7 +404,7 @@ function vueConseillerClient($client, $clientCompte, $clientContrat, $allCompte,
                                             <legend>Contrat</legend>
                                             <p>
                                                 <label>Id Client :</label>
-                                                <input type="text" name="clientId" value="'.$client->id.'" readonly/>
+                                                <input type="text" class="input input-neutral input-bordered" name="clientId" value="'.$client->id.'" readonly/>
                                             </p>';
 
             foreach ($clientContrat as $contrat) {
@@ -414,7 +413,7 @@ function vueConseillerClient($client, $clientCompte, $clientContrat, $allCompte,
                                         Type de Contrat : '.$contrat->nom.' | Tarif Mensuel : '.$contrat->tarifMensuel.' | Date d'."'".'ouverture : '.$contrat->dateOuverture.'
                                     </p>';
             }
-            $contenu = $contenu.'<input type="submit" name="suppressionContrat" value="Supprimer le contrat"/>
+            $contenu = $contenu.'<input type="submit" class="btn btn-error text-error hover:text-error-content" name="suppressionContrat" value="Supprimer le contrat"/>
                                 </form></fieldset></div>';
         }
 
@@ -424,7 +423,7 @@ function vueConseillerClient($client, $clientCompte, $clientContrat, $allCompte,
                                         <legend>Souscrire un contrat</legend>
                                         <p>
                                             <label>Id Client :</label>
-                                            <input type="text" name="clientId" value="'.$client->id.'" readonly/>
+                                            <input type="text" class="input input-neutral input-bordered" name="clientId" value="'.$client->id.'" readonly/>
                                         </p>
                                         <p>
                                             <label>Type de contrat</label>
@@ -440,7 +439,7 @@ function vueConseillerClient($client, $clientCompte, $clientContrat, $allCompte,
                                             <label>Montant du tarif mensuel :</label>
                                             <input type="number" name="contratTarif" value="75" required/>
                                         </p>
-                                        <input type="submit" name="conseillerSouscriptionContrat" value="Souscrire le contrat"/>
+                                        <input type="submit" class="btn btn-success text-success hover:text-success-content" name="conseillerSouscriptionContrat" value="Souscrire le contrat"/>
                                     </fieldset>
                                 </form>
                             </div>';
@@ -466,27 +465,27 @@ function vueConseillerInscriptionClient()
                             <legend>Inscription Client</legend>
                             <p>
                                 <label>Nom :</label>
-                                <input type="text" name="nom" required/>
+                                <input type="text" class="input input-neutral input-bordered" name="nom" required/>
                             </p>
                             <p>
                                 <label>Prénom :</label>
-                                <input type="text" name="prenom" required/>
+                                <input type="text" class="input input-neutral input-bordered" name="prenom" required/>
                             </p>
                             <p>
                                 <label>Adresse :</label>
-                                <input type="text" name="adresse" required/>
+                                <input type="text" class="input input-neutral input-bordered" name="adresse" required/>
                             </p>
                             <p>
                                 <label>Numéro de téléphone :</label>
-                                <input type="tel" name="telephone" required/>
+                                <input type="tel" class="input input-neutral input-bordered" name="telephone" required/>
                             </p>
                             <p>
                                 <label>E-mail :</label>
-                                <input type="email" name="email" required/>
+                                <input type="email" class="input input-neutral input-bordered" name="email" required/>
                             </p>
                             <p>
                                 <label>Profession :</label>
-                                <input type="text" name="profession" required/>
+                                <input type="text" class="input input-neutral input-bordered" name="profession" required/>
                             </p>
                             <p>
                                 <label>Situation familiale:</label>
@@ -497,7 +496,7 @@ function vueConseillerInscriptionClient()
                                 </select>
                             </p>
                             <p>
-                                <input type="submit" name="conseillerInscriptionClient" value="Inscrire le Client"/>
+                                <input type="submit" class="btn btn-success text-success hover:text-success-content" name="conseillerInscriptionClient" value="Inscrire le Client"/>
                             </p>
                         </fieldset>
                     </form>
@@ -520,18 +519,18 @@ function vueConseillerPageModificationDecouvert($clientId, $compteId)
                         <legend>Modification de découvert</legend>
                         <p>
                             <label>Id Client :</label>
-                            <input type="text" name="clientId" value="'.$clientId.'" readonly/>
+                            <input type="text" class="input input-neutral input-bordered" name="clientId" value="'.$clientId.'" readonly/>
                         </p>
                         <p>
                             <label>Id Compte :</label>
-                            <input type="text" name="compteId" value="'.$compteId.'" readonly/>
+                            <input type="text" class="input input-neutral input-bordered" name="compteId" value="'.$compteId.'" readonly/>
                         </p>
                         <p>
                             <label>Nouveau montant de découvert :</label>
-                            <input type="number" name="compteDecouvert" value="-200" max="0" required/>
+                            <input type="number" class="input input-neutral input-bordered" name="compteDecouvert" value="-200" max="0" required/>
                         </p>
-                        <input type="submit" name="modificationDecouvert" value="Changer le découvert"/>
-                        <input type="submit" name="retourConseillerClient" value="Retourner à la page Client"/>
+                        <input type="submit" class="btn btn-error text-error hover:text-error-content" name="modificationDecouvert" value="Changer le découvert"/>
+                        <input type="submit" class="btn btn-primary text-primary hover:text-primary-content" name="retourConseillerClient" value="Retourner à la page Client"/>
                     </fieldset>
                 </form>';
 

@@ -537,9 +537,6 @@ function mdlCountRdv(string $debut, $fin): int
     $requete = "SELECT COUNT(*) FROM `RendezVous` WHERE horaireDebut BETWEEN '$debut' AND '$fin';";
 
     $resultat = $connexion->query($requete);
-    $resultat->setFetchMode(PDO::FETCH_OBJ);
-    $contrats = $resultat->fetch();
-    $resultat->closeCursor();
 
     return $contrats->{'COUNT(*)'};
 }
@@ -551,9 +548,6 @@ function mdlCountClients(string $fin): int
     $requete = "SELECT COUNT(*) FROM `Client` WHERE dateAjout <= '$fin';";
 
     $resultat = $connexion->query($requete);
-    $resultat->setFetchMode(PDO::FETCH_OBJ);
-    $contrats = $resultat->fetch();
-    $resultat->closeCursor();
 
     return $contrats->{'COUNT(*)'};
 }
@@ -565,9 +559,6 @@ function mdlSumSolde(string $fin): float
     $requete = "SELECT SUM(solde) FROM `Compte` WHERE dateOuverture <= '$fin';";
 
     $resultat = $connexion->query($requete);
-    $resultat->setFetchMode(PDO::FETCH_OBJ);
-    $contrats = $resultat->fetch();
-    $resultat->closeCursor();
 
     return $contrats->{'SUM(solde)'};
 }

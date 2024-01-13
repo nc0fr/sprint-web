@@ -1,38 +1,50 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <link rel="stylesheet" href="Vue/css/styleLogin.css">
+    <link rel="stylesheet" href="Vue/css/daisyui.css">
+    <script src="Vue/js/tailwindcss.js"></script>
     <title>Sprint Bank | Login</title>
     <meta charset="utf-8">
-    <link rel="stylesheet" href="Vue/css/pico.min.css">
-
-
 </head>
-<body>
-<div class="ensemble">
-    <h2>Connectez-vous</h2>
-    <form method="post" class="formulaire">
-        <label>
-            <input type="text"
-                   name="login"
-                   placeholder="Nom d'utilisateur"
-                   required>
-        </label>
-        <label>
-            <input type="password"
-                   name="mdp"
-                   placeholder="Mot de passe"
-                   required>
-        </label>
-        <input type="submit"
-               name="connexion"
-               value="Connexion"
-               class="boutton">
-    </form>
-</div>
-<?php if (! empty($contenu)) {
-    echo $contenu;
-} ?>
+<body class="hero min-h-screen bg-base-200">
+<main class="hero-content text-center">
+    <div class="max-w-md">
+        <h2 class="text-base-content text-5xl">
+            Connectez-vous
+        </h2>
+        <form method="post" class="my-6 gap-4">
+            <label>
+                <input type="text"
+                       name="login"
+                       placeholder="Nom d'utilisateur"
+                       class="m-2 input input-bordered input-primary w-full max-w-xs"
+                       required>
+            </label>
+            <label>
+                <input type="password"
+                       name="mdp"
+                       placeholder="Mot de passe"
+                       class="m-2 input input-bordered input-primary w-full max-w-xs"
+                       required>
+            </label>
+            <input type="submit"
+                   name="connexion"
+                   value="Connexion"
+                   class="m-4 btn btn-active btn-neutral text-neutral hover:text-neutral-content w-full max-w-xs">
+        </form>
+    </div>
+    <?php if (! empty($contenu)) {
+        echo $contenu;
+    } ?>
+</main>
+
+<footer class="footer bg-neutral text-neutral-content">
+    <div class="p-2">
+        <div class="text-center text-sm">
+            © 2024 Sprint Bank
+        </div>
+    </div>
+</footer>
 </body>
 </html>
 
